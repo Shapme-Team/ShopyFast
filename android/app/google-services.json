@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "477136183836",
+    "project_id": "shopyfast-fce2b",
+    "storage_bucket": "shopyfast-fce2b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:477136183836:android:bd573804dec8eb0f95f5d9",
+        "android_client_info": {
+          "package_name": "com.example.ShopyFast"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "477136183836-cd7uo4qteq6op0o4inucgnml6hglg246.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ShopyFast",
+            "certificate_hash": "20b220609dca4b5023092af20c7d39458c394631"
+          }
+        },
+        {
+          "client_id": "477136183836-e7k45493sik9q5ire3bp31pph6t8l6ok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAC8OPzUUHU2JYojKvVmtl7QQaKrSg1-j4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "477136183836-e7k45493sik9q5ire3bp31pph6t8l6ok.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
