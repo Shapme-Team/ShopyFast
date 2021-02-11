@@ -1,7 +1,8 @@
-import 'package:ShopyFast/screens/home/home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import '../constants/size_config.dart';
+
+import '../utils/constants/size_config.dart';
+import '../view/screens/home/home.dart';
 
 class Wrapper extends StatefulWidget {
   Wrapper({Key key}) : super(key: key);

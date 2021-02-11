@@ -1,7 +1,7 @@
-import 'constants/routes.dart';
+import 'utils/constants/routes.dart';
 import 'package:flutter/material.dart';
 import 'utils/wrapper.dart';
-import 'constants/theme.dart';
+import 'utils/constants/theme.dart';
 
 void main() {
   runApp(MyApp());
