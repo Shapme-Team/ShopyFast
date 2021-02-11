@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../../constants/size_config.dart';
-import 'categories.dart';
-import 'discount_banner.dart';
-import 'home_header.dart';
-import 'popular_product.dart';
-import 'special_offers.dart';
+// import 'categories.dart';
+// import 'discount_banner.dart';
+// import 'home_header.dart';
+// import 'popular_product.dart';
+// import 'special_offers.dart';
 
 class Body extends StatelessWidget {
   @override
@@ -13,17 +13,16 @@ class Body extends StatelessWidget {
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           children: [
             // SizedBox(height: getProportionateScreenHeight(20)),
             //  HomeHeader(),
             // SizedBox(height: getProportionateScreenWidth(10)),
-            DiscountBanner(),
-            Categories(),
+            // DiscountBanner(),
+            // Categories(),
             // SpecialOffers(),
-            SizedBox(height: getProportionateScreenWidth(30)),
-            PopularProducts(),
-            SizedBox(height: getProportionateScreenWidth(30)),
+            // SizedBox(height: getProportionateScreenWidth(30)),
+            // PopularProducts(),
+            // SizedBox(height: getProportionateScreenWidth(30)),
           ],
         ),
       ),

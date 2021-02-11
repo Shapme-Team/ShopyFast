@@ -1,9 +1,12 @@
+import 'package:ShopyFast/screens/cart/cart_screen.dart';
+import 'package:ShopyFast/screens/home/components/search_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../Auth/phoneauth.dart';
 import '../../components/coustom_bottom_nav_bar.dart';
 import '../../constants/enums.dart';
 import 'components/body.dart';
+import './components/icon_btn_with_counter.dart';
 
 class HomeScreen extends StatelessWidget {
   final User user;
@@ -14,7 +17,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 2,
+        elevation: 1,
         title: Text(
           'ShopyFast',
           style: TextStyle(
@@ -23,18 +26,28 @@ class HomeScreen extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        // actions: [
-        //   IconButton(
-        //     icon: Icon(Icons.exit_to_app),
-        //     onPressed: () async {
-        //       await FirebaseAuth.instance.signOut();
-        //       Navigator.pushAndRemoveUntil(
-        //           context,
-        //           MaterialPageRoute(builder: (context) => LoginScreen()),
-        //           (route) => false);
-        //     },
-        //   )
-        // ],
+        leading: Icon(Icons.menu),
+        actions: [
+          // IconButton(
+          //   icon: Icon(Icons.exit_to_app),
+          //   onPressed: () async {
+          //     await FirebaseAuth.instance.signOut();
+          //     Navigator.pushAndRemoveUntil(
+          //         context,
+          //         MaterialPageRoute(builder: (context) => LoginScreen()),
+          //         (route) => false);
+          //   },
+          // ),
+          Icon(
+            Icons.search,
+            color: Colors.grey,
+          ),
+          IconButton(
+            color: Colors.grey,
+            icon: Icon(Icons.shopping_cart_outlined),
+            onPressed: () => Navigator.pushNamed(context, CartScreen.routeName),
+          ),
+        ],
       ),
       body: Body()
       // Container(

@@ -13,19 +13,50 @@ class Categories extends StatelessWidget {
       {"icon": "assets/icons/Gift Icon.svg", "text": "Daily Gift"},
       {"icon": "assets/icons/Discover.svg", "text": "More"},
     ];
-    return Padding(
+    return Container(
       padding: EdgeInsets.all(getProportionateScreenWidth(20)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: List.generate(
-          categories.length,
-          (index) => CategoryCard(
-            icon: categories[index]["icon"],
-            text: categories[index]["text"],
-            press: () {},
+      child: Column(
+        children: [
+          Text(
+            'Categories',
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.black87,
+            ),
           ),
-        ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children:
+                // [
+                //   Container(
+                //     height: 100,
+                //     child: ListView.builder(
+                //       shrinkWrap: true,
+                //       itemCount: categories.length,
+                //       itemBuilder: (BuildContext context, index) {
+                //         return CategoryCard(
+                //           icon: categories[index]["icon"],
+                //           text: categories[index]["text"],
+                //           press: () {},
+                //         );
+                //       },
+                //     ),
+                //   ),
+                // ]
+                List.generate(
+              categories.length,
+              (index) => CategoryCard(
+                icon: categories[index]["icon"],
+                text: categories[index]["text"],
+                press: () {},
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

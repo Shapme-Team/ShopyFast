@@ -1,11 +1,11 @@
-// import 'dart:js';
-
+import '../screens/orders/orders.dart';
 import 'package:flutter/widgets.dart';
 import '../screens/cart/cart_screen.dart';
 import '../screens/details/details_screen.dart';
 import '../screens/home/home.dart';
 import '../screens/profile/profile_screen.dart';
 import '../utils/wrapper.dart';
+import '../screens/categories/categories.dart';
 // import 'package:shop_app/screens/login_success/login_success_screen.dart';
 // import 'package:shop_app/screens/otp/otp_screen.dart';
 // import 'package:shop_app/screens/forgot_password/forgot_password_screen.dart';
@@ -29,4 +29,6 @@ final Map<String, WidgetBuilder> routes = {
   DetailsScreen.routeName: (context) => DetailsScreen(),
   CartScreen.routeName: (context) => CartScreen(),
   ProfileScreen.routeName: (context) => ProfileScreen(),
+  CategoriesScreen.routeName: (context) => CategoriesScreen(),
+  OrdersScreen.routeName: (context) => OrdersScreen(),
 };
