@@ -16,9 +16,9 @@ class Body extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             // SizedBox(height: getProportionateScreenHeight(20)),
-            //  HomeHeader(),
+            // HomeHeader(),
             // SizedBox(height: getProportionateScreenWidth(10)),
-            DiscountBanner(),
+            // DiscountBanner(),
             Categories(),
             // SpecialOffers(),
             SizedBox(height: getWidth(30)),

@@ -5,7 +5,7 @@ import '../../../utils/constants/enums.dart';
 import 'components/body.dart';
 
 class OrdersScreen extends StatelessWidget {
-  static String routeName = "/orders";
+  static const String routeName = "/orders";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +13,7 @@ class OrdersScreen extends StatelessWidget {
         title: Text("orders"),
       ),
       body: Body(),
-      bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.orders),
+      // bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.orders),
     );
   }
 }

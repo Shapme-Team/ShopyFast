@@ -1,103 +1,104 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
 class Product {
-  final int id;
-  final String title, description;
-  final List<String> images;
-  final List<Color> colors;
-  final double rating, price;
-  final bool isFavourite, isPopular;
-
+  final String productName;
+  final String description;
+  final String productId;
+  final num price;
+  final int quantity;
+  final String imageUrl;
+  final String category;
+  final String subcategory;
+  final num weight;
+  final String measureUnit;
   Product({
-    @required this.id,
-    @required this.images,
-    @required this.colors,
-    this.rating = 0.0,
-    this.isFavourite = false,
-    this.isPopular = false,
-    @required this.title,
-    @required this.price,
-    @required this.description,
+    this.productName = '',
+    this.description = '',
+    this.productId = '',
+    this.price = 0.0,
+    this.quantity = 0,
+    this.imageUrl = '',
+    this.category = '',
+    this.subcategory = '',
+    this.weight = 0,
+    this.measureUnit = '',
   });
-}
 
-// Our demo Products
+  Map<String, dynamic> toMap() {
+    return {
+      '_id': productId,
+      'productName': productName,
+      'description': description,
+      'price': price,
+      'quantity': quantity,
+      'imageUrl': imageUrl,
+      'category': category,
+      'subcategory': subcategory,
+      'weight': weight,
+      'measureUnit': measureUnit,
+    };
+  }
+
+  factory Product.fromMap(Map<String, dynamic> map) {
+    if (map == null) return null;
+
+    return Product(
+      productId: map['_id'],
+      productName: map['productName'] ?? '',
+      description: map['description'] ?? '',
+      price: map['price'] ?? 0.0,
+      quantity: map['quantity'] ?? 0,
+      imageUrl: map['imageUrl'] ?? '',
+      category: map['category'] ?? '',
+      subcategory: map['subcategory'] ?? '',
+      weight: map['weight'] ?? 0,
+      measureUnit: map['measureUnit'] ?? '',
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Product.fromJson(String source) =>
+      Product.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'Product(productName: $productName, description: $description, productId: $productId, price: $price, quantity: $quantity, imageUrl: $imageUrl, category: $category, subcategory: $subcategory, weight: $weight, measureUnit: $measureUnit)';
+  }
+}
 
 List<Product> demoProducts = [
   Product(
-    id: 1,
-    images: [
-      "assets/images/aashirvaad-atta-whole-wheat.jpg",
-      "assets/images/ps4_console_white_2.png",
-      "assets/images/ps4_console_white_3.png",
-      "assets/images/ps4_console_white_4.png",
-    ],
-    colors: [
-      Color(0xFFF6625E),
-      Color(0xFF836DB8),
-      Color(0xFFDECB9C),
-      Colors.white,
-    ],
-    title: "Wireless Controller for PS4™",
-    price: 64.99,
-    description: description,
-    rating: 4.8,
-    isFavourite: true,
-    isPopular: true,
-  ),
+      productName: 'Mango',
+      category: 'FnV',
+      description: 'Greate for your health',
+      imageUrl: 'assets/images/glap.png',
+      measureUnit: 'Kg',
+      price: 50.00,
+      productId: 'sldffwefd',
+      quantity: 2,
+      subcategory: 'Fruit',
+      weight: 1),
   Product(
-    id: 2,
-    images: [
-      "assets/images/Image Popular Product 2.png",
-    ],
-    colors: [
-      Color(0xFFF6625E),
-      Color(0xFF836DB8),
-      Color(0xFFDECB9C),
-      Colors.white,
-    ],
-    title: "Nike Sport White - Man Pant",
-    price: 50.5,
-    description: description,
-    rating: 4.1,
-    isPopular: true,
-  ),
+      productName: 'Edible Oil',
+      category: 'Beverages',
+      description: 'Greate for your health',
+      imageUrl: 'assets/images/glap.png',
+      measureUnit: 'Kg',
+      price: 50.00,
+      productId: 'sldfdsfwefd',
+      quantity: 2,
+      subcategory: 'Oil',
+      weight: 1),
   Product(
-    id: 3,
-    images: [
-      "assets/images/glap.png",
-    ],
-    colors: [
-      Color(0xFFF6625E),
-      Color(0xFF836DB8),
-      Color(0xFFDECB9C),
-      Colors.white,
-    ],
-    title: "Gloves XC Omega - Polygon",
-    price: 36.55,
-    description: description,
-    rating: 4.1,
-    isFavourite: true,
-    isPopular: true,
-  ),
-  Product(
-    id: 4,
-    images: [
-      "assets/images/wireless headset.png",
-    ],
-    colors: [
-      Color(0xFFF6625E),
-      Color(0xFF836DB8),
-      Color(0xFFDECB9C),
-      Colors.white,
-    ],
-    title: "Logitech Head",
-    price: 20.20,
-    description: description,
-    rating: 4.1,
-    isFavourite: true,
-  ),
+      productName: 'Aashirvad Atta',
+      category: 'Grocery',
+      description: 'Greate for your health',
+      imageUrl: 'assets/images/aashirvaad-atta-whole-wheat.jpg',
+      measureUnit: 'Kg',
+      price: 50.00,
+      productId: 'sldfffdwefd',
+      quantity: 2,
+      subcategory: 'Aata',
+      weight: 1),
 ];
-
-const String description =
-    "Wireless Controller for PS4™ gives you what you want in your gaming from over precision control your games to sharing …";

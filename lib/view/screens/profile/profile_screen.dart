@@ -1,11 +1,9 @@
-import 'package:ShopyFast/view/components/coustom_bottom_nav_bar.dart';
-import 'package:ShopyFast/utils/constants/enums.dart';
 import 'package:flutter/material.dart';
 
 import 'components/body.dart';
 
 class ProfileScreen extends StatelessWidget {
-  static String routeName = "/profile";
+  static const String routeName = "/profile";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +11,7 @@ class ProfileScreen extends StatelessWidget {
         title: Text("Profile"),
       ),
       body: Body(),
-      bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.profile),
+      // bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.profile),
     );
   }
 }

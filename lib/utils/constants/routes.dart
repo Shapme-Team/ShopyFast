@@ -4,7 +4,7 @@ import '../../view/screens/cart/cart_screen.dart';
 import '../../view/screens/details/details_screen.dart';
 import '../../view/screens/home/home.dart';
 import '../../view/screens/profile/profile_screen.dart';
-import '../../utils/wrapper.dart';
+import '../../view/helper/wrapper.dart';
 import '../../view/screens/categories/categories.dart';
 // import 'package:shop_app/screens/login_success/login_success_screen.dart';
 // import 'package:shop_app/screens/otp/otp_screen.dart';

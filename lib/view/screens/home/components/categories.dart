@@ -1,3 +1,4 @@
+import 'package:ShopyFast/utils/categoryConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -13,12 +14,47 @@ class Categories extends StatelessWidget {
       {"icon": "assets/icons/Gift Icon.svg", "text": "Daily Gift"},
       {"icon": "assets/icons/Discover.svg", "text": "More"},
     ];
+    List<Map<String, dynamic>> categories2 = [
+      {
+        "icon": "assets/images/categories/grocery-cat.jpg",
+        "text": CategoriesConstant.GROCERY
+      },
+      {
+        "icon": "assets/images/categories/beverages-cat.jpg",
+        "text": CategoriesConstant.BEVERAGES
+      },
+      {
+        "icon": "assets/images/categories/personalcare-cat.jpg",
+        "text": CategoriesConstant.PERSONAL_CARE
+      },
+      {
+        "icon": "assets/images/categories/dairyproduct-cat.jpg",
+        "text": CategoriesConstant.BREAKFAST_AND_DAIRY
+      },
+      {
+        "icon": "assets/images/categories/fnv-cat.jpg",
+        "text": CategoriesConstant.FRUITS_AND_VEGETABLE
+      },
+      {
+        "icon": "assets/images/categories/household-cat.jpg",
+        "text": CategoriesConstant.HOUSEHOLD_ITEMS
+      },
+      {
+        "icon": "assets/images/categories/instantfood-cat.jpg",
+        "text": CategoriesConstant.INSTANT_FOOD
+      },
+      {
+        "icon": "assets/images/categories/chocolate-cat.jpg",
+        "text": CategoriesConstant.CHOCOLATES_AND_ICE_CREAM
+      },
+    ];
     return Container(
       padding: EdgeInsets.all(getWidth(20)),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Categories',
+            'Shop by categories',
             style: TextStyle(
               fontSize: 20,
               color: Colors.black87,
@@ -27,9 +63,14 @@ class Categories extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
+          GridView.count(
+            crossAxisCount: 3,
+            physics: NeverScrollableScrollPhysics(),
+            childAspectRatio: 1,
+            shrinkWrap: true,
+            mainAxisSpacing: getWidth(8),
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // crossAxisAlignment: CrossAxisAlignment.start,
             children:
                 // [
                 //   Container(
@@ -48,17 +89,47 @@ class Categories extends StatelessWidget {
                 //   ),
                 // ]
                 List.generate(
-              categories.length,
-              (index) => CategoryCard(
-                icon: categories[index]["icon"],
-                text: categories[index]["text"],
-                press: () {},
+              categories2.length,
+              (index) => CategoryCard2(
+                categories2[index]["icon"],
+                categories2[index]["text"],
               ),
             ),
           ),
         ],
       ),
     );
+  }
+}
+
+class CategoryCard2 extends StatelessWidget {
+  final String imageAsset;
+  final String categoryName;
+  CategoryCard2(this.imageAsset, this.categoryName);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        height: getHeight(150),
+        padding: EdgeInsets.all(4),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              imageAsset,
+              width: getWidth(80),
+              height: getHeight(75),
+              fit: BoxFit.contain,
+            ),
+            Container(
+              alignment: Alignment.center,
+              child: Text(
+                categoryName,
+                textAlign: TextAlign.center,
+              ),
+            )
+          ],
+        ));
   }
 }
 

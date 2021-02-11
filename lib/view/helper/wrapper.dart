@@ -1,8 +1,9 @@
+import 'package:ShopyFast/view/helper/screenWrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import '../utils/constants/size_config.dart';
-import '../view/screens/home/home.dart';
+import '../../utils/constants/size_config.dart';
+import '../screens/home/home.dart';
 
 class Wrapper extends StatefulWidget {
   Wrapper({Key key}) : super(key: key);
@@ -22,7 +23,7 @@ class _WrapperState extends State<Wrapper> {
           return Text('Error');
         }
         if (snapshot.connectionState == ConnectionState.done) {
-          return HomeScreen();
+          return ScreenWrapper();
         }
         return CircularProgressIndicator();
       },
