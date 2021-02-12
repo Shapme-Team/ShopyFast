@@ -1,13 +1,7 @@
-import 'package:ShopyFast/view/screens/orders/orders.dart';
-
-import '../screens/categories/categories.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../screens/home/home.dart';
-import '../screens/profile/profile_screen.dart';
 
 import '../../utils/constants/constants.dart';
-import '../../utils/constants/enums.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
   const CustomBottomNavBar(
