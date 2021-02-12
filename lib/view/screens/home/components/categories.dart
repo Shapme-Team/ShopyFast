@@ -110,7 +110,8 @@ class CategoryCard2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: getHeight(150),
+        // color: Colors.amber,
+        //  height: getHeight(50),
         padding: EdgeInsets.all(4),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -122,6 +123,7 @@ class CategoryCard2 extends StatelessWidget {
               fit: BoxFit.contain,
             ),
             Container(
+              height: getHeight(20),
               alignment: Alignment.center,
               child: Text(
                 categoryName,

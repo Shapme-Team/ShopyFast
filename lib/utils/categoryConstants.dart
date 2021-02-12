@@ -39,7 +39,10 @@ class CategoriesConstant {
       'Face Wash',
       'Fragrance'
     ],
-    FRUITS_AND_VEGETABLE: ['Vegetables', 'Fruits'],
+    FRUITS_AND_VEGETABLE: [
+      'Vegetables',
+      'Fruits',
+    ],
     BEVERAGES: [
       'Tea',
       'Green tea',
