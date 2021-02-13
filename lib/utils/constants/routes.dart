@@ -1,11 +1,12 @@
-import '../../view/screens/orders/orders.dart';
 import 'package:flutter/widgets.dart';
+
+import '../../view/helper/wrapper.dart';
+import '../../view/screens/bottomNavScreens/categories/categories.dart';
+import '../../view/screens/bottomNavScreens/orders/orders.dart';
+import '../../view/screens/bottomNavScreens/profile/profile_screen.dart';
 import '../../view/screens/cart/cart_screen.dart';
 import '../../view/screens/details/details_screen.dart';
 import '../../view/screens/home/home.dart';
-import '../../view/screens/profile/profile_screen.dart';
-import '../../view/helper/wrapper.dart';
-import '../../view/screens/categories/categories.dart';
 // import 'package:shop_app/screens/login_success/login_success_screen.dart';
 // import 'package:shop_app/screens/otp/otp_screen.dart';
 // import 'package:shop_app/screens/forgot_password/forgot_password_screen.dart';

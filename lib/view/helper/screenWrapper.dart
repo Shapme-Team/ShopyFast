@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../components/coustom_bottom_nav_bar.dart';
-import '../screens/categories/categories.dart';
+import '../screens/bottomNavScreens/categories/categories.dart';
 import '../screens/home/home.dart';
-import '../screens/orders/orders.dart';
-import '../screens/profile/profile_screen.dart';
+import '../screens/bottomNavScreens/orders/orders.dart';
+import '../screens/bottomNavScreens/profile/profile_screen.dart';
 
 class ScreenWrapper extends StatefulWidget {
   @override
