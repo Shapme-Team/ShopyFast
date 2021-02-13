@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
         title: Text(
           'ShopyFast',
           style: TextStyle(
-            color: Colors.red[200],
+            color: Theme.of(context).primaryColor,
             fontSize: 23,
             fontWeight: FontWeight.w600,
           ),

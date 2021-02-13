@@ -1,4 +1,7 @@
+import 'package:ShopyFast/domain/provider/productProvider.dart';
+import 'package:ShopyFast/getit.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../components/coustom_bottom_nav_bar.dart';
 import '../screens/bottomNavScreens/categories/categories.dart';
@@ -13,9 +16,11 @@ class ScreenWrapper extends StatefulWidget {
 
 class _ScreenWrapperState extends State<ScreenWrapper> {
   int _currentIndex = 0;
+  ProductProvider _productProvider;
 
   @override
   void initState() {
+    _productProvider = getIt<ProductProvider>();
     super.initState();
   }
 
@@ -36,23 +41,28 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-            body: WillPopScope(
-              onWillPop: () async {
-                print('will pop called **************** ');
-                if (_currentIndex != 0) {
-                  _setCurrentScreen(0);
-
-                  return Future.value(false);
-                }
-                return Future.value(true);
-                // return true;
-              },
-              child: _listOfNavScreen[_currentIndex],
-            ),
-            bottomNavigationBar: CustomBottomNavBar((index) {
-              _setCurrentScreen(index);
-            }, _currentIndex)));
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => _productProvider,
+        ),
+      ],
+      child: SafeArea(
+          child: Scaffold(
+              body: WillPopScope(
+                onWillPop: () async {
+                  if (_currentIndex != 0) {
+                    _setCurrentScreen(0);
+                    return Future.value(false);
+                  }
+                  return Future.value(true);
+                  // return true;
+                },
+                child: _listOfNavScreen[_currentIndex],
+              ),
+              bottomNavigationBar: CustomBottomNavBar((index) {
+                _setCurrentScreen(index);
+              }, _currentIndex))),
+    );
   }
 }

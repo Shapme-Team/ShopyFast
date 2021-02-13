@@ -24,7 +24,6 @@ class ProductCard extends StatelessWidget {
         width: getWidth(width),
         child: GestureDetector(
           onTap: () {
-            print('product push called ');
             Navigator.pushNamed(
               context,
               DetailsScreen.routeName,
