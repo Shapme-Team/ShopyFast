@@ -1,8 +1,6 @@
 import 'package:ShopyFast/view/screens/cart/cart_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../../components/coustom_bottom_nav_bar.dart';
-import '../../../utils/constants/enums.dart';
 import 'components/body.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -18,7 +16,7 @@ class HomeScreen extends StatelessWidget {
         title: Text(
           'ShopyFast',
           style: TextStyle(
-            color: Colors.red[200],
+            color: Theme.of(context).primaryColor,
             fontSize: 23,
             fontWeight: FontWeight.w600,
           ),

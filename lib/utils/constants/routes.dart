@@ -1,3 +1,4 @@
+import 'package:ShopyFast/view/screens/categoryDetailScreen/categoryDetailScreen.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../view/helper/wrapper.dart';
@@ -32,4 +33,5 @@ final Map<String, WidgetBuilder> routes = {
   ProfileScreen.routeName: (context) => ProfileScreen(),
   CategoriesScreen.routeName: (context) => CategoriesScreen(),
   OrdersScreen.routeName: (context) => OrdersScreen(),
+  CategoryDetailScreen.routeName: (context) => CategoryDetailScreen(),
 };
