@@ -29,23 +29,6 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
     if (_currentIndex != index) setState(() => _currentIndex = index);
   }
 
-  // takeCurrentStatus(String currentStatus) {
-  //   _currentStatus = currentStatus;
-  //   print('current status is : $_currentStatus');
-  // }
-
-  // @override
-  // void didChangeAppLifecycleState(AppLifecycleState state) {
-  //   print('state is : $state');
-  //   if (state == AppLifecycleState.paused) {
-  //   } else if (state == AppLifecycleState.resumed) {
-  //     initClient();
-  //   } else if (state == AppLifecycleState.inactive) {
-  //     _myChatProvider.disconneceSockets(socket, takeCurrentStatus);
-  //   }
-  //   super.didChangeAppLifecycleState(state);
-  // }
-
   @override
   void dispose() {
     super.dispose();
