@@ -1,3 +1,4 @@
+import 'package:ShopyFast/view/screens/categoryDetailScreen/categoryDetailScreen.dart';
 import 'package:flutter/material.dart';
 import '../../../../utils/categoryConstants.dart';
 import 'dart:convert';
@@ -22,25 +23,32 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             children: [
               ListView.builder(
                   shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
                   itemCount: CategoriesConstant.CATEGORY_CONSTANTS.length,
                   itemBuilder: (BuildContext context, int index) {
-                    var namekey = CategoriesConstant.CATEGORY_CONSTANTS.values
+                    var categoryId = CategoriesConstant.CATEGORY_CONSTANTS.keys
                         .elementAt(index);
-                    var subcategoriekey = namekey['subcategories'];
-                    print(subcategoriekey);
-                    return new ExpansionTile(
+                    var category = CategoriesConstant.CATEGORY_CONSTANTS.values
+                        .elementAt(index);
+                    var subMap =
+                        category[CategoriesConstant.SUBCATEGORIES] as Map;
+                    var subEntity = subMap.entries.toList();
+                    var categoryName = category[CategoriesConstant.NAME];
+
+                    return ExpansionTile(
                       leading: Icon(Icons.shopping_bag_outlined),
-                      title: new Text(
-                        namekey['name'],
-                        style: new TextStyle(
+                      onExpansionChanged: (value) {},
+                      title: Text(
+                        categoryName,
+                        style: TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       children: <Widget>[
-                        new Column(
+                        Column(
                           children:
-                              _buildExpandableContent(subcategoriekey[index]),
+                              _buildExpandableContent(subEntity, categoryId),
                         ),
                       ],
                     );
@@ -51,21 +59,23 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       ),
     );
   }
-}
 
-_buildExpandableContent(dynamic subcat) {
-  List<Widget> columnContent = [];
-
-  //
-  columnContent.add(
-    ListTile(
-      title: Text(
-        'content',
-        style: TextStyle(fontSize: 18.0),
-      ),
-      leading: Icon(Icons.money),
-    ),
-  );
-
-  return columnContent;
+  List<Widget> _buildExpandableContent(
+      List<MapEntry> subMapEntry, String category) {
+    //
+    return subMapEntry.map((e) {
+      return GestureDetector(
+        onTap: () => Navigator.of(context).pushNamed(
+            CategoryDetailScreen.routeName,
+            arguments: CategoryDetailScreenArg(category, e.key)),
+        child: ListTile(
+          title: Text(
+            e.value,
+            style: TextStyle(fontSize: 18.0),
+          ),
+          leading: Icon(Icons.subdirectory_arrow_right_rounded),
+        ),
+      );
+    }).toList();
+  }
 }

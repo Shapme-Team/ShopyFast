@@ -5,18 +5,20 @@ import 'package:flutter/material.dart';
 import 'customTabBar.dart';
 
 class CustomTabViewWidget extends StatelessWidget {
+  final List<String> subcategoryList;
+  final String categoryId;
+  final int initPosition;
   const CustomTabViewWidget({
     Key key,
     @required this.subcategoryList,
     @required this.categoryId,
+    this.initPosition,
   }) : super(key: key);
-
-  final List<String> subcategoryList;
-  final String categoryId;
 
   @override
   Widget build(BuildContext context) {
     return CustomTabView(
+      initPosition: initPosition,
       itemCount: subcategoryList.length,
       tabBuilder: (context, index) {
         var subCategoryName = CategoriesConstant.CATEGORY_CONSTANTS[categoryId]

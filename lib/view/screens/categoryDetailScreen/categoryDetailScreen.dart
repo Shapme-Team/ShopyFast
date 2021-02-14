@@ -37,7 +37,11 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                 Text(categoryConstant[arg.categoryId][CategoriesConstant.NAME]),
           ),
           body: CustomTabViewWidget(
-              subcategoryList: _listOfSubcategory, categoryId: arg.categoryId),
+              initPosition: arg.subCategoryId != null
+                  ? _listOfSubcategory.indexOf(arg.subCategoryId)
+                  : 0,
+              subcategoryList: _listOfSubcategory,
+              categoryId: arg.categoryId),
         ),
       ),
     );
@@ -54,5 +58,6 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
 
 class CategoryDetailScreenArg {
   final String categoryId;
-  CategoryDetailScreenArg(this.categoryId);
+  final String subCategoryId;
+  CategoryDetailScreenArg(this.categoryId, [this.subCategoryId]);
 }

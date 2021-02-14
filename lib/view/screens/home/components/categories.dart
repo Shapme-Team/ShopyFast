@@ -73,9 +73,9 @@ class Categories extends StatelessWidget {
           GridView.count(
             crossAxisCount: 3,
             physics: NeverScrollableScrollPhysics(),
-            childAspectRatio: 1,
+            childAspectRatio: 10 / 11,
             shrinkWrap: true,
-            mainAxisSpacing: getWidth(8),
+            // mainAxisSpacing: getWidth(8),
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: List.generate(
@@ -117,11 +117,14 @@ class CategoryCard extends StatelessWidget {
               ),
               Container(
                 alignment: Alignment.center,
+                padding: EdgeInsets.only(top: 4),
                 child: Text(
                   CategoriesConstant.CATEGORY_CONSTANTS[categoryId]
                       [CategoriesConstant.NAME],
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                  style: TextStyle(fontWeight: FontWeight.w600, height: 1.2),
                   textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               )
             ],
