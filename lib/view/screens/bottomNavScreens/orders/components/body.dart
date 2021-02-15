@@ -33,84 +33,71 @@ Widget _buildListView() {
   return WatchBoxBuilder(
     box: Hive.box('orders'),
     builder: (context, ordersBox) {
-      return ListView.builder(
-        itemCount: ordersBox.length,
-        itemBuilder: (context, index) {
-          final contact = ordersBox.getAt(index) as Order;
+      return (ordersBox.length == null)
+          ? ListView.builder(
+              itemCount: ordersBox.length,
+              itemBuilder: (context, index) {
+                final contact = ordersBox.getAt(index) as Order;
 
-          return Container(
-              height: 170,
-              margin: EdgeInsets.all(10),
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.blueGrey[100],
-                      blurRadius: 2.0,
-                      spreadRadius: 2,
-                    ),
-                  ],
-                  borderRadius: BorderRadius.circular(10)),
-              child: Column(
-                children: [
-                  Text(
-                    'Amount: ₹' + contact.amount.toString(),
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 20,
-                      color: Colors.green,
-                    ),
-                  ),
-                  Text(
-                    'Status: ' + contact.deliveryStatus,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 17,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  Text(
-                    'Order Id: #' + contact.orderId.toString(),
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 12,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  Text(
-                    'No of items: ' + contact.products.length.toString(),
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 12,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () {
-                      ordersBox.deleteAt(index);
-                    },
-                  )
-                ],
-              ));
-          // ListTile(
-          //   title: Text(contact.amount.toString()),
-          //   subtitle: Text(contact.orderId.toString()),
-          //   trailing: Row(
-          //     mainAxisSize: MainAxisSize.min,
-          //     children: <Widget>[
-          //       IconButton(
-          //         icon: Icon(Icons.delete),
-          //         onPressed: () {
-          //           ordersBox.deleteAt(index);
-          //         },
-          //       )
-          //     ],
-          //   ),
-          // );
-        },
-      );
+                return Container(
+                    height: 170,
+                    margin: EdgeInsets.all(10),
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.blueGrey[100],
+                            blurRadius: 2.0,
+                            spreadRadius: 2,
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Column(
+                      children: [
+                        Text(
+                          'Amount: ₹' + contact.amount.toString(),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 20,
+                            color: Colors.green,
+                          ),
+                        ),
+                        Text(
+                          'Status: ' + contact.deliveryStatus,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 17,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Text(
+                          'Order Id: #' + contact.orderId.toString(),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 12,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Text(
+                          'No of items: ' + contact.products.length.toString(),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 12,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () {
+                            ordersBox.deleteAt(index);
+                          },
+                        )
+                      ],
+                    ));
+              },
+            )
+          : Center(child: Text('No Orders Yet try ordering something'));
     },
   );
 }
