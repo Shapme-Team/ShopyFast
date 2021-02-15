@@ -1,15 +1,29 @@
 import 'dart:convert';
+import 'package:hive/hive.dart';
 
+part 'Product.g.dart';
+
+@HiveType(typeId: 2)
 class Product {
+  @HiveField(0)
   final String productName;
+  @HiveField(1)
   final String description;
+  @HiveField(2)
   final String productId;
+  @HiveField(3)
   final num price;
+  @HiveField(4)
   int quantity;
+  @HiveField(5)
   final String imageUrl;
+  @HiveField(6)
   final String category;
+  @HiveField(7)
   final String subcategory;
+  @HiveField(8)
   final num weight;
+  @HiveField(9)
   final String measureUnit;
   Product({
     this.productName = '',
@@ -63,6 +77,32 @@ class Product {
   @override
   String toString() {
     return 'Product(productName: $productName, description: $description, productId: $productId, price: $price, quantity: $quantity, imageUrl: $imageUrl, category: $category, subcategory: $subcategory, weight: $weight, measureUnit: $measureUnit)';
+  }
+
+  Product copyWith({
+    String productName,
+    String description,
+    String productId,
+    num price,
+    int quantity,
+    String imageUrl,
+    String category,
+    String subcategory,
+    num weight,
+    String measureUnit,
+  }) {
+    return Product(
+      productName: productName ?? this.productName,
+      description: description ?? this.description,
+      productId: productId ?? this.productId,
+      price: price ?? this.price,
+      quantity: quantity ?? this.quantity,
+      imageUrl: imageUrl ?? this.imageUrl,
+      category: category ?? this.category,
+      subcategory: subcategory ?? this.subcategory,
+      weight: weight ?? this.weight,
+      measureUnit: measureUnit ?? this.measureUnit,
+    );
   }
 }
 

@@ -1,3 +1,4 @@
+import 'package:ShopyFast/domain/provider/cartProvider.dart';
 import 'package:ShopyFast/domain/provider/productProvider.dart';
 import 'package:ShopyFast/getit.dart';
 import 'package:flutter/material.dart';
@@ -43,9 +44,9 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => _productProvider,
-        ),
+        ChangeNotifierProvider.value(
+          value: _productProvider,
+        )
       ],
       child: SafeArea(
           child: Scaffold(

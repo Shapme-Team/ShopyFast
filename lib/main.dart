@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'view/helper/wrapper.dart';
 import 'utils/theme.dart';
 
-void main() async {
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   init();
   runApp(MyApp());
 }

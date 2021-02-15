@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../utils/constants/size_config.dart';
 
-class Categories extends StatelessWidget {
+class CategoriesMain extends StatelessWidget {
   final catConst = CategoriesConstant.CATEGORY_CONSTANTS;
   final nameVar = CategoriesConstant.NAME;
   @override

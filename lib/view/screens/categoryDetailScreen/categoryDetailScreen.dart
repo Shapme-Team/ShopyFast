@@ -1,3 +1,4 @@
+import 'package:ShopyFast/domain/provider/cartProvider.dart';
 import 'package:ShopyFast/domain/provider/productProvider.dart';
 import 'package:ShopyFast/getit.dart';
 import 'package:flutter/material.dart';
@@ -17,10 +18,12 @@ class CategoryDetailScreen extends StatefulWidget {
 class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
   var categoryConstant = CategoriesConstant.CATEGORY_CONSTANTS;
   ProductProvider _productProvider;
+  CartProvider _cartProvider;
 
   @override
   void initState() {
     _productProvider = getIt<ProductProvider>();
+    _cartProvider = getIt<CartProvider>();
     super.initState();
   }
 
@@ -28,8 +31,13 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
   Widget build(BuildContext context) {
     CategoryDetailScreenArg arg = ModalRoute.of(context).settings.arguments;
     List<String> _listOfSubcategory = getListOfSubcategory(arg.categoryId);
-    return ChangeNotifierProvider.value(
-      value: _productProvider,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(
+          value: _productProvider,
+        ),
+        ChangeNotifierProvider.value(value: _cartProvider)
+      ],
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
