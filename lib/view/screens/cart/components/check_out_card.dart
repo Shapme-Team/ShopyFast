@@ -1,13 +1,11 @@
-import 'package:ShopyFast/utils/constants/constants.dart';
 import 'package:ShopyFast/utils/constants/size_config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../../../components/default_button.dart';
 
 class CheckoutCard extends StatelessWidget {
-  const CheckoutCard({
-    Key key,
-  }) : super(key: key);
+  final num totalAmount;
+
+  CheckoutCard(this.totalAmount);
 
   @override
   Widget build(BuildContext context) {
@@ -37,37 +35,15 @@ class CheckoutCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              children: [
-                Container(
-                  padding: EdgeInsets.all(10),
-                  height: getWidth(40),
-                  width: getWidth(40),
-                  decoration: BoxDecoration(
-                    color: Color(0xFFF5F6F9),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: SvgPicture.asset("assets/icons/receipt.svg"),
-                ),
-                Spacer(),
-                Text("Add voucher code"),
-                const SizedBox(width: 10),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: 12,
-                  color: kTextColor,
-                )
-              ],
-            ),
-            SizedBox(height: getHeight(20)),
-            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text.rich(
                   TextSpan(
                     text: "Total:\n",
                     children: [
+                      TextSpan(text: '₹', style: TextStyle(fontSize: 22)),
                       TextSpan(
-                        text: "\$337.15",
+                        text: ' $totalAmount',
                         style: TextStyle(fontSize: 16, color: Colors.black),
                       ),
                     ],

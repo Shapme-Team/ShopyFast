@@ -3,17 +3,17 @@ import 'package:ShopyFast/domain/models/Product.dart';
 
 abstract class ProductDataSource {
   Future<List<Product>> getProductBySubcategory(String sid);
-  Future<Product> getProductById(String id);
+  // Future<Product> getProductById(String id);
 }
 
 class ProductDataSourceImpl extends ProductDataSource {
   final ApiClient _apiClient;
   ProductDataSourceImpl(this._apiClient);
 
-  @override
-  Future<Product> getProductById(String id) async {
-    try {} catch (err) {}
-  }
+  // @override
+  // Future<Product> getProductById(String id) async {
+  //   try {} catch (err) {}
+  // }
 
   @override
   Future<List<Product>> getProductBySubcategory(String sid) async {

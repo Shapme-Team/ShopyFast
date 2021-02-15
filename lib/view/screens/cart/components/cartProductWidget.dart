@@ -7,14 +7,14 @@ import 'package:provider/provider.dart';
 
 enum IncrementDecrement { INCREMENT, DECREMENT }
 
-class SubProductWidget extends StatefulWidget {
+class CartProductWidget extends StatefulWidget {
   final Product product;
-  SubProductWidget(this.product);
+  CartProductWidget(this.product);
   @override
-  _SubProductWidgetState createState() => _SubProductWidgetState();
+  _CartProductWidgetState createState() => _CartProductWidgetState();
 }
 
-class _SubProductWidgetState extends State<SubProductWidget> {
+class _CartProductWidgetState extends State<CartProductWidget> {
   @override
   Widget build(BuildContext context) {
     var product = widget.product;
@@ -75,8 +75,11 @@ class BottomSide extends StatelessWidget {
               ? buildIncrementDecrement(context)
               : GestureDetector(
                   onTap: () {
-                    onPlusMinusClick(IncrementDecrement.INCREMENT, context);
-                    print('product quantity: ${product.quantity}');
+                    product.quantity++;
+                    Provider.of<ProductProvider>(context, listen: false)
+                        .updateProductQuantity(product);
+                    Provider.of<CartProvider>(context, listen: false)
+                        .addItemToCart(product);
                   },
                   child: Container(
                     width: 100,
@@ -119,25 +122,26 @@ class BottomSide extends StatelessWidget {
     );
   }
 
-  onPlusMinusClick(IncrementDecrement idValue, BuildContext context) {
-    if (idValue == IncrementDecrement.INCREMENT) {
-      product.quantity++;
-      Provider.of<CartProvider>(context, listen: false)
-          .addItemToCart(product.copyWith());
-    } else {
-      product.quantity--;
-      Provider.of<CartProvider>(context, listen: false)
-          .removeItemFromCart(product.copyWith());
-    }
-    print('product quantity: ${product.quantity}');
-
-    Provider.of<ProductProvider>(context, listen: false)
-        .updateProductQuantity(product);
-  }
-
   Widget plusMinusButton(IncrementDecrement idValue, BuildContext context) {
+    onClick() {
+      if (idValue == IncrementDecrement.INCREMENT) {
+        Provider.of<CartProvider>(context, listen: false)
+            .addItemToCart(product);
+        product.quantity++;
+        print('added !');
+      } else {
+        Provider.of<CartProvider>(context, listen: false)
+            .removeItemFromCart(product);
+        product.quantity--;
+        print('removed !');
+      }
+
+      Provider.of<ProductProvider>(context, listen: false)
+          .updateProductQuantity(product);
+    }
+
     return GestureDetector(
-      onTap: () => onPlusMinusClick(idValue, context),
+      onTap: () => onClick(),
       child: Container(
         height: 40,
         padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),

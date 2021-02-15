@@ -64,6 +64,32 @@ class Product {
   String toString() {
     return 'Product(productName: $productName, description: $description, productId: $productId, price: $price, quantity: $quantity, imageUrl: $imageUrl, category: $category, subcategory: $subcategory, weight: $weight, measureUnit: $measureUnit)';
   }
+
+  Product copyWith({
+    String productName,
+    String description,
+    String productId,
+    num price,
+    int quantity,
+    String imageUrl,
+    String category,
+    String subcategory,
+    num weight,
+    String measureUnit,
+  }) {
+    return Product(
+      productName: productName ?? this.productName,
+      description: description ?? this.description,
+      productId: productId ?? this.productId,
+      price: price ?? this.price,
+      quantity: quantity ?? this.quantity,
+      imageUrl: imageUrl ?? this.imageUrl,
+      category: category ?? this.category,
+      subcategory: subcategory ?? this.subcategory,
+      weight: weight ?? this.weight,
+      measureUnit: measureUnit ?? this.measureUnit,
+    );
+  }
 }
 
 List<Product> demoProducts = [
