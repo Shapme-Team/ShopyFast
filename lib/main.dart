@@ -1,11 +1,10 @@
 import 'package:ShopyFast/getit.dart';
-
 import 'utils/constants/routes.dart';
 import 'package:flutter/material.dart';
 import 'view/helper/wrapper.dart';
 import 'utils/theme.dart';
 
-void main() {
+void main() async {
   init();
   runApp(MyApp());
 }

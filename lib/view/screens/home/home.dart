@@ -23,16 +23,6 @@ class HomeScreen extends StatelessWidget {
         ),
         leading: Icon(Icons.menu),
         actions: [
-          // IconButton(
-          //   icon: Icon(Icons.exit_to_app),
-          //   onPressed: () async {
-          //     await FirebaseAuth.instance.signOut();
-          //     Navigator.pushAndRemoveUntil(
-          //         context,
-          //         MaterialPageRoute(builder: (context) => LoginScreen()),
-          //         (route) => false);
-          //   },
-          // ),
           Icon(
             Icons.search,
             color: Colors.grey,
@@ -44,31 +34,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Body()
-      // Container(
-      //   padding: EdgeInsets.all(32),
-      //   child: Column(
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     crossAxisAlignment: CrossAxisAlignment.start,
-      //     children: <Widget>[
-      //       Text(
-      //         "You are Logged in succesfully",
-      //         style: TextStyle(color: Colors.lightBlue, fontSize: 32),
-      //       ),
-      //       SizedBox(
-      //         height: 16,
-      //       ),
-      //       Text(
-      //         "${user.phoneNumber}",
-      //         style: TextStyle(
-      //           color: Colors.grey,
-      //         ),
-      //       ),
-      //     ],
-      //   ),
-      // )
-      ,
-      // bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.home),
+      body: Body(),
     );
   }
 }

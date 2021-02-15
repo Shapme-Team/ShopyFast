@@ -61,7 +61,7 @@ class Categories extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Shop by categories',
+            'Popular categories',
             style: TextStyle(
               fontSize: 20,
               color: Colors.black87,
@@ -116,6 +116,7 @@ class CategoryCard extends StatelessWidget {
                 fit: BoxFit.contain,
               ),
               Container(
+                height: getHeight(35),
                 alignment: Alignment.center,
                 padding: EdgeInsets.only(top: 4),
                 child: Text(

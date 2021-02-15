@@ -1,7 +1,7 @@
+import 'package:ShopyFast/view/screens/cart/cart_screen.dart';
 import 'package:ShopyFast/view/screens/categoryDetailScreen/categoryDetailScreen.dart';
 import 'package:flutter/material.dart';
 import '../../../../utils/categoryConstants.dart';
-import 'dart:convert';
 
 class CategoriesScreen extends StatefulWidget {
   static const String routeName = "/categories";
@@ -16,12 +16,34 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Categories"),
+          elevation: 1,
+          title: Text(
+            'Categories',
+            style: TextStyle(
+              color: Theme.of(context).primaryColor,
+              fontSize: 23,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          leading: Icon(Icons.menu),
+          actions: [
+            Icon(
+              Icons.search,
+              color: Colors.grey,
+            ),
+            IconButton(
+              color: Colors.grey,
+              icon: Icon(Icons.shopping_cart_outlined),
+              onPressed: () =>
+                  Navigator.pushNamed(context, CartScreen.routeName),
+            ),
+          ],
         ),
         body: SingleChildScrollView(
           child: Column(
             children: [
               ListView.builder(
+                  padding: EdgeInsets.only(top: 10),
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemCount: CategoriesConstant.CATEGORY_CONSTANTS.length,

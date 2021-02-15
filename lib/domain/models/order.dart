@@ -103,19 +103,19 @@ List<Order> dummyOrderItem = [
           subcategory: 'Fruits',
           weight: 1,
         ),
-        Product(
-          category: 'Fruits and vegitable',
-          description:
-              'item is very good for health and give you greate nutrients',
-          imageUrl: 'assets/images/gorfers_tide.jpg',
-          measureUnit: 'kg',
-          price: 30,
-          productId: 'flajsdflsf',
-          productName: 'Potato (U.P)',
-          quantity: 2,
-          subcategory: 'Vegitable',
-          weight: 1,
-        ),
+        // Product(
+        //   category: 'Fruits and vegitable',
+        //   description:
+        //       'item is very good for health and give you greate nutrients',
+        //   imageUrl: 'assets/images/gorfers_tide.jpg',
+        //   measureUnit: 'kg',
+        //   price: 30,
+        //   productId: 'flajsdflsf',
+        //   productName: 'Potato (U.P)',
+        //   quantity: 2,
+        //   subcategory: 'Vegitable',
+        //   weight: 1,
+        // ),
       ]),
   Order(
       address: 'Alipur Delhi 36, near GLPS , hno 894 1st floor',
