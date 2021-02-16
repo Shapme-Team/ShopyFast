@@ -1,6 +1,7 @@
 import 'package:ShopyFast/view/helper/screenWrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 import '../../utils/constants/size_config.dart';
 
@@ -27,5 +28,11 @@ class _WrapperState extends State<Wrapper> {
         return CircularProgressIndicator();
       },
     );
+  }
+
+  @override
+  void dispose() {
+    Hive.close();
+    super.dispose();
   }
 }
