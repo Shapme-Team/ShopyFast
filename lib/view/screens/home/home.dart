@@ -1,4 +1,5 @@
 import 'package:ShopyFast/domain/provider/cartProvider.dart';
+import 'package:ShopyFast/domain/provider/productProvider.dart';
 import 'package:ShopyFast/utils/constants/size_config.dart';
 import 'package:ShopyFast/view/screens/cart/cart_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -68,6 +69,8 @@ class _HomeScreenState extends State<HomeScreen> {
         Consumer<CartProvider>(
           builder: (context, value, child) {
             var noOfCartItems = value.getNoOfItemsInCart;
+            Provider.of<ProductProvider>(context, listen: false)
+                .initCartItems(value.getCartItems);
             return Stack(
               children: [
                 IconButton(

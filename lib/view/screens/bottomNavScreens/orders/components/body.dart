@@ -19,15 +19,15 @@ class _BodyState extends State<Body> {
   }
 }
 
-void addOrders(Order dummyorder) {
-  final ordersBox = Hive.box('orders');
-  ordersBox.add(dummyorder);
-}
+// void addOrders(Order dummyorder) {
+//   final ordersBox = Hive.box('orders');
+//   ordersBox.add(dummyorder);
+// }
 
-void addDummyOrders(Order dummyOrder) {
-  addOrders(dummyOrder);
-  print(dummyOrder);
-}
+// void addDummyOrders(Order dummyOrder) {
+//   addOrders(dummyOrder);
+//   print(dummyOrder);
+// }
 
 Widget _buildListView() {
   return WatchBoxBuilder(
@@ -106,7 +106,7 @@ Widget _buildListView() {
                 RaisedButton(
                   onPressed: () {
                     dummyOrderItem.forEach((element) {
-                      addDummyOrders(element);
+                      // addDummyOrders(element);
                       print(element);
                     });
                   },

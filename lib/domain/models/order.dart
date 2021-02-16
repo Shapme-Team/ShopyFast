@@ -3,8 +3,9 @@ import 'package:ShopyFast/domain/models/Product.dart';
 import 'package:ShopyFast/domain/models/customer.dart';
 import 'package:hive/hive.dart';
 
-part 'order.g.dart';
-@HiveType(typeId : 1)
+part 'gen/order.g.dart';
+
+@HiveType(typeId: 1)
 class Order {
   @HiveField(0)
   final String orderId;
