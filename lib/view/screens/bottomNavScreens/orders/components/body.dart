@@ -9,16 +9,6 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  void addOrders(Order dummyorder) {
-    final ordersBox = Hive.box('orders');
-    ordersBox.add(dummyorder);
-  }
-
-  void addDummyOrders(Order dummyOrder) {
-    addOrders(dummyOrder);
-    print(dummyOrder);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -29,11 +19,21 @@ class _BodyState extends State<Body> {
   }
 }
 
+void addOrders(Order dummyorder) {
+  final ordersBox = Hive.box('orders');
+  ordersBox.add(dummyorder);
+}
+
+void addDummyOrders(Order dummyOrder) {
+  addOrders(dummyOrder);
+  print(dummyOrder);
+}
+
 Widget _buildListView() {
   return WatchBoxBuilder(
     box: Hive.box('orders'),
     builder: (context, ordersBox) {
-      return (ordersBox.length == null)
+      return (ordersBox.length > 0)
           ? ListView.builder(
               itemCount: ordersBox.length,
               itemBuilder: (context, index) {
@@ -97,7 +97,23 @@ Widget _buildListView() {
                     ));
               },
             )
-          : Center(child: Text('No Orders Yet try ordering something'));
+          : Center(
+              child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('No Orders Yet try ordering something'),
+                RaisedButton(
+                  onPressed: () {
+                    dummyOrderItem.forEach((element) {
+                      addDummyOrders(element);
+                      print(element);
+                    });
+                  },
+                  child: Text('add dummy orders'),
+                )
+              ],
+            ));
     },
   );
 }
