@@ -1,3 +1,4 @@
+import 'package:ShopyFast/view/screens/SearchScreen/searchScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:ShopyFast/view/screens/cart/cart_screen.dart';
 import 'components/body.dart';
@@ -19,10 +20,13 @@ class OrdersScreen extends StatelessWidget {
         ),
         leading: Icon(Icons.menu),
         actions: [
-          Icon(
-            Icons.search,
-            color: Colors.grey,
-          ),
+          IconButton(
+              icon: Icon(
+                Icons.search,
+                color: Colors.grey,
+              ),
+              onPressed: () =>
+                  Navigator.pushNamed(context, SearchScreen.routeName)),
           IconButton(
             color: Colors.grey,
             icon: Icon(Icons.shopping_cart_outlined),

@@ -28,6 +28,15 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  directRemoveFromCart(Product product) {
+    _cart.product
+        ?.removeWhere((element) => element.productId == product.productId);
+    _cart.amount -= product.price * product.quantity;
+    _cart.amount = double.parse(_cart.amount.toStringAsFixed(2));
+    _cartReposotory.addToCart(_cart);
+    notifyListeners();
+  }
+
   removeItemFromCart(Product product) {
     // var myProduct = product.copyWith();
     if (product.quantity < 1) {
@@ -39,10 +48,12 @@ class CartProvider extends ChangeNotifier {
               orElse: () => null)
           ?.quantity = product.quantity;
     }
+
     _cart.amount -= product.price;
     // implement add to local database
     _cart.amount = double.parse(_cart.amount.toStringAsFixed(2));
     _cartReposotory.addToCart(_cart);
+
     if (_cart.product.isEmpty) {
       _cart.amount = 0.0;
     }

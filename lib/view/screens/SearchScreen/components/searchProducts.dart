@@ -5,20 +5,19 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../domain/models/Product.dart';
-import '../../../../utils/constants/constants.dart';
 import '../../../../utils/constants/size_config.dart';
 
-class CartProducts extends StatefulWidget {
-  final List<Product> cartProducts;
-  CartProducts(this.cartProducts);
+class SearchProducts extends StatefulWidget {
+  final List<Product> searchProducts;
+  SearchProducts(this.searchProducts);
   @override
-  _CartProductsState createState() => _CartProductsState();
+  _SearchProductsState createState() => _SearchProductsState();
 }
 
-class _CartProductsState extends State<CartProducts> {
+class _SearchProductsState extends State<SearchProducts> {
   @override
   Widget build(BuildContext context) {
-    var products = widget.cartProducts;
+    var products = widget.searchProducts;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: getWidth(20)),
       child: ListView.builder(
@@ -49,43 +48,6 @@ class _CartProductsState extends State<CartProducts> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class CartCard extends StatelessWidget {
-  final Product product;
-  CartCard(this.product);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SizedBox(
-          width: 88,
-          child: AspectRatio(
-            aspectRatio: 0.88,
-          ),
-        ),
-        SizedBox(width: 20),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 10),
-            Text.rich(
-              TextSpan(
-                text: '₹ ${product.price}',
-                style: TextStyle(
-                    fontWeight: FontWeight.w600, color: kPrimaryColor),
-                children: [
-                  TextSpan(
-                      text: "", style: Theme.of(context).textTheme.bodyText1),
-                ],
-              ),
-            )
-          ],
-        )
-      ],
     );
   }
 }

@@ -19,21 +19,30 @@ class _WrapperState extends State<Wrapper> {
     await getIt.allReady();
   }
 
+  Widget buildWidget;
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return FutureBuilder(
-      future: futureTasks(),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          print(snapshot.error);
-          return Text('Error: ${snapshot.error}');
-        }
-        if (snapshot.connectionState == ConnectionState.done) {
-          return ScreenWrapper();
-        }
-        return SplashScreen();
-      },
-    );
+    initBuildWidget();
+    return buildWidget;
+  }
+
+  initBuildWidget() {
+    if (buildWidget == null) {
+      buildWidget = FutureBuilder(
+        future: futureTasks(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            print(snapshot.error);
+            return Text('Error: ${snapshot.error}');
+          }
+          if (snapshot.connectionState == ConnectionState.done) {
+            return ScreenWrapper();
+          }
+          return SplashScreen();
+        },
+      );
+    }
   }
 }
