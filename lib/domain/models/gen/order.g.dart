@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'order.dart';
+part of '../order.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator

@@ -1,4 +1,6 @@
+import 'package:ShopyFast/getit.dart';
 import 'package:ShopyFast/view/helper/screenWrapper.dart';
+import 'package:ShopyFast/view/screens/splashScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -13,19 +15,25 @@ class Wrapper extends StatefulWidget {
 }
 
 class _WrapperState extends State<Wrapper> {
+  futureTasks() async {
+    await Firebase.initializeApp();
+    await getIt.allReady();
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return FutureBuilder(
-      future: Firebase.initializeApp(),
+      future: futureTasks(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Text('Error');
+          print(snapshot.error);
+          return Text('Error: ${snapshot.error}');
         }
         if (snapshot.connectionState == ConnectionState.done) {
           return ScreenWrapper();
         }
-        return CircularProgressIndicator();
+        return SplashScreen();
       },
     );
   }

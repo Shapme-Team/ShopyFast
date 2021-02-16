@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:hive/hive.dart';
 
-part 'Product.g.dart';
+part 'gen/Product.g.dart';
 
 @HiveType(typeId: 2)
 class Product {

@@ -129,7 +129,6 @@ class BottomSide extends StatelessWidget {
       Provider.of<CartProvider>(context, listen: false)
           .removeItemFromCart(product.copyWith());
     }
-    print('product quantity: ${product.quantity}');
 
     Provider.of<ProductProvider>(context, listen: false)
         .updateProductQuantity(product);

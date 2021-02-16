@@ -1,10 +1,15 @@
 import 'package:ShopyFast/domain/models/Cart.dart';
 import 'package:ShopyFast/domain/models/Product.dart';
+import 'package:ShopyFast/domain/repositories/cartRepository.dart';
 import 'package:flutter/cupertino.dart';
 
 class CartProvider extends ChangeNotifier {
-  Cart _cart = Cart(amount: 0, product: []);
-  CartProvider();
+  Cart _cart;
+  CartReposotory _cartReposotory;
+  CartProvider(this._cartReposotory) {
+    _cart = _cartReposotory.getCartData() ?? Cart(product: [], amount: 0.0);
+    print('cart is null:  ${_cart == null}');
+  }
 
   Cart get getCartItems => _cart;
   int get getNoOfItemsInCart => _cart?.product?.length ?? 0;
@@ -19,6 +24,7 @@ class CartProvider extends ChangeNotifier {
     }
     _cart.amount += product.price;
     _cart.amount = double.parse(_cart.amount.toStringAsFixed(2));
+    _cartReposotory.addToCart(_cart);
     notifyListeners();
   }
 
@@ -36,6 +42,11 @@ class CartProvider extends ChangeNotifier {
     _cart.amount -= product.price;
     // implement add to local database
     _cart.amount = double.parse(_cart.amount.toStringAsFixed(2));
+    _cartReposotory.addToCart(_cart);
+    if (_cart.product.isEmpty) {
+      _cart.amount = 0.0;
+    }
+
     notifyListeners();
   }
 }
