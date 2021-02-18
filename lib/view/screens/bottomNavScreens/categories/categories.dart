@@ -25,7 +25,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               fontWeight: FontWeight.w600,
             ),
           ),
-          leading: Icon(Icons.menu),
           actions: [
             Icon(
               Icons.search,

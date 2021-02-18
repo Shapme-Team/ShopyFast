@@ -59,7 +59,6 @@ class _HomeScreenState extends State<HomeScreen> {
           fontWeight: FontWeight.w600,
         ),
       ),
-      leading: Icon(Icons.menu),
       actions: [
         IconButton(
           onPressed: () {},

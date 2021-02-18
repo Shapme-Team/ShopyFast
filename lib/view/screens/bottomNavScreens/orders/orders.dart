@@ -17,7 +17,6 @@ class OrdersScreen extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        leading: Icon(Icons.menu),
         actions: [
           Icon(
             Icons.search,
