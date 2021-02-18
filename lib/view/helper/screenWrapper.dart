@@ -22,6 +22,7 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
   @override
   void initState() {
     _productProvider = getIt<ProductProvider>();
+    print('init state of ScreenWrapper');
     super.initState();
   }
 

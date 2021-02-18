@@ -1,7 +1,10 @@
 import 'package:ShopyFast/domain/provider/cartProvider.dart';
 import 'package:ShopyFast/domain/provider/productProvider.dart';
+import 'package:ShopyFast/utils/categoryConstants.dart';
 import 'package:ShopyFast/utils/constants/size_config.dart';
+import 'package:ShopyFast/view/screens/SearchScreen/searchScreen.dart';
 import 'package:ShopyFast/view/screens/cart/cart_screen.dart';
+import 'package:ShopyFast/view/screens/categoryDetailScreen/categoryDetailScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,15 +24,19 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   var cartValue = 10;
+  CartProvider _cartProvider;
   @override
   void initState() {
+    _cartProvider = getIt<CartProvider>();
+    Provider.of<ProductProvider>(context, listen: false)
+        .initCartItems(_cartProvider.getCartItems);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-      value: getIt<CartProvider>(),
+      value: _cartProvider,
       builder: (context, child) {
         return Scaffold(
             appBar: buildAppBar(context),
@@ -61,15 +68,16 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       actions: [
         IconButton(
-          onPressed: () {},
+          onPressed: () => Navigator.of(context).pushNamed(
+            SearchScreen.routeName,
+            // arguments: CategoryDetailScreenArg(CategoriesConstant.GROCERY),
+          ),
           iconSize: 28,
           icon: Icon(Icons.search, color: Colors.grey),
         ),
         Consumer<CartProvider>(
           builder: (context, value, child) {
             var noOfCartItems = value.getNoOfItemsInCart;
-            Provider.of<ProductProvider>(context, listen: false)
-                .initCartItems(value.getCartItems);
             return Stack(
               children: [
                 IconButton(
