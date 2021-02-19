@@ -1,9 +1,10 @@
-import 'package:ShopyFast/domain/models/Cart.dart';
-import 'package:ShopyFast/domain/models/Product.dart';
-import 'package:ShopyFast/domain/models/customer.dart';
-import 'package:ShopyFast/domain/models/order.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart' as pathProvider;
+
+import '../../domain/models/Cart.dart';
+import '../../domain/models/Product.dart';
+import '../../domain/models/customer.dart';
+import '../../domain/models/order.dart';
 
 const ORDER_BOX = 'order';
 const CART_BOX = 'cart';
@@ -15,6 +16,7 @@ abstract class HiveLocalDatabase {
 
   List<Order> getListOfOrders();
   bool addOrderToDatabase(Order order);
+  bool deleteOrder(Order order);
 
   Customer getCustomerData();
   bool addCustomerData(Customer customer);
@@ -22,7 +24,7 @@ abstract class HiveLocalDatabase {
 
 class HiveLocalDatabaseImpl extends HiveLocalDatabase {
   HiveLocalDatabaseImpl._();
-  Box orderBox;
+  Box<Order> orderBox;
   Box<Cart> cartBox;
 
   static Future<HiveLocalDatabaseImpl> createDatabase() async {
@@ -35,9 +37,12 @@ class HiveLocalDatabaseImpl extends HiveLocalDatabase {
     final appDocumentDir =
         await pathProvider.getApplicationDocumentsDirectory();
     Hive.init(appDocumentDir.path);
+
     Hive.registerAdapter(OrderAdapter());
     Hive.registerAdapter(ProductAdapter());
     Hive.registerAdapter(CartAdapter());
+    Hive.registerAdapter(CustomerAdapter());
+
     orderBox = await Hive.openBox(ORDER_BOX);
     cartBox = await Hive.openBox(CART_BOX);
   }
@@ -54,15 +59,22 @@ class HiveLocalDatabaseImpl extends HiveLocalDatabase {
   }
 
   @override
-  addOrderToDatabase(Order order) {
-    // TODO: implement addOrderToDatabase
-    throw UnimplementedError();
+  bool addOrderToDatabase(Order order) {
+    try {
+      orderBox.add(order);
+      print('order date is: ${order.dateTime}');
+      return true;
+    } catch (err) {
+      print('error: hive : $err');
+      return false;
+    }
   }
 
   @override
   Cart getCartData() {
     try {
       var preCart = cartBox.get(0);
+
       return preCart;
     } catch (err) {
       print('error: hive : $err');
@@ -72,8 +84,13 @@ class HiveLocalDatabaseImpl extends HiveLocalDatabase {
 
   @override
   List<Order> getListOfOrders() {
-    // TODO: implement getListOfOrders
-    throw UnimplementedError();
+    var orders = orderBox.values.toList();
+    orders.forEach((element) {
+      var dateTime = element.dateTime.isUtc;
+
+      print('date : ${element.dateTime} : $dateTime');
+    });
+    return orders;
   }
 
   @override
@@ -86,5 +103,24 @@ class HiveLocalDatabaseImpl extends HiveLocalDatabase {
   Customer getCustomerData() {
     // TODO: implement getCustomerData
     throw UnimplementedError();
+  }
+
+  @override
+  bool deleteOrder(Order order) {
+    try {
+      for (int i = 0; i < orderBox.length; i++) {
+        var newBox = orderBox.getAt(i);
+        if (newBox.orderId == order.orderId) {
+          orderBox.deleteAt(i);
+          return true;
+        }
+        // orderBox.deleteAt(i);
+      }
+      print('all orders deleted');
+      return false;
+    } catch (err) {
+      print('error on delete: $err');
+      return false;
+    }
   }
 }

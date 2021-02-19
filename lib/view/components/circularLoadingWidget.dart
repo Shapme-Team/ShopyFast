@@ -9,7 +9,7 @@ class CircularLoadingWidgetState extends State<CircularLoadingWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
+      height: 50,
       child: Center(child: CircularProgressIndicator()),
     );
   }

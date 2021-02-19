@@ -1,11 +1,19 @@
+import 'package:hive/hive.dart';
+part 'gen/customer.g.dart';
+
+@HiveType(typeId: 4)
 class Customer {
-  final String customerName;
+  @HiveField(0)
+  final String name;
+  @HiveField(1)
   final num phoneNumber;
+  @HiveField(2)
   final String customerId;
+  @HiveField(3)
   final String address;
 
   Customer({
-    this.customerName,
+    this.name,
     this.phoneNumber,
     this.customerId,
     this.address,
@@ -13,7 +21,7 @@ class Customer {
 
   Map<String, dynamic> toMap() {
     return {
-      'customerName': customerName,
+      'name': name,
       'phoneNumber': phoneNumber,
       'customerId': customerId,
       'address': address,
@@ -24,7 +32,7 @@ class Customer {
     if (map == null) return null;
 
     return Customer(
-      customerName: map['customerName'] ?? '',
+      name: map['name'] ?? '',
       phoneNumber: map['phoneNumber'] ?? 0,
       customerId: map['customerId'] ?? '',
       address: map['address'] ?? '',

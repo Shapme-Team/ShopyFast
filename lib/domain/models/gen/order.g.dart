@@ -17,9 +17,10 @@ class OrderAdapter extends TypeAdapter<Order> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Order(
+      customerId: fields[6] as String,
       customer: fields[1] as Customer,
       orderId: fields[0] as String,
-      amount: fields[2] as num,
+      amount: fields[2] as double,
       dateTime: fields[3] as DateTime,
       deliveryStatus: fields[4] as String,
       products: (fields[5] as List)?.cast<Product>(),
@@ -29,7 +30,7 @@ class OrderAdapter extends TypeAdapter<Order> {
   @override
   void write(BinaryWriter writer, Order obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.orderId)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class OrderAdapter extends TypeAdapter<Order> {
       ..writeByte(4)
       ..write(obj.deliveryStatus)
       ..writeByte(5)
-      ..write(obj.products);
+      ..write(obj.products)
+      ..writeByte(6)
+      ..write(obj.customerId);
   }
 
   @override
