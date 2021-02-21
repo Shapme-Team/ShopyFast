@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'size_config.dart';
 
+class StatusConstant {
+  static const API_BASE_URL = 'http://localhost:5000/';
+  static const PROCESSING = 'PROCESSING';
+  static const ON_WAY = 'ON WAY';
+  static const DONE = 'DONE';
+}
+
 const kPrimaryColor = Color(0xFFFF7643);
 const kPrimaryLightColor = Color(0xFFFFECDF);
 const kPrimaryGradientColor = [Color(0xFFFFA53E), Color(0xFFFF7643)];

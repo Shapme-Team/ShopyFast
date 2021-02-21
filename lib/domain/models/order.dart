@@ -1,26 +1,33 @@
 import 'dart:convert';
-import 'package:ShopyFast/domain/models/Product.dart';
-import 'package:ShopyFast/domain/models/customer.dart';
+
+import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
+
+import '../../utils/constants/globals.dart';
+import 'Product.dart';
+import 'customer.dart';
 
 part 'gen/order.g.dart';
 
 @HiveType(typeId: 1)
 class Order {
   @HiveField(0)
-  final String orderId;
+  String orderId;
   @HiveField(1)
   final Customer customer;
   @HiveField(2)
-  final num amount;
+  final double amount;
   @HiveField(3)
   final DateTime dateTime;
   @HiveField(4)
   String deliveryStatus;
   @HiveField(5)
   final List<Product> products;
+  @HiveField(6)
+  final String customerId;
 
   Order({
+    @required this.customerId,
     this.customer,
     this.orderId,
     this.amount = 0.0,
@@ -31,7 +38,8 @@ class Order {
 
   Map<String, dynamic> toMap() {
     return {
-      'orderId': orderId,
+      '_id': orderId,
+      'customerId': customerId,
       'amount': amount,
       'customer': customer?.toMap(),
       'dateTime': dateTime?.millisecondsSinceEpoch,
@@ -44,10 +52,11 @@ class Order {
     if (map == null) return null;
 
     return Order(
-      orderId: map['orderId'] ?? '',
+      customerId: map['customerId'],
+      orderId: map['_id'] ?? '',
       amount: map['amount'] ?? 0,
       customer: Customer.fromMap(map['customer']) ?? Customer(),
-      dateTime: DateTime.fromMillisecondsSinceEpoch(map['dateTime']),
+      dateTime: DateTime.parse(map['dateTime']),
       deliveryStatus: map['deliveryStatus'] ?? '',
       products: List<Product>.from(
           map['products']?.map((x) => Product.fromMap(x) ?? Product()) ??
@@ -58,10 +67,16 @@ class Order {
   String toJson() => json.encode(toMap());
 
   factory Order.fromJson(String source) => Order.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'Order(orderId: $orderId, customer: $customer, amount: $amount, dateTime: $dateTime, deliveryStatus: $deliveryStatus, products: $products, customerId: $customerId)';
+  }
 }
 
 List<Order> dummyOrderItem = [
   Order(
+    customerId: globalCustomerId,
     amount: 200,
     dateTime: DateTime.now(),
     deliveryStatus: 'Processing',
@@ -81,6 +96,7 @@ List<Order> dummyOrderItem = [
     ],
   ),
   Order(
+    customerId: globalCustomerId,
     amount: 1030,
     dateTime: DateTime.now(),
     deliveryStatus: 'Processing',
@@ -100,6 +116,7 @@ List<Order> dummyOrderItem = [
     ],
   ),
   Order(
+    customerId: globalCustomerId,
     amount: 330,
     dateTime: DateTime.now(),
     deliveryStatus: 'Processing',
@@ -119,6 +136,7 @@ List<Order> dummyOrderItem = [
     ],
   ),
   Order(
+    customerId: globalCustomerId,
     amount: 500,
     dateTime: DateTime.now(),
     deliveryStatus: 'Processing',
@@ -138,6 +156,7 @@ List<Order> dummyOrderItem = [
     ],
   ),
   Order(
+    customerId: globalCustomerId,
     amount: 430,
     dateTime: DateTime.now(),
     deliveryStatus: 'Processing',

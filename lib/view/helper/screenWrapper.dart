@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import '../components/coustom_bottom_nav_bar.dart';
 import '../screens/bottomNavScreens/categories/categories.dart';
 import '../screens/home/home.dart';
-import '../screens/bottomNavScreens/orders/orders.dart';
+import '../screens/bottomNavScreens/orders/ordersScreen.dart';
 import '../screens/bottomNavScreens/profile/profile_screen.dart';
 
 class ScreenWrapper extends StatefulWidget {
@@ -47,7 +47,8 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
       providers: [
         ChangeNotifierProvider.value(
           value: _productProvider,
-        )
+        ),
+        ChangeNotifierProvider.value(value: getIt<CartProvider>())
       ],
       child: SafeArea(
           child: Scaffold(

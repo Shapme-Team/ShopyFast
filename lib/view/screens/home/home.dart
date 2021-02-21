@@ -1,14 +1,15 @@
-import 'package:ShopyFast/domain/provider/cartProvider.dart';
-import 'package:ShopyFast/domain/provider/productProvider.dart';
-import 'package:ShopyFast/utils/categoryConstants.dart';
-import 'package:ShopyFast/utils/constants/size_config.dart';
-import 'package:ShopyFast/view/screens/SearchScreen/searchScreen.dart';
-import 'package:ShopyFast/view/screens/cart/cart_screen.dart';
-import 'package:ShopyFast/view/screens/categoryDetailScreen/categoryDetailScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+
+import '../../../data/core/apiConstant.dart';
+import '../../../domain/provider/cartProvider.dart';
+import '../../../domain/provider/productProvider.dart';
 import '../../../getit.dart';
+import '../../../utils/constants/size_config.dart';
+import '../SearchScreen/searchScreen.dart';
+import '../cart/cart_screen.dart';
 import 'components/categories_main.dart';
 import 'components/popular_product.dart';
 
@@ -23,11 +24,32 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // final socketUrl = 'https://shopyfast.herokuapp.com/';
+  final socketUrl = ApiConstants.BASE_URL;
   var cartValue = 10;
   CartProvider _cartProvider;
+
+  connectToSocketIo() {
+    IO.Socket socket = IO.io(socketUrl, <String, dynamic>{
+      'transports': ['websocket'],
+      // "autoConnect": false
+    });
+    // if (socket.connected) {
+    socket.onConnect((data) {
+      print('socket connected !');
+      _cartProvider.setSocket = socket;
+    });
+    // } else
+    // print('socket is already connected !');
+    socket.onConnectError(
+        (data) => print('error while connecting socket: $data'));
+    socket.onDisconnect((_) => print('socket disconnect'));
+  }
+
   @override
   void initState() {
     _cartProvider = getIt<CartProvider>();
+    connectToSocketIo();
     Provider.of<ProductProvider>(context, listen: false)
         .initCartItems(_cartProvider.getCartItems);
     super.initState();
@@ -35,24 +57,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
-      value: _cartProvider,
-      builder: (context, child) {
-        return Scaffold(
-            appBar: buildAppBar(context),
-            body: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CategoriesMain(),
-                  SizedBox(height: getWidth(30)),
-                  PopularProducts(),
-                  SizedBox(height: getWidth(30)),
-                ],
-              ),
-            ));
-      },
-    );
+    return Scaffold(
+        appBar: buildAppBar(context),
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CategoriesMain(),
+              SizedBox(height: getWidth(30)),
+              PopularProducts(),
+              SizedBox(height: getWidth(30)),
+            ],
+          ),
+        ));
   }
 
   AppBar buildAppBar(BuildContext context) {

@@ -3,7 +3,6 @@ import 'package:ShopyFast/domain/provider/productProvider.dart';
 import 'package:ShopyFast/getit.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../domain/models/Cart.dart';
 
 import 'components/cartProducts.dart';
 import 'components/check_out_card.dart';
@@ -27,11 +26,13 @@ class _CartScreenState extends State<CartScreen> {
       ],
       builder: (context, child) {
         var cart = Provider.of<CartProvider>(context).getCartItems;
+        var cartCheck = cart != null && cart.product.length > 0;
+
         return SizedBox(
           child: Scaffold(
             appBar: buildAppBar(context),
-            body: CartProducts(cart.product),
-            bottomNavigationBar: CheckoutCard(cart.amount),
+            body: cartCheck ? CartProducts(cart.product) : buildNoItemWidget(),
+            bottomNavigationBar: cartCheck ? CheckoutCard(cart) : SizedBox(),
           ),
         );
       },
@@ -60,4 +61,26 @@ class _CartScreenState extends State<CartScreen> {
       ],
     );
   }
+
+  Widget buildNoItemWidget() => Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.gps_not_fixed_rounded,
+              size: 32,
+              color: Theme.of(context).primaryColor,
+            ),
+            Padding(
+              padding: EdgeInsets.all(8),
+              child: Text(
+                'no item in cart',
+                style: TextStyle(
+                    fontSize: 18, color: Theme.of(context).primaryColor),
+              ),
+            )
+          ],
+        ),
+      );
 }

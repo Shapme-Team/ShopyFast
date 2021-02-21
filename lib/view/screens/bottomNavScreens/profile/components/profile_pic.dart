@@ -1,3 +1,6 @@
+import 'package:ShopyFast/view/screens/Auth/phoneAuth.dart';
+import 'package:ShopyFast/view/screens/forms/components/signupform.dart';
+import 'package:ShopyFast/view/screens/forms/customerdetailform.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -17,22 +20,31 @@ class ProfilePic extends StatelessWidget {
         overflow: Overflow.visible,
         children: [
           CircleAvatar(
-            backgroundImage: NetworkImage(url),
-          ),
+              // backgroundImage: NetworkImage(url.photoURL),
+              ),
           Positioned(
             right: -16,
             bottom: 0,
             child: SizedBox(
-              height: 46,
-              width: 46,
+              height: 47,
+              width: 47,
               child: FlatButton(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50),
                   side: BorderSide(color: Colors.white),
                 ),
                 color: Color(0xFFF5F6F9),
-                onPressed: () {},
-                child: SvgPicture.asset("assets/icons/Camera Icon.svg"),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AuthScreen()),
+                  );
+                },
+                child: Icon(
+                  Icons.edit,
+                  size: 20,
+                  color: Colors.grey[600],
+                ),
               ),
             ),
           )

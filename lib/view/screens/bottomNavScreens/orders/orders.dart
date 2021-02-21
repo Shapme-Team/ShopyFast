@@ -1,7 +1,7 @@
 import 'package:ShopyFast/view/screens/SearchScreen/searchScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:ShopyFast/view/screens/cart/cart_screen.dart';
-import 'components/body.dart';
+//import 'components/body.dart';
 
 class OrdersScreen extends StatelessWidget {
   static const String routeName = "/orders";
@@ -33,7 +33,7 @@ class OrdersScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Body(),
+      body: OrdersScreen(),
       // bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.orders),
     );
   }

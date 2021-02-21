@@ -1,5 +1,6 @@
 import 'package:ShopyFast/data/core/apiClient.dart';
 import 'package:ShopyFast/data/source/hiveLocalDatabase.dart';
+import 'package:ShopyFast/data/source/orderDataSource.dart';
 import 'package:ShopyFast/data/source/productDataSource.dart';
 import 'package:ShopyFast/domain/provider/cartProvider.dart';
 import 'package:ShopyFast/domain/provider/google_signin.dart';
@@ -13,21 +14,23 @@ final getIt = GetIt.I;
 
 Future init() async {
   getIt.registerSingleton<GoogleSignInProvider>(GoogleSignInProvider());
+  getIt.registerSingleton<Client>(Client());
+  getIt.registerSingleton<ApiClient>(ApiClient(getIt()));
+
+  getIt.registerSingleton<ProductDataSource>(ProductDataSourceImpl(getIt()));
+  getIt.registerSingleton<OrderDataSource>(OrderDataSourceApiImple(getIt()));
+
+  getIt.registerSingleton<ProductRepository>(ProductRepository(getIt()));
+  getIt.registerSingleton<ProductProvider>(ProductProvider(getIt()));
 
   getIt.registerSingletonAsync<HiveLocalDatabase>(
       () => HiveLocalDatabaseImpl.createDatabase());
 
   getIt.registerSingletonWithDependencies<CartReposotory>(
-      () => CartReposotoryImp(getIt()),
+      () => CartReposotoryImp(getIt(), getIt()),
       dependsOn: [HiveLocalDatabase]);
+
   getIt.registerSingletonWithDependencies<CartProvider>(
       () => CartProvider(getIt()),
       dependsOn: [CartReposotory]);
-
-  getIt.registerSingleton<Client>(Client());
-  getIt.registerSingleton<ProductDataSource>(
-      ProductDataSourceImpl(ApiClient(getIt())));
-
-  getIt.registerSingleton<ProductRepository>(ProductRepository(getIt()));
-  getIt.registerSingleton<ProductProvider>(ProductProvider(getIt()));
 }

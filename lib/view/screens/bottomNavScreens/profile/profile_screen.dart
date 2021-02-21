@@ -1,4 +1,6 @@
 import 'package:ShopyFast/domain/provider/google_signin.dart';
+import 'package:ShopyFast/view/screens/Auth/phoneAuth.dart';
+
 import 'package:ShopyFast/view/screens/cart/cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -33,21 +35,22 @@ class ProfileScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: ChangeNotifierProvider(
-        create: (context) => GoogleSignInProvider(),
-        child: StreamBuilder<Object>(
-            stream: FirebaseAuth.instance.authStateChanges(),
-            builder: (context, snapshot) {
-              final provider = Provider.of<GoogleSignInProvider>(context);
-              if (provider.isSigningIn) {
-                return buildLoading();
-              } else if (snapshot.hasData) {
-                return LoggedInWidget();
-              } else {
-                return Body();
-              }
-            }),
-      ),
+      body: AuthScreen(),
+      // ChangeNotifierProvider(
+      //   create: (context) => GoogleSignInProvider(),
+      //   child: StreamBuilder<Object>(
+      //       stream: FirebaseAuth.instance.authStateChanges(),
+      //       builder: (context, snapshot) {
+      //         final provider = Provider.of<GoogleSignInProvider>(context);
+      //         if (provider.isSigningIn) {
+      //           return buildLoading();
+      //         } else if (snapshot.hasData) {
+      //           return AuthScreen();
+      //         } else {
+      //           return Body();
+      //         }
+      //       }),
+      // ),
     );
   }
 

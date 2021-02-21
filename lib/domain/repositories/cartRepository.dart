@@ -1,33 +1,30 @@
-import 'package:ShopyFast/data/source/hiveLocalDatabase.dart';
-import 'package:ShopyFast/domain/models/Cart.dart';
-import 'package:ShopyFast/domain/models/customer.dart';
-import 'package:ShopyFast/domain/models/order.dart';
+import 'dart:async';
+
+import '../../data/source/hiveLocalDatabase.dart';
+import '../../data/source/orderDataSource.dart';
+import '../../utils/constants/globals.dart';
+import '../models/Cart.dart';
+import '../models/customer.dart';
+import '../models/order.dart';
 
 abstract class CartReposotory {
   Cart getCartData();
-  List<Order> getListOfOrders();
-  Customer getCustomerData();
-
   bool addToCart(Cart cart);
-  bool addOrderToDatabase(Order order);
+
+  FutureOr<List<Order>> getListOfOrders();
+  Future<Order> addOrder(Order order);
+  bool deleteOrder(Order order);
+
+  Customer getCustomerData();
   bool addCustomerData(Customer customer);
 }
 
 class CartReposotoryImp extends CartReposotory {
   HiveLocalDatabase _hiveLocalDatabase;
-  CartReposotoryImp(this._hiveLocalDatabase);
+  OrderDataSource _orderDataSource;
+  CartReposotoryImp(this._hiveLocalDatabase, this._orderDataSource);
 
-  @override
-  bool addCustomerData(Customer customer) {
-    _hiveLocalDatabase.addCustomerData(customer);
-    // update to cloud also;
-  }
-
-  @override
-  bool addOrderToDatabase(Order order) {
-    _hiveLocalDatabase.addOrderToDatabase(order);
-    // update to cloud also
-  }
+//------------------------------------ cart ---------
 
   @override
   bool addToCart(Cart cart) {
@@ -41,6 +38,7 @@ class CartReposotoryImp extends CartReposotory {
     return cartData;
   }
 
+//------------------------------------ customer ---------
   @override
   Customer getCustomerData() {
     var customerData = _hiveLocalDatabase.getCustomerData();
@@ -49,9 +47,52 @@ class CartReposotoryImp extends CartReposotory {
   }
 
   @override
-  List<Order> getListOfOrders() {
-    var orders = _hiveLocalDatabase.getListOfOrders();
-    if (orders != null) return orders;
-    return null;
+  bool addCustomerData(Customer customer) {
+    _hiveLocalDatabase.addCustomerData(customer);
+    // update to cloud also;
+  }
+//------------------------------------ orders ---------
+
+  @override
+  Future<Order> addOrder(Order order) async {
+    var orderValue = await _orderDataSource.addOrder(order);
+    //-------------- currently : local storage of orders is non efficient
+
+    // if (orderValue != null) {
+    //   _hiveLocalDatabase.addOrderToDatabase(orderValue);
+    // }
+    return orderValue;
+  }
+
+  @override
+  Future<List<Order>> getListOfOrders() async {
+    List<Order> orders;
+    // orders = _hiveLocalDatabase.getListOfOrders();
+    orders = await _orderDataSource.getListOfOrders(globalCustomerId);
+
+    //-------------- currently :  local fetch of orders is non efficient
+
+    // orders = _hiveLocalDatabase.getListOfOrders();
+    // if (orders != null && orders.length > 0) {
+    //   var apiOrders =
+    //       await _orderDataSource.getListOfRunningOrders(globalCustomerId);
+    //   print('api orders length: ${apiOrders.length} ');
+    //   orders = [...apiOrders, ...orders];
+    // } else {
+    //   orders = await _orderDataSource.getListOfOrders(globalCustomerId);
+    //   orders.forEach((order) {
+    //     if(order.deliveryStatus == StatusConstant.DONE )
+    //     _hiveLocalDatabase.addOrderToDatabase(order);
+    //   });
+    // }
+    // deleteOrder(orders[0]);
+    if (orders == null) orders = [];
+    return orders;
+  }
+
+  @override
+  bool deleteOrder(Order order) {
+    var check = _hiveLocalDatabase.deleteOrder(order);
+    return check;
   }
 }

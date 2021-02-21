@@ -1,11 +1,18 @@
+import 'package:ShopyFast/domain/models/Cart.dart';
+import 'package:ShopyFast/domain/models/order.dart';
+import 'package:ShopyFast/domain/provider/cartProvider.dart';
+import 'package:ShopyFast/utils/constants/globals.dart';
 import 'package:ShopyFast/utils/constants/size_config.dart';
+import 'package:ShopyFast/view/screens/checkout/checkoutScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import '../../../components/default_button.dart';
 
 class CheckoutCard extends StatelessWidget {
-  final num totalAmount;
+  final Cart cart;
 
-  CheckoutCard(this.totalAmount);
+  CheckoutCard(this.cart);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +50,7 @@ class CheckoutCard extends StatelessWidget {
                     children: [
                       TextSpan(text: '₹', style: TextStyle(fontSize: 22)),
                       TextSpan(
-                        text: ' $totalAmount',
+                        text: ' ${cart.amount}',
                         style: TextStyle(fontSize: 16, color: Colors.black),
                       ),
                     ],
@@ -53,7 +60,29 @@ class CheckoutCard extends StatelessWidget {
                   width: getWidth(190),
                   child: DefaultButton(
                     text: "Check Out",
-                    press: () {},
+                    press: () async {
+                      var resCheck = await Navigator.of(context).pushNamed(
+                          CheckoutScreen.routeName,
+                          arguments: CheckoutScreenArg(Order(
+                              amount: cart.amount,
+                              customer: globalCustomerData,
+                              deliveryStatus: 'PROCESSING',
+                              products: cart.product,
+                              customerId: globalCustomerId)));
+                      if (resCheck != null && resCheck) {
+                        Provider.of<CartProvider>(context, listen: false)
+                            .clearCartItems();
+                        Scaffold.of(context).showSnackBar(SnackBar(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          backgroundColor: Theme.of(context).primaryColor,
+                          content: Text(
+                            'Order Placed Successfully !!',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ));
+                      }
+                    },
                   ),
                 ),
               ],
