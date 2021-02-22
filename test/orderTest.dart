@@ -1,13 +1,5 @@
-import 'dart:convert';
-
-import 'package:ShopyFast/data/core/apiClient.dart';
-import 'package:ShopyFast/data/source/orderDataSource.dart';
-import 'package:ShopyFast/data/source/productDataSource.dart';
-import 'package:ShopyFast/domain/models/Product.dart';
 import 'package:ShopyFast/domain/models/order.dart';
-import 'package:ShopyFast/utils/constants/globals.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart';
 
 /*      'grocery#aata#sid': 'Atta',
         'grocery#dryfruits#sid': 'Dry Fruits',

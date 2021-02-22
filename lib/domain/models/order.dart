@@ -1,9 +1,9 @@
 import 'dart:convert';
 
+import 'package:ShopyFast/utils/globals.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 
-import '../../utils/constants/globals.dart';
 import 'Product.dart';
 import 'customer.dart';
 
@@ -76,7 +76,7 @@ class Order {
 
 List<Order> dummyOrderItem = [
   Order(
-    customerId: globalCustomerId,
+    customerId: globalCustomer.uid,
     amount: 200,
     dateTime: DateTime.now(),
     deliveryStatus: 'Processing',
@@ -96,7 +96,7 @@ List<Order> dummyOrderItem = [
     ],
   ),
   Order(
-    customerId: globalCustomerId,
+    customerId: globalCustomer.uid,
     amount: 1030,
     dateTime: DateTime.now(),
     deliveryStatus: 'Processing',
@@ -116,7 +116,7 @@ List<Order> dummyOrderItem = [
     ],
   ),
   Order(
-    customerId: globalCustomerId,
+    customerId: globalCustomer.uid,
     amount: 330,
     dateTime: DateTime.now(),
     deliveryStatus: 'Processing',
@@ -136,7 +136,7 @@ List<Order> dummyOrderItem = [
     ],
   ),
   Order(
-    customerId: globalCustomerId,
+    customerId: globalCustomer.uid,
     amount: 500,
     dateTime: DateTime.now(),
     deliveryStatus: 'Processing',
@@ -156,7 +156,7 @@ List<Order> dummyOrderItem = [
     ],
   ),
   Order(
-    customerId: globalCustomerId,
+    customerId: globalCustomer.uid,
     amount: 430,
     dateTime: DateTime.now(),
     deliveryStatus: 'Processing',

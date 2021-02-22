@@ -14,15 +14,17 @@ class DefaultButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: double.infinity,
       height: getHeight(56),
+      // alignment: Alignment.center,
       child: FlatButton(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         color: kPrimaryColor,
         onPressed: press,
         child: Text(
           text,
+          textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: getWidth(18),
             color: Colors.white,

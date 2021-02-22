@@ -1,6 +1,9 @@
+import 'package:ShopyFast/domain/provider/authprovider.dart';
 import 'package:ShopyFast/domain/provider/cartProvider.dart';
 import 'package:ShopyFast/domain/provider/productProvider.dart';
+import 'package:ShopyFast/domain/provider/screenRouteProvider.dart';
 import 'package:ShopyFast/getit.dart';
+import 'package:ShopyFast/view/screens/categoryDetailScreen/categoryDetailScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +19,7 @@ class ScreenWrapper extends StatefulWidget {
 }
 
 class _ScreenWrapperState extends State<ScreenWrapper> {
-  int _currentIndex = 0;
+  // int _currentIndex = 0;
   ProductProvider _productProvider;
 
   @override
@@ -32,9 +35,10 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
     OrdersScreen(),
     ProfileScreen(),
   ];
-  _setCurrentScreen(int index) {
-    if (_currentIndex != index) setState(() => _currentIndex = index);
-  }
+
+  // _setCurrentScreen(int index) {
+  //   if (_currentIndex != index) setState(() => _currentIndex = index);
+  // }
 
   @override
   void dispose() {
@@ -48,24 +52,31 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
         ChangeNotifierProvider.value(
           value: _productProvider,
         ),
-        ChangeNotifierProvider.value(value: getIt<CartProvider>())
+        ChangeNotifierProvider.value(value: getIt<AuthProvider>()),
+        ChangeNotifierProvider.value(value: getIt<CartProvider>()),
+        ChangeNotifierProvider.value(value: getIt<ScreenRouteProvider>()),
       ],
       child: SafeArea(
-          child: Scaffold(
-              body: WillPopScope(
-                onWillPop: () async {
-                  if (_currentIndex != 0) {
-                    _setCurrentScreen(0);
-                    return Future.value(false);
-                  }
-                  return Future.value(true);
-                  // return true;
-                },
-                child: _listOfNavScreen[_currentIndex],
-              ),
-              bottomNavigationBar: CustomBottomNavBar((index) {
-                _setCurrentScreen(index);
-              }, _currentIndex))),
+        child: Consumer<ScreenRouteProvider>(builder: (context, value, child) {
+          var _currentIndex = value.getCurrentPageIndex;
+          return Scaffold(
+            body: WillPopScope(
+              onWillPop: () async {
+                if (_currentIndex != 0) {
+                  value.setCurrentIndex(0);
+                  return Future.value(false);
+                }
+                return Future.value(true);
+                // return true;
+              },
+              child: _listOfNavScreen[_currentIndex],
+            ),
+            bottomNavigationBar: CustomBottomNavBar((index) {
+              value.setCurrentIndex(index);
+            }, _currentIndex),
+          );
+        }),
+      ),
     );
   }
 }

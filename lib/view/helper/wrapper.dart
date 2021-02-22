@@ -16,7 +16,6 @@ class Wrapper extends StatefulWidget {
 
 class _WrapperState extends State<Wrapper> {
   futureTasks() async {
-    await Firebase.initializeApp();
     await getIt.allReady();
   }
 

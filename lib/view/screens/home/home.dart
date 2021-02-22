@@ -1,3 +1,5 @@
+import 'package:ShopyFast/domain/provider/screenRouteProvider.dart';
+import 'package:ShopyFast/view/helper/screenWrapper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +19,7 @@ class HomeScreen extends StatefulWidget {
   final User user;
 
   HomeScreen({this.user});
-  static String routeName = "/home";
+  static const String routeName = "/home";
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -85,10 +87,12 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       actions: [
         IconButton(
-          onPressed: () => Navigator.of(context).pushNamed(
-            SearchScreen.routeName,
-            // arguments: CategoryDetailScreenArg(CategoriesConstant.GROCERY),
-          ),
+          onPressed: () {
+            Navigator.of(context).pushNamed(
+              SearchScreen.routeName,
+              // arguments: CategoryDetailScreenArg(CategoriesConstant.GROCERY),
+            );
+          },
           iconSize: 28,
           icon: Icon(Icons.search, color: Colors.grey),
         ),
@@ -98,14 +102,19 @@ class _HomeScreenState extends State<HomeScreen> {
             return Stack(
               children: [
                 IconButton(
-                  color: noOfCartItems > 0
-                      ? Theme.of(context).primaryColor
-                      : Colors.grey,
-                  iconSize: 28,
-                  icon: Icon(Icons.shopping_cart_outlined),
-                  onPressed: () =>
-                      Navigator.pushNamed(context, CartScreen.routeName),
-                ),
+                    color: noOfCartItems > 0
+                        ? Theme.of(context).primaryColor
+                        : Colors.grey,
+                    iconSize: 28,
+                    icon: Icon(Icons.shopping_cart_outlined),
+                    onPressed: () async {
+                      var route = await Navigator.pushNamed(
+                          context, CartScreen.routeName);
+                      if (route != null) {
+                        Provider.of<ScreenRouteProvider>(context, listen: false)
+                            .goToPageIndex(route);
+                      }
+                    }),
                 noOfCartItems > 0
                     ? Positioned(
                         top: 4,

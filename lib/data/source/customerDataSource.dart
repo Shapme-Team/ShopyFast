@@ -2,8 +2,9 @@ import 'package:ShopyFast/data/core/apiClient.dart';
 import 'package:ShopyFast/domain/models/customer.dart';
 
 abstract class CustomerDataSource {
-  Future<Customer> addCustomer(Customer customer);
-  Future<Customer> updateCustomer(String customerId);
+  Future<bool> addCustomer(Customer customer);
+  Future<Customer> updateCustomer(Customer customer);
+  Future<Customer> getCustomerData(String customerId);
 }
 
 class CustomerDataSourceApiImple extends CustomerDataSource {
@@ -11,27 +12,40 @@ class CustomerDataSourceApiImple extends CustomerDataSource {
   CustomerDataSourceApiImple(this._apiClient);
 
   @override
-  Future<Customer> updateCustomer(String customerId) async {
+  Future<Customer> updateCustomer(Customer customer) async {
     try {
-      var updatedcustomer = await _apiClient.put('customer/delete/$customerId');
-      print('updated customer : $updatedcustomer');
-      return updatedcustomer;
+      print('customer id: ${customer.toString()}');
+
+      var updatedCustomer = await _apiClient.put(
+          'customer/update/${customer.customerId}', customer.toMap());
+      print('updated customer : $updatedCustomer');
+      return customer;
     } catch (err) {
-      print('error while order fetch : $err');
+      print('error while customer update : $err');
       return null;
     }
   }
 
   @override
-  Future<Customer> addCustomer(Customer customer) async {
+  Future<bool> addCustomer(Customer customer) async {
     try {
-      var response = await _apiClient.post('customer/new', customer.toMap());
-      customer = Customer.fromMap(response);
-      print(
-          'Custoemr Created Id: ${customer.customerId} Name:${customer.name}');
+      await _apiClient.post('customer/new', customer.toMap());
+      return true;
+    } catch (err) {
+      print('error while customer add DS: $err');
+      return false;
+    }
+  }
+
+  @override
+  Future<Customer> getCustomerData(String customerId) async {
+    try {
+      print('user id: $customerId');
+      var response = await _apiClient.get('customer/$customerId');
+      var customer = Customer.fromMap(response);
       return customer;
     } catch (err) {
-      print('error while order add DS: $err');
+      print('error while customer get DS: $err');
       return null;
     }
   }

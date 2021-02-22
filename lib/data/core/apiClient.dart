@@ -32,8 +32,16 @@ class ApiClient {
       throw Exception(response.reasonPhrase);
   }
 
-  dynamic put(String path) async {
-    final response = await _client.put('${ApiConstants.BASE_URL}$path');
+  dynamic put(String path, dynamic body) async {
+    var header = {
+      'Content-Type': 'application/json',
+    };
+
+    final response = await _client.put(
+      '${ApiConstants.BASE_URL}$path',
+      headers: header,
+      body: jsonEncode(body),
+    );
     if (response.statusCode == 200) {
       return response.body;
     } else
@@ -44,14 +52,16 @@ class ApiClient {
     var header = {
       'Content-Type': 'application/json',
     };
+    print('api call is: ${ApiConstants.BASE_URL}$path');
     final response = await _client.post(
       '${ApiConstants.BASE_URL}$path',
       headers: header,
       body: jsonEncode(body),
     );
+    print('response : ${response.body}');
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else
-      throw Exception(response.reasonPhrase);
+      throw Exception(response.body);
   }
 }

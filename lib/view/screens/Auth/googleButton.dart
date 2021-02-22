@@ -12,8 +12,8 @@ class GoogleSignInButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      onPressed: () => this.onPressed(),
-      color: Colors.blueGrey[100],
+      onPressed: () => onPressed(),
+      color: Colors.grey[200],
       elevation: 0.0,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,

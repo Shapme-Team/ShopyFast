@@ -1,8 +1,9 @@
 import 'dart:async';
 
+import 'package:ShopyFast/utils/globals.dart';
+
 import '../../data/source/hiveLocalDatabase.dart';
 import '../../data/source/orderDataSource.dart';
-import '../../utils/constants/globals.dart';
 import '../models/Cart.dart';
 import '../models/customer.dart';
 import '../models/order.dart';
@@ -14,9 +15,6 @@ abstract class CartReposotory {
   FutureOr<List<Order>> getListOfOrders();
   Future<Order> addOrder(Order order);
   bool deleteOrder(Order order);
-
-  Customer getCustomerData();
-  bool addCustomerData(Customer customer);
 }
 
 class CartReposotoryImp extends CartReposotory {
@@ -48,7 +46,7 @@ class CartReposotoryImp extends CartReposotory {
 
   @override
   bool addCustomerData(Customer customer) {
-    _hiveLocalDatabase.addCustomerData(customer);
+    _hiveLocalDatabase.saveCustomerData(customer);
     // update to cloud also;
   }
 //------------------------------------ orders ---------
@@ -68,18 +66,18 @@ class CartReposotoryImp extends CartReposotory {
   Future<List<Order>> getListOfOrders() async {
     List<Order> orders;
     // orders = _hiveLocalDatabase.getListOfOrders();
-    orders = await _orderDataSource.getListOfOrders(globalCustomerId);
+    orders = await _orderDataSource.getListOfOrders(globalCustomer.uid);
 
     //-------------- currently :  local fetch of orders is non efficient
 
     // orders = _hiveLocalDatabase.getListOfOrders();
     // if (orders != null && orders.length > 0) {
     //   var apiOrders =
-    //       await _orderDataSource.getListOfRunningOrders(globalCustomerId);
+    //       await _orderDataSource.getListOfRunningOrders(globalCustomer.uid);
     //   print('api orders length: ${apiOrders.length} ');
     //   orders = [...apiOrders, ...orders];
     // } else {
-    //   orders = await _orderDataSource.getListOfOrders(globalCustomerId);
+    //   orders = await _orderDataSource.getListOfOrders(globalCustomer.uid);
     //   orders.forEach((order) {
     //     if(order.deliveryStatus == StatusConstant.DONE )
     //     _hiveLocalDatabase.addOrderToDatabase(order);

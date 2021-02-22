@@ -1,7 +1,7 @@
+import 'package:ShopyFast/utils/globals.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
-import '../../utils/constants/globals.dart';
 import '../models/Cart.dart';
 import '../models/Product.dart';
 import '../models/order.dart';
@@ -23,7 +23,8 @@ class CartProvider extends ChangeNotifier {
   }
 
   initSocket() {
-    _socket?.on(globalCustomerId, (data) => onOrderStatusChange(data));
+    if (globalCustomer?.uid != null)
+      _socket?.on(globalCustomer.uid, (data) => onOrderStatusChange(data));
   }
 
   onOrderStatusChange(dynamic data) {

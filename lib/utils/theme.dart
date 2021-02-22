@@ -11,6 +11,7 @@ ThemeData theme() {
     primaryColorLight: kPrimaryLightColor,
     hintColor: kSecondaryColor,
     textTheme: textTheme(),
+    errorColor: errorColor,
     // inputDecorationTheme: inputDecorationTheme(),
     visualDensity: VisualDensity.adaptivePlatformDensity,
   );

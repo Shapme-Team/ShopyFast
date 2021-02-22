@@ -19,13 +19,16 @@ abstract class HiveLocalDatabase {
   bool deleteOrder(Order order);
 
   Customer getCustomerData();
-  bool addCustomerData(Customer customer);
+  saveCustomerData(Customer customer);
+  bool updateCustomer(Customer customer);
+  bool deleteCustomerData();
 }
 
 class HiveLocalDatabaseImpl extends HiveLocalDatabase {
   HiveLocalDatabaseImpl._();
   Box<Order> orderBox;
   Box<Cart> cartBox;
+  Box<Customer> customerBox;
 
   static Future<HiveLocalDatabaseImpl> createDatabase() async {
     var _instance = HiveLocalDatabaseImpl._();
@@ -45,24 +48,14 @@ class HiveLocalDatabaseImpl extends HiveLocalDatabase {
 
     orderBox = await Hive.openBox(ORDER_BOX);
     cartBox = await Hive.openBox(CART_BOX);
+    customerBox = await Hive.openBox(CUSTOMER_BOX);
   }
+//------------------------------------ cart
 
   @override
   bool updateToCart(Cart cart) {
     try {
       cartBox.put(0, cart);
-      return true;
-    } catch (err) {
-      print('error: hive : $err');
-      return false;
-    }
-  }
-
-  @override
-  bool addOrderToDatabase(Order order) {
-    try {
-      orderBox.add(order);
-      print('order date is: ${order.dateTime}');
       return true;
     } catch (err) {
       print('error: hive : $err');
@@ -82,6 +75,35 @@ class HiveLocalDatabaseImpl extends HiveLocalDatabase {
     }
   }
 
+//------------------------------------ customer
+  @override
+  saveCustomerData(Customer customer) {
+    print('customerId: hive ${customer.customerId}');
+
+    customerBox.put(0, customer);
+  }
+
+  @override
+  Customer getCustomerData() {
+    var customer;
+    if (customerBox.values.length > 0) customer = customerBox.getAt(0);
+    print('custoerm hive: ${customer.toString()}');
+    return customer;
+  }
+
+  @override
+  bool updateCustomer(Customer customer) {
+    customerBox.putAt(0, customer);
+    return true;
+  }
+
+  @override
+  bool deleteCustomerData() {
+    if (customerBox.values.length > 0) customerBox.deleteAt(0);
+    return true;
+  }
+
+//------------------------------------ order
   @override
   List<Order> getListOfOrders() {
     var orders = orderBox.values.toList();
@@ -94,15 +116,15 @@ class HiveLocalDatabaseImpl extends HiveLocalDatabase {
   }
 
   @override
-  addCustomerData(Customer customer) {
-    // TODO: implement addCustomerData
-    throw UnimplementedError();
-  }
-
-  @override
-  Customer getCustomerData() {
-    // TODO: implement getCustomerData
-    throw UnimplementedError();
+  bool addOrderToDatabase(Order order) {
+    try {
+      orderBox.add(order);
+      print('order date is: ${order.dateTime}');
+      return true;
+    } catch (err) {
+      print('error: hive : $err');
+      return false;
+    }
   }
 
   @override

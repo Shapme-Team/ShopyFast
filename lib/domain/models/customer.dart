@@ -1,18 +1,19 @@
 import 'package:hive/hive.dart';
+
 part 'gen/customer.g.dart';
 
 @HiveType(typeId: 4)
 class Customer {
   @HiveField(0)
-  final String name;
+  String name;
   @HiveField(1)
-  final num phoneNumber;
+  num phoneNumber;
   @HiveField(2)
-  final String customerId;
+  String customerId;
   @HiveField(3)
-  final String address;
+  String address;
   @HiveField(4)
-  final String email;
+  String email;
 
   Customer({
     this.name,
@@ -26,11 +27,16 @@ class Customer {
     return {
       'name': name,
       'phoneNumber': phoneNumber,
-      'customerId': customerId,
+      '_id': customerId,
       'address': address,
-      'email': email
+      'emailId': email
     };
   }
+  // _id: id,
+  //               name,
+  //               phoneNumber,
+  //               emailId,
+  //               address,
 
   factory Customer.fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
@@ -38,9 +44,14 @@ class Customer {
     return Customer(
       name: map['name'] ?? '',
       phoneNumber: map['phoneNumber'] ?? 0,
-      customerId: map['customerId'] ?? '',
+      customerId: map['_id'] ?? '',
       address: map['address'] ?? '',
-      email: map['email'] ?? '',
+      email: map['emailId'] ?? '',
     );
+  }
+
+  @override
+  String toString() {
+    return 'Customer(name: $name, phoneNumber: $phoneNumber, customerId: $customerId, address: $address, email: $email)';
   }
 }

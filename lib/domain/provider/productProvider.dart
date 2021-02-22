@@ -74,7 +74,6 @@ class ProductProvider extends ChangeNotifier {
   searchAutoComplete(String value) {
     var categories = CategoriesConstant.CATEGORY_CONSTANTS;
     var sub = CategoriesConstant.SUBCATEGORIES;
-    var name = CategoriesConstant.NAME;
     List<MapEntry<String, String>> searchResult = [];
 
     categories.entries.forEach((category) {

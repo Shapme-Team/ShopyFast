@@ -1,36 +1,53 @@
-import 'package:ShopyFast/data/core/apiClient.dart';
-import 'package:ShopyFast/data/source/hiveLocalDatabase.dart';
-import 'package:ShopyFast/data/source/orderDataSource.dart';
-import 'package:ShopyFast/data/source/productDataSource.dart';
-import 'package:ShopyFast/domain/provider/cartProvider.dart';
-import 'package:ShopyFast/domain/provider/google_signin.dart';
-import 'package:ShopyFast/domain/provider/productProvider.dart';
-import 'package:ShopyFast/domain/repositories/cartRepository.dart';
-import 'package:ShopyFast/domain/repositories/productRepository.dart';
+import 'package:ShopyFast/domain/provider/screenRouteProvider.dart';
+import 'package:ShopyFast/domain/repositories/customerRepository.dart';
+
+import 'data/source/customerDataSource.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+import 'data/core/apiClient.dart';
+import 'data/source/hiveLocalDatabase.dart';
+import 'data/source/orderDataSource.dart';
+import 'data/source/productDataSource.dart';
+import 'domain/provider/authprovider.dart';
+import 'domain/provider/cartProvider.dart';
+import 'domain/provider/productProvider.dart';
+import 'domain/repositories/cartRepository.dart';
+import 'domain/repositories/productRepository.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
 
 final getIt = GetIt.I;
 
 Future init() async {
-  getIt.registerSingleton<GoogleSignInProvider>(GoogleSignInProvider());
-  getIt.registerSingleton<Client>(Client());
-  getIt.registerSingleton<ApiClient>(ApiClient(getIt()));
-
-  getIt.registerSingleton<ProductDataSource>(ProductDataSourceImpl(getIt()));
-  getIt.registerSingleton<OrderDataSource>(OrderDataSourceApiImple(getIt()));
-
-  getIt.registerSingleton<ProductRepository>(ProductRepository(getIt()));
-  getIt.registerSingleton<ProductProvider>(ProductProvider(getIt()));
+  getIt.registerSingletonAsync<FirebaseApp>(() => Firebase.initializeApp());
 
   getIt.registerSingletonAsync<HiveLocalDatabase>(
       () => HiveLocalDatabaseImpl.createDatabase());
+  getIt.registerSingleton<Client>(Client());
+  getIt.registerSingleton<ApiClient>(ApiClient(getIt()));
 
+//----------- data source
+  getIt.registerSingleton<ProductDataSource>(ProductDataSourceImpl(getIt()));
+  getIt.registerSingleton<OrderDataSource>(OrderDataSourceApiImple(getIt()));
+  getIt.registerSingleton<CustomerDataSource>(
+      CustomerDataSourceApiImple(getIt()));
+
+//----------- repository
+  getIt.registerSingleton<ProductRepository>(ProductRepository(getIt()));
   getIt.registerSingletonWithDependencies<CartReposotory>(
       () => CartReposotoryImp(getIt(), getIt()),
       dependsOn: [HiveLocalDatabase]);
+  getIt.registerSingletonWithDependencies<CustomerRepository>(
+      () => CustomerRespositoryImp(getIt(), getIt()),
+      dependsOn: [HiveLocalDatabase]);
 
+//----------- provider
+  getIt.registerSingleton<ProductProvider>(ProductProvider(getIt()));
   getIt.registerSingletonWithDependencies<CartProvider>(
       () => CartProvider(getIt()),
       dependsOn: [CartReposotory]);
+  getIt.registerSingletonWithDependencies<AuthProvider>(
+      () => (AuthProvider(getIt())),
+      dependsOn: [FirebaseApp, CustomerRepository]);
+  getIt.registerSingleton<ScreenRouteProvider>(ScreenRouteProvider());
 }

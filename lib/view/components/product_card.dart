@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../domain/models/Product.dart';
 import '../../utils/constants/constants.dart';
 import '../../utils/constants/size_config.dart';
-import '../screens/details/details_screen.dart';
+import '../screens/productDetails/details_screen.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({

@@ -1,11 +1,13 @@
 import 'package:ShopyFast/domain/models/customer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 enum MenuState { home, categories, orders, profile }
 
-var globalCustomerId = 'dummy_customer_id';
+var globalCustomer = FirebaseAuth.instance.currentUser;
 var globalCustomerData = Customer(
   address: 'Rohini sec 13, Kolimb Aprtment House no: a/34 block b ',
-  customerId: globalCustomerId,
+  customerId: globalCustomer?.uid,
   name: 'Akash Maurya',
   phoneNumber: 9563423456,
 );
