@@ -104,6 +104,7 @@ class AuthProvider extends ChangeNotifier {
         fetchAlreadyExistUser(_firebaseUser.uid);
       }
     } catch (err) {
+      print(err);
       _authError = ERROR_GOOGLE_TEXT;
     }
     _setLoading(false);

@@ -36,7 +36,7 @@ class _CartScreenState extends State<CartScreen> {
             customer: customerData,
             deliveryStatus: 'PROCESSING',
             products: cart.product,
-            customerId: globalCustomer?.uid);
+            customerId: customerData.customerId);
         return SizedBox(
           child: Scaffold(
             appBar: buildAppBar(context),

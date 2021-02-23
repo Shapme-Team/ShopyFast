@@ -2,6 +2,7 @@ import 'package:ShopyFast/domain/models/Product.dart';
 import 'package:ShopyFast/domain/provider/cartProvider.dart';
 import 'package:ShopyFast/domain/provider/productProvider.dart';
 import 'package:ShopyFast/utils/constants/size_config.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -44,14 +45,19 @@ class _SubProductWidgetState extends State<SubProductWidget> {
   }
 
   SizedBox bulidProductImage(Product product) {
+    print('IMAGE URL IS :--' + product.toString());
     return SizedBox(
         height: getHeight(150),
         width: getWidth(150),
-        child: Image.asset(
-          // product.imageUrl,
-          'assets/images/categoryItems/besan.webp',
+        child: CachedNetworkImage(
+          imageUrl: product.imageUrl,
           fit: BoxFit.cover,
         ));
+    // Image.asset(
+    //   // product.imageUrl,
+    //   'assets/images/categoryItems/besan.webp',
+    //   fit: BoxFit.cover,
+    // ));
   }
 }
 
