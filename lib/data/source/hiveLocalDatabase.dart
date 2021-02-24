@@ -100,6 +100,7 @@ class HiveLocalDatabaseImpl extends HiveLocalDatabase {
   @override
   bool deleteCustomerData() {
     if (customerBox.values.length > 0) customerBox.deleteAt(0);
+    print('delete cusomer data');
     return true;
   }
 

@@ -1,4 +1,5 @@
 import 'package:ShopyFast/domain/models/Product.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ProductItemWidget extends StatelessWidget {
@@ -19,7 +20,19 @@ class ProductItemWidget extends StatelessWidget {
           SizedBox(
               height: 75,
               width: 75,
-              child: Image.asset('assets/images/categoryItems/apple.jpg')),
+              child: CachedNetworkImage(
+                imageUrl: product.imageUrl,
+                fit: BoxFit.cover,
+                placeholder: (context, url) => SizedBox(
+                    height: 75,
+                    width: 75,
+                    child:
+                        Image.asset('assets/images/categoryItems/apple.jpg')),
+              )),
+          // SizedBox(
+          //     height: 75,
+          //     width: 75,
+          //     child: Image.asset('assets/images/categoryItems/apple.jpg')),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(4.0),

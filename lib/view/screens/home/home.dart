@@ -30,28 +30,32 @@ class _HomeScreenState extends State<HomeScreen> {
   final socketUrl = ApiConstants.BASE_URL;
   var cartValue = 10;
   CartProvider _cartProvider;
+  IO.Socket _socket;
 
   connectToSocketIo() {
-    IO.Socket socket = IO.io(socketUrl, <String, dynamic>{
+    _socket = IO.io(socketUrl, <String, dynamic>{
       'transports': ['websocket'],
       // "autoConnect": false
     });
-    // if (socket.connected) {
-    socket.onConnect((data) {
-      print('socket connected !');
-      _cartProvider.setSocket = socket;
-    });
+
+    // _socket.onConnect((data) {
+    //   print('_socket connected !');
+    //   _cartProvider.setSocket = _socket;
+    // });
     // } else
-    // print('socket is already connected !');
-    socket.onConnectError(
-        (data) => print('error while connecting socket: $data'));
-    socket.onDisconnect((_) => print('socket disconnect'));
+    // print('_socket is already connected !');
+    _socket.onConnectError(
+        (data) => print('error while connecting _socket: $data'));
+    _socket.onDisconnect((_) => print('socket disconnect'));
   }
 
   @override
   void initState() {
     _cartProvider = getIt<CartProvider>();
-    connectToSocketIo();
+    // if (_socket == null && _socket?.connected != true) {
+    //   connectToSocketIo();
+    // } else
+    //   print('socket is already connected');
     Provider.of<ProductProvider>(context, listen: false)
         .initCartItems(_cartProvider.getCartItems);
     super.initState();

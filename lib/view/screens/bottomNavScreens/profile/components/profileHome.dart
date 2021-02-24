@@ -31,8 +31,8 @@ class _ProfileHomeState extends State<ProfileHome> {
         appBar: AppBar(
             elevation: 1,
             title: GestureDetector(
-              onTap: () =>
-                  Provider.of<AuthProvider>(context, listen: false).logout(),
+              onTap: () {},
+              // Provider.of<AuthProvider>(context, listen: false).logout(),
               child: Text('Profile',
                   style: TextStyle(
                     color: Theme.of(context).primaryColor,

@@ -68,7 +68,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           children: products.map((e) => ProductItemWidget(e)).toList(),
         ),
       );
-  Widget totalWidget(double amount) => Container(
+  Widget totalWidget(num amount) => Container(
         padding: EdgeInsets.all(12),
         alignment: Alignment.center,
         child: Text(

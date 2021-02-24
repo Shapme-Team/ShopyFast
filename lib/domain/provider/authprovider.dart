@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:ShopyFast/domain/models/customer.dart';
 import 'package:ShopyFast/domain/repositories/customerRepository.dart';
+import 'package:ShopyFast/utils/globals.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -104,6 +105,7 @@ class AuthProvider extends ChangeNotifier {
         fetchAlreadyExistUser(_firebaseUser.uid);
       }
     } catch (err) {
+      print(err);
       _authError = ERROR_GOOGLE_TEXT;
     }
     _setLoading(false);
@@ -161,12 +163,16 @@ class AuthProvider extends ChangeNotifier {
     final isUserValid = (user != null &&
         (user.phoneNumber != null && user.phoneNumber.isNotEmpty));
     if (isUserValid) {
+      print('phone no; ${_firebaseUser.phoneNumber}');
+      print(
+          'phone no after short ${_firebaseUser.phoneNumber.replaceRange(0, 3, "")}');
       var customer = Customer(
         address: '',
         customerId: _firebaseUser.uid,
         email: _firebaseUser.email,
         name: _firebaseUser.displayName,
-        phoneNumber: int.parse(_firebaseUser.phoneNumber),
+        phoneNumber:
+            int.parse(_firebaseUser.phoneNumber.replaceRange(0, 3, "")),
       );
       await saveCurrentCustomer(customer);
       // notify status
@@ -231,6 +237,7 @@ class AuthProvider extends ChangeNotifier {
         await _customerRepository.getCustomerData(_firebaseUser?.uid);
     if (customer != null) {
       _currentCustomer = customer;
+      globalCustomerData = customer;
       notifyListeners();
     } else {
       specialCaseCustomerGet();

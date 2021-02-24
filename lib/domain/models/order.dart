@@ -16,7 +16,7 @@ class Order {
   @HiveField(1)
   final Customer customer;
   @HiveField(2)
-  final double amount;
+  final num amount;
   @HiveField(3)
   final DateTime dateTime;
   @HiveField(4)

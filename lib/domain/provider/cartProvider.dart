@@ -1,3 +1,4 @@
+import 'package:ShopyFast/data/core/apiConstant.dart';
 import 'package:ShopyFast/utils/globals.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:socket_io_client/socket_io_client.dart';
@@ -6,20 +7,31 @@ import '../models/Cart.dart';
 import '../models/Product.dart';
 import '../models/order.dart';
 import '../repositories/cartRepository.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class CartProvider extends ChangeNotifier {
   Cart _cart;
   List<Order> _listOfOrders = [];
   CartReposotory _cartReposotory;
   Socket _socket;
+  final socketUrl = ApiConstants.BASE_URL;
 
   CartProvider(this._cartReposotory) {
     _cart = _cartReposotory.getCartData() ?? Cart(product: [], amount: 0.0);
     print('cart is null:  ${_cart == null}');
+    setSocket();
   }
-  set setSocket(Socket socket) {
-    _socket = socket;
-    initSocket();
+
+  setSocket() {
+    var socketValue = _socket = IO.io(socketUrl, <String, dynamic>{
+      'transports': ['websocket'],
+      // "autoConnect": false
+    });
+    _socket.onConnect((data) {
+      print('_socket connected !');
+      _socket = socketValue;
+      initSocket();
+    });
   }
 
   initSocket() {

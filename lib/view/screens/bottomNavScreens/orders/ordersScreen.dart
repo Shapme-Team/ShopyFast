@@ -30,7 +30,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
             fontWeight: FontWeight.w600,
           ),
         ),
-        leading: Icon(Icons.menu),
+        // leading: Icon(Icons.menu),
         actions: [
           IconButton(
               icon: Icon(
