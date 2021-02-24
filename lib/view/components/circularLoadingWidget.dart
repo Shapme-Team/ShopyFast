@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 
-class CircularLoadingWidget extends StatefulWidget {
-  @override
-  CircularLoadingWidgetState createState() => CircularLoadingWidgetState();
-}
+class CircularLoadingWidget extends StatelessWidget {
+  final Color color;
+  CircularLoadingWidget({this.color});
 
-class CircularLoadingWidgetState extends State<CircularLoadingWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 50,
-      child: Center(child: CircularProgressIndicator()),
+      child: Center(
+          child: CircularProgressIndicator(
+        backgroundColor: color ?? Theme.of(context).primaryColor,
+      )),
     );
   }
 }

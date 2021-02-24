@@ -20,7 +20,7 @@ class DefaultButton extends StatelessWidget {
       // alignment: Alignment.center,
       child: FlatButton(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        color: kPrimaryColor,
+        color: Theme.of(context).primaryColor,
         onPressed: press,
         child: Text(
           text,

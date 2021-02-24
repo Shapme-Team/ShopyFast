@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../domain/models/Product.dart';
@@ -43,7 +44,11 @@ class ProductCard extends StatelessWidget {
                   ),
                   child: Hero(
                     tag: product.productId.toString(),
-                    child: Image.asset(product.imageUrl),
+                    child: CachedNetworkImage(
+                      imageUrl: product.imageUrl,
+                      fadeInDuration: Duration(milliseconds: 100),
+                      fadeOutDuration: Duration(milliseconds: 100),
+                    ),
                   ),
                 ),
               ),

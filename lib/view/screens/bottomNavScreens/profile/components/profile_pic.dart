@@ -1,4 +1,5 @@
 import 'package:ShopyFast/view/screens/forms/signUpScreen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePic extends StatelessWidget {
@@ -16,8 +17,12 @@ class ProfilePic extends StatelessWidget {
           fit: StackFit.expand,
           overflow: Overflow.visible,
           children: [
-            CircleAvatar(
-              backgroundImage: NetworkImage(url),
+            CachedNetworkImage(
+              imageUrl: url,
+              fadeInDuration: Duration(milliseconds: 250),
+              imageBuilder: (context, imageProvider) => CircleAvatar(
+                backgroundImage: imageProvider,
+              ),
             ),
             // Positioned(
             //   right: -16,

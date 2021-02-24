@@ -73,7 +73,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               Navigator.of(context).pop();
             }
           },
-          backgroundColor: Theme.of(context).primaryColor,
+          // backgroundColor: Theme.of(context).primaryColor,
           label: Container(
               padding: EdgeInsets.symmetric(horizontal: 8),
               child: Text('save', style: TextStyle(fontSize: 16))),

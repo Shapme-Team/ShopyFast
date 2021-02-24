@@ -106,7 +106,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             ),
           ),
           Container(
-            decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+            decoration: BoxDecoration(color: Theme.of(context).accentColor),
             margin: EdgeInsets.only(bottom: 12),
             padding: EdgeInsets.all(12),
             child: Row(

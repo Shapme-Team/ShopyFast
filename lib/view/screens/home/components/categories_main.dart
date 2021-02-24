@@ -73,7 +73,7 @@ class CategoriesMain extends StatelessWidget {
           GridView.count(
             crossAxisCount: 3,
             physics: NeverScrollableScrollPhysics(),
-            childAspectRatio: 10 / 11,
+            childAspectRatio: 10 / 12,
             shrinkWrap: true,
             // mainAxisSpacing: getWidth(8),
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -111,12 +111,12 @@ class CategoryCard extends StatelessWidget {
             children: [
               Image.asset(
                 imageAsset,
-                width: getWidth(80),
-                height: getHeight(75),
+                width: getWidth(75),
+                // height: getHeight(75),
                 fit: BoxFit.contain,
               ),
               Container(
-                height: getHeight(35),
+                // height: getHeight(35),
                 alignment: Alignment.center,
                 padding: EdgeInsets.only(top: 4),
                 child: Text(

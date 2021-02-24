@@ -1,3 +1,4 @@
+import 'package:ShopyFast/view/components/circularLoadingWidget.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -11,15 +12,12 @@ class SplashScreen extends StatelessWidget {
             children: [
               Text(
                 'ShopyFast',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).accentColor),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                    height: 100,
-                    width: 100,
-                    child: CircularProgressIndicator()),
-              )
+              CircularLoadingWidget()
             ],
           ),
         ),

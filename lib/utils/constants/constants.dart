@@ -8,7 +8,9 @@ class StatusConstant {
   static const DONE = 'DONE';
 }
 
-const kPrimaryColor = Color(0xFFFF7643);
+const kPrimaryColor = Color(0xFFf85717);
+const kAccentColor = Color(0xff1f2e4e);
+// const kPrimaryColor = Color(0xFFFF7643);
 const kPrimaryLightColor = Color(0xFFFFECDF);
 const kPrimaryGradientColor = [Color(0xFFFFA53E), Color(0xFFFF7643)];
 const kSecondaryColor = Color(0xFF979797);

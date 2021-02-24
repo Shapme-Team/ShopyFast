@@ -90,7 +90,7 @@ class _ProfileHomeState extends State<ProfileHome> {
           onPressed: () => Navigator.of(context).pushNamed(
               SignUpScreen.routeName,
               arguments: SingupScreenArg(currentCustomer)),
-          backgroundColor: Theme.of(context).primaryColor,
+          // backgroundColor: Theme.of(context).primaryColor,
           label: Text('edit profile', style: TextStyle(fontSize: 16)),
         ));
   }

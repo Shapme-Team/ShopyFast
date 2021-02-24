@@ -52,10 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     _cartProvider = getIt<CartProvider>();
-    // if (_socket == null && _socket?.connected != true) {
-    //   connectToSocketIo();
-    // } else
-    //   print('socket is already connected');
     Provider.of<ProductProvider>(context, listen: false)
         .initCartItems(_cartProvider.getCartItems);
     super.initState();

@@ -1,3 +1,4 @@
+import 'package:ShopyFast/view/screens/SearchScreen/searchScreen.dart';
 import 'package:ShopyFast/view/screens/cart/cart_screen.dart';
 import 'package:ShopyFast/view/screens/categoryDetailScreen/categoryDetailScreen.dart';
 import 'package:flutter/material.dart';
@@ -26,16 +27,22 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             ),
           ),
           actions: [
-            Icon(
-              Icons.search,
-              color: Colors.grey,
-            ),
             IconButton(
-              color: Colors.grey,
-              icon: Icon(Icons.shopping_cart_outlined),
-              onPressed: () =>
-                  Navigator.pushNamed(context, CartScreen.routeName),
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  SearchScreen.routeName,
+                  // arguments: CategoryDetailScreenArg(CategoriesConstant.GROCERY),
+                );
+              },
+              iconSize: 28,
+              icon: Icon(Icons.search, color: Colors.grey),
             ),
+            // IconButton(
+            //   color: Colors.grey,
+            //   icon: Icon(Icons.shopping_cart_outlined),
+            //   onPressed: () =>
+            //       Navigator.pushNamed(context, CartScreen.routeName),
+            // ),
           ],
         ),
         body: SingleChildScrollView(

@@ -32,7 +32,7 @@ class _SubProductWidgetState extends State<SubProductWidget> {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               bulidProductImage(product),
               RightSide(product: product),
@@ -44,21 +44,25 @@ class _SubProductWidgetState extends State<SubProductWidget> {
     );
   }
 
-  SizedBox bulidProductImage(Product product) {
+  Widget bulidProductImage(Product product) {
     print('IMAGE URL IS :--' + product.imageUrl);
-    return SizedBox(
-        height: getHeight(150),
-        width: getWidth(150),
+    return Container(
+        height: getHeight(125),
+        width: getWidth(125),
+        padding: EdgeInsets.only(left: 8, top: 8),
         child: CachedNetworkImage(
-          // product.imageUrl,
-          imageUrl: product.imageUrl,
-          fit: BoxFit.cover,
-        ));
-    // Image.asset(
-    //   // product.imageUrl,
-    //   'assets/images/categoryItems/besan.webp',
-    //   fit: BoxFit.cover,
-    // ));
+            // product.imageUrl,
+            fadeInDuration: Duration(milliseconds: 250),
+            imageUrl: product.imageUrl,
+            fit: BoxFit.cover,
+            placeholder: (build, url) => SizedBox(
+                  height: 125,
+                  width: 125,
+                  child: Image.asset(
+                    'assets/images/categoryItems/apple.jpg',
+                    fit: BoxFit.cover,
+                  ),
+                )));
   }
 }
 
@@ -187,7 +191,7 @@ class RightSide extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 4.0),
                   child: Text(
                     'Rs. ${product.price}',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                 ),
                 Container(
@@ -199,7 +203,7 @@ class RightSide extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.all(4),
+              padding: const EdgeInsets.only(bottom: 4),
               child: Text(
                 product.productName,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
@@ -211,7 +215,7 @@ class RightSide extends StatelessWidget {
                 product.description,
                 maxLines: 2,
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 16,
                   height: 1.2,
                 ),
               ),
