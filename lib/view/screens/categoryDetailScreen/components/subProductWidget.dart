@@ -45,6 +45,7 @@ class _SubProductWidgetState extends State<SubProductWidget> {
   }
 
   SizedBox bulidProductImage(Product product) {
+    print('IMAGE URL IS :--' + product.imageUrl);
     return SizedBox(
         height: getHeight(150),
         width: getWidth(150),
@@ -53,6 +54,11 @@ class _SubProductWidgetState extends State<SubProductWidget> {
           imageUrl: product.imageUrl,
           fit: BoxFit.cover,
         ));
+    // Image.asset(
+    //   // product.imageUrl,
+    //   'assets/images/categoryItems/besan.webp',
+    //   fit: BoxFit.cover,
+    // ));
   }
 }
 
