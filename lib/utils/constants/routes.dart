@@ -3,7 +3,7 @@ import 'package:ShopyFast/view/screens/bottomNavScreens/orders/orderDetailScreen
 import 'package:ShopyFast/view/screens/categoryDetailScreen/categoryDetailScreen.dart';
 import 'package:ShopyFast/view/screens/checkout/checkoutScreen.dart';
 import 'package:flutter/widgets.dart';
-import 'package:ShopyFast/view/screens/forms/signUpScreen.dart';
+import 'package:ShopyFast/view/screens/bottomNavScreens/profile/components/editProfileScreen.dart';
 
 import '../../view/helper/wrapper.dart';
 import '../../view/screens/bottomNavScreens/categories/categories.dart';
@@ -44,5 +44,5 @@ final Map<String, WidgetBuilder> routes = {
 
   CategoryDetailScreen.routeName: (context) => CategoryDetailScreen(),
   CheckoutScreen.routeName: (context) => CheckoutScreen(),
-  SignUpScreen.routeName: (context) => SignUpScreen(),
+  EditProfileScreen.routeName: (context) => EditProfileScreen(),
 };

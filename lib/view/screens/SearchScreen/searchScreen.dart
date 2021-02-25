@@ -1,7 +1,7 @@
 import 'package:ShopyFast/domain/provider/cartProvider.dart';
 import 'package:ShopyFast/domain/provider/productProvider.dart';
-import 'package:ShopyFast/utils/categoryConstants.dart';
-import 'package:ShopyFast/utils/theme.dart';
+import 'package:ShopyFast/view/components/circularLoadingWidget.dart';
+import '../../components/noProductFoundWidget.dart';
 import 'package:ShopyFast/view/screens/SearchScreen/components/searchProducts.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +24,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   onSubmit(value) async {
     print('submit value: $value');
-    getIt<ProductProvider>().getProductBySearch(value);
+    if (value.length > 1) getIt<ProductProvider>().getProductBySearch(value);
   }
 
   @override
@@ -65,10 +65,15 @@ class _SearchScreenState extends State<SearchScreen> {
               builder: (context, value, child) {
                 var searchProducts = value.getSearchResultProducts;
                 var autoSearch = value.getSearchAutoComplete;
+                var _isLoading = value.getLoadingState;
                 return Stack(children: [
                   _focusNode.hasPrimaryFocus
                       ? buildAutoCompleteItem(autoSearch)
-                      : SearchProducts(searchProducts)
+                      : _isLoading
+                          ? CircularLoadingWidget()
+                          : searchProducts.length > 0
+                              ? SearchProducts(searchProducts)
+                              : Center(child: NoProductFoundWidget())
                 ]);
               },
             ),
@@ -143,7 +148,9 @@ class SearchBottomTabBar extends StatelessWidget
               fontSize: 18,
               color: Theme.of(context).primaryColor),
           decoration: InputDecoration(
-              suffixIcon: Icon(Icons.search),
+              suffixIcon: IconButton(
+                  onPressed: () => onSubmit(controller.text),
+                  icon: Icon(Icons.search)),
               focusColor: Colors.blue,
               hintText: 'Search Item',
               border:

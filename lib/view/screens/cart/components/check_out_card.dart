@@ -27,7 +27,7 @@ class CheckoutCard extends StatelessWidget {
       press: () async => onClickCheckout(context),
     );
     var goToProfileButton = RaisedButton(
-      // color: Theme.of(context).primaryColor,
+      color: Theme.of(context).accentColor,
       child: Text(
         'Complete you profile',
         style: TextStyle(color: Colors.white, fontSize: 18),
@@ -119,6 +119,12 @@ class CheckoutCard extends StatelessWidget {
         ));
       }
     } else
-      print('checkout not possible !');
+      Scaffold.of(context).showSnackBar(SnackBar(
+          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          backgroundColor: Theme.of(context).errorColor,
+          content: Text(
+            'Error while placing your order',
+            style: TextStyle(fontSize: 18, color: Colors.white),
+          )));
   }
 }

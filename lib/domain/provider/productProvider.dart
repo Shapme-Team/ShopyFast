@@ -9,11 +9,13 @@ class ProductProvider extends ChangeNotifier {
   Cart _cartItems;
   List<Product> _searchProducts = [];
   List<MapEntry<String, String>> _searchAutoComplete = [];
+  bool _isLoading = false;
 
   Map<String, List<Product>> _mapOfSubcategory = {};
 
   ProductProvider(this._repository);
 
+  bool get getLoadingState => _isLoading;
   List<Product> get getSearchResultProducts => _searchProducts;
   List<MapEntry<String, String>> get getSearchAutoComplete =>
       _searchAutoComplete;
@@ -36,6 +38,7 @@ class ProductProvider extends ChangeNotifier {
     var products;
     if (_mapOfSubcategory[sid] == null) {
       print('new fetch of: $sid');
+      if (isSearch != null) setLoading(true); // for searching
       products = await _repository.getProductBySubcategory(sid);
       products.forEach((element) {
         _cartItems.product.forEach((cartProduct) {
@@ -44,11 +47,12 @@ class ProductProvider extends ChangeNotifier {
         });
       });
       if (products.length > 0) _mapOfSubcategory[sid] = products;
-      notifyListeners();
+      if (isSearch != null) setLoading(false); // for searching
+
     } else
       print('products available of sid : $sid ');
 
-    if (isSearch != null) {
+    if (isSearch != null && _mapOfSubcategory[sid] != null) {
       _searchProducts = _mapOfSubcategory[sid];
       notifyListeners();
     }
@@ -63,12 +67,12 @@ class ProductProvider extends ChangeNotifier {
   }
 
   getProductBySearch(String searchString) async {
+    setLoading(true);
     print('provider search string : $searchString');
     var searchProducts = await _repository.getProductsBySearch(searchString);
     _searchProducts = searchProducts;
     print('search item : ${_searchProducts.length}');
-
-    notifyListeners();
+    setLoading(false);
   }
 
   searchAutoComplete(String value) {
@@ -84,9 +88,13 @@ class ProductProvider extends ChangeNotifier {
         }
       });
     });
-
     _searchAutoComplete = searchResult;
     print('set length : ${searchResult.length}');
+    notifyListeners();
+  }
+
+  setLoading(bool state) {
+    _isLoading = state;
     notifyListeners();
   }
 }

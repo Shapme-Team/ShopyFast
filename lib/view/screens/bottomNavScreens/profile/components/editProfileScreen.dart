@@ -2,16 +2,18 @@ import 'package:ShopyFast/domain/models/customer.dart';
 import 'package:ShopyFast/domain/provider/authprovider.dart';
 import 'package:ShopyFast/getit.dart';
 import 'package:ShopyFast/utils/constants/size_config.dart';
+import 'package:ShopyFast/view/components/circularLoadingWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class SignUpScreen extends StatefulWidget {
+class EditProfileScreen extends StatefulWidget {
   static String routeName = "/sign_up";
 
   @override
-  _SignUpScreenState createState() => _SignUpScreenState();
+  _EditProfileScreenState createState() => _EditProfileScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _EditProfileScreenState extends State<EditProfileScreen> {
   var _formKey = GlobalKey<FormState>();
   TextEditingController _nameController;
   TextEditingController _addressController;
@@ -37,48 +39,58 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _nameController.text = customer.name;
     _addressController.text = customer.address;
     print('building signup screen: ${customer.toString()}');
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("Complete Profile"),
-        ),
-        body: SizedBox(
-          width: double.infinity,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(height: SizeConfig.screenHeight * 0.04), // 4%
-                  Form(
-                      key: _formKey,
-                      child: Column(
-                        children: [
-                          buildNameFormField(customer.name),
-                          buildAdressFormField(customer.address),
-                        ],
-                      )),
-                  SizedBox(height: SizeConfig.screenHeight * 0.08),
-                ],
+    return ChangeNotifierProvider.value(
+      value: getIt<AuthProvider>(),
+      builder: (context, child) {
+        var _isLoading = context.watch<AuthProvider>().isLoading;
+        return SafeArea(
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text("Complete Profile"),
+            ),
+            body: SizedBox(
+              width: double.infinity,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(height: SizeConfig.screenHeight * 0.04), // 4%
+                      Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              buildNameFormField(customer.name),
+                              buildAdressFormField(customer.address),
+                            ],
+                          )),
+                      SizedBox(height: SizeConfig.screenHeight * 0.08),
+                    ],
+                  ),
+                ),
               ),
             ),
+            floatingActionButton: FloatingActionButton.extended(
+              onPressed: () async {
+                if (_formKey.currentState.validate()) {
+                  customer.name = _nameController.text;
+                  customer.address = _addressController.text;
+                  await getIt<AuthProvider>().updateCurrentCustomer(customer);
+                  Navigator.of(context).pop();
+                }
+              },
+              // backgroundColor: Theme.of(context).primaryColor,
+              label: _isLoading
+                  ? CircularLoadingWidget(
+                      color: Colors.white,
+                    )
+                  : Container(
+                      padding: EdgeInsets.symmetric(horizontal: 8),
+                      child: Text('save', style: TextStyle(fontSize: 16))),
+            ),
           ),
-        ),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () async {
-            if (_formKey.currentState.validate()) {
-              customer.name = _nameController.text;
-              customer.address = _addressController.text;
-              await getIt<AuthProvider>().updateCurrentCustomer(customer);
-              Navigator.of(context).pop();
-            }
-          },
-          // backgroundColor: Theme.of(context).primaryColor,
-          label: Container(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: Text('save', style: TextStyle(fontSize: 16))),
-        ),
-      ),
+        );
+      },
     );
   }
 

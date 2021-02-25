@@ -14,7 +14,7 @@ class CategoriesConstant {
 
   static const Map<String, Map<String, dynamic>> CATEGORY_CONSTANTS = {
     GROCERY: {
-      NAME: 'Gorcery',
+      NAME: 'Grocery',
       SUBCATEGORIES: {
         'grocery#aata#sid': 'Atta',
         'grocery#dryfruits#sid': 'Dry Fruits',

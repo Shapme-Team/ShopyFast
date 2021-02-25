@@ -113,6 +113,7 @@ class AuthProvider extends ChangeNotifier {
 
   verifyPhoneNumber(String phoneNo) async {
     // Logger.log(TAG, message: "Got phone number as: ${this.phoneNumber}");
+    _isCodeSent = true;
     _setLoading(true);
     await _auth.verifyPhoneNumber(
       phoneNumber: '+91$phoneNo',
@@ -195,7 +196,6 @@ class AuthProvider extends ChangeNotifier {
     print("Verification code sent to number");
     // _updateRefreshing(false);
     _verificationId = verificationId;
-    _isCodeSent = true;
     notifyListeners();
   }
 
@@ -232,15 +232,17 @@ class AuthProvider extends ChangeNotifier {
 
 //------------------------------------ customer ------------------
   getCurrentCustomer() async {
-    if (_currentCustomer != null) return;
-    var customer =
-        await _customerRepository.getCustomerData(_firebaseUser?.uid);
-    if (customer != null) {
-      _currentCustomer = customer;
-      globalCustomerData = customer;
-      notifyListeners();
-    } else {
-      specialCaseCustomerGet();
+    if (_getAuthType() == AuthStatusValue.PROFILE_AUTH &&
+        _currentCustomer == null) {
+      var customer =
+          await _customerRepository.getCustomerData(_firebaseUser?.uid);
+      if (customer != null) {
+        _currentCustomer = customer;
+        globalCustomerData = customer;
+        notifyListeners();
+      } else {
+        specialCaseCustomerGet();
+      }
     }
     // logout();
   }
@@ -267,19 +269,16 @@ class AuthProvider extends ChangeNotifier {
   }
 
   specialCaseCustomerGet() async {
-    if (_getAuthType() == AuthStatusValue.PROFILE_AUTH &&
-        _currentCustomer == null) {
-      print('customer is null, but authenticated calling special case');
+    print('customer is null, but authenticated calling special case');
 
-      var customer = Customer(
-        address: '',
-        customerId: _firebaseUser.uid,
-        email: _firebaseUser.email,
-        name: _firebaseUser.displayName,
-        phoneNumber: int.parse(_firebaseUser.phoneNumber),
-      );
-      await saveCurrentCustomer(customer);
-    }
+    var customer = Customer(
+      address: '',
+      customerId: _firebaseUser.uid,
+      email: _firebaseUser.email,
+      name: _firebaseUser.displayName,
+      phoneNumber: int.parse(_firebaseUser.phoneNumber),
+    );
+    await saveCurrentCustomer(customer);
   }
 
   saveCurrentCustomer(Customer customer, [bool isLocal]) async {
@@ -291,11 +290,13 @@ class AuthProvider extends ChangeNotifier {
   }
 
   updateCurrentCustomer(Customer customer) async {
+    _setLoading(true);
     var responce = await _customerRepository.updateCustomer(customer);
     if (responce == true) {
       _currentCustomer = customer;
     }
-    notifyListeners();
+    _setLoading(false);
+    // notifyListeners();
   }
 
 //------------------------------------ customer ------------------ X

@@ -3,6 +3,7 @@ import 'package:ShopyFast/view/components/circularLoadingWidget.dart';
 import 'package:ShopyFast/view/screens/categoryDetailScreen/components/subProductWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../components/noProductFoundWidget.dart';
 
 class SubcategoryPage extends StatefulWidget {
   final String sid;
@@ -29,51 +30,32 @@ class _SubcategoryPageState extends State<SubcategoryPage> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting)
           return CircularLoadingWidget();
-        return Container(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-              child: Consumer<ProductProvider>(
-                builder: (context, value, child) {
-                  var products = value.getProductsOfSub(widget.sid);
-                  return products.length > 0
-                      ? ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: products.length,
-                          itemBuilder: (_, index) {
-                            return SubProductWidget(products[index]);
-                          })
-                      : noProductFound();
-                },
+        else
+          return Container(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                child: Consumer<ProductProvider>(
+                  builder: (context, value, child) {
+                    var products = value.getProductsOfSub(widget.sid);
+                    return products.length > 0
+                        ? ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: products.length,
+                            itemBuilder: (_, index) {
+                              return SubProductWidget(products[index]);
+                            })
+                        : NoProductFoundWidget();
+                  },
+                ),
               ),
             ),
-          ),
-        );
+          );
       },
     );
   }
-
-  Widget noProductFound() => Container(
-        margin: EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Icon(
-              Icons.error,
-              size: 32,
-              color: Theme.of(context).primaryColor,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Nothing Found',
-                style: TextStyle(
-                    fontSize: 18, color: Theme.of(context).primaryColor),
-              ),
-            )
-          ],
-        ),
-      );
 }
 // SubProductWidget(
 //                 Product(

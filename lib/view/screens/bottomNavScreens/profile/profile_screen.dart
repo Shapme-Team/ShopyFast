@@ -1,6 +1,6 @@
 import 'package:ShopyFast/domain/provider/authprovider.dart';
 import 'package:ShopyFast/view/screens/Auth/authScreen.dart';
-import 'package:ShopyFast/view/screens/forms/signUpScreen.dart';
+import 'package:ShopyFast/view/screens/bottomNavScreens/profile/components/editProfileScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

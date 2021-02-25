@@ -1,4 +1,4 @@
-import 'package:ShopyFast/view/screens/forms/signUpScreen.dart';
+import 'package:ShopyFast/view/screens/bottomNavScreens/profile/components/editProfileScreen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 

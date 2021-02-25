@@ -1,7 +1,7 @@
 import 'package:ShopyFast/domain/models/customer.dart';
 import 'package:ShopyFast/domain/provider/authprovider.dart';
 import 'package:ShopyFast/view/screens/bottomNavScreens/profile/components/profile_pic.dart';
-import 'package:ShopyFast/view/screens/forms/signUpScreen.dart';
+import 'package:ShopyFast/view/screens/bottomNavScreens/profile/components/editProfileScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -31,8 +31,9 @@ class _ProfileHomeState extends State<ProfileHome> {
         appBar: AppBar(
             elevation: 1,
             title: GestureDetector(
-              onTap: () {},
-              // Provider.of<AuthProvider>(context, listen: false).logout(),
+              onTap: () {
+                Provider.of<AuthProvider>(context, listen: false).logout();
+              },
               child: Text('Profile',
                   style: TextStyle(
                     color: Theme.of(context).primaryColor,
@@ -55,6 +56,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                         child: Container(
                           padding: EdgeInsets.all(12),
                           child: Column(
+                            mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: <Widget>[
@@ -88,7 +90,7 @@ class _ProfileHomeState extends State<ProfileHome> {
             }),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () => Navigator.of(context).pushNamed(
-              SignUpScreen.routeName,
+              EditProfileScreen.routeName,
               arguments: SingupScreenArg(currentCustomer)),
           // backgroundColor: Theme.of(context).primaryColor,
           label: Text('edit profile', style: TextStyle(fontSize: 16)),
