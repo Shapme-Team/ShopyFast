@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 class ProductProvider extends ChangeNotifier {
   final ProductRepository _repository;
   Cart _cartItems;
-  List<Product> _searchProducts = [];
+  List<Product> _searchProducts;
   List<MapEntry<String, String>> _searchAutoComplete = [];
   bool _isLoading = false;
 
@@ -16,7 +16,13 @@ class ProductProvider extends ChangeNotifier {
   ProductProvider(this._repository);
 
   bool get getLoadingState => _isLoading;
+
   List<Product> get getSearchResultProducts => _searchProducts;
+  clearSearchProduct() {
+    _searchProducts = null;
+    print('clear searhc products: $_searchProducts');
+  }
+
   List<MapEntry<String, String>> get getSearchAutoComplete =>
       _searchAutoComplete;
 
@@ -35,25 +41,19 @@ class ProductProvider extends ChangeNotifier {
   }
 
   fetchProductsOfSid(String sid, [bool isSearch]) async {
-    var products;
+    List<Product> products;
     if (_mapOfSubcategory[sid] == null) {
-      print('new fetch of: $sid');
       if (isSearch != null) setLoading(true); // for searching
       products = await _repository.getProductBySubcategory(sid);
-      products.forEach((element) {
-        _cartItems.product.forEach((cartProduct) {
-          if (cartProduct.productId == element.productId)
-            element.quantity = cartProduct.quantity;
-        });
-      });
-      if (products.length > 0) _mapOfSubcategory[sid] = products;
+      refreshProductsWithCartItems(products); // load cart items
+      _mapOfSubcategory[sid] = products;
       if (isSearch != null) setLoading(false); // for searching
 
-    } else
-      print('products available of sid : $sid ');
-
-    if (isSearch != null && _mapOfSubcategory[sid] != null) {
-      _searchProducts = _mapOfSubcategory[sid];
+    } else {
+      refreshProductsWithCartItems(_mapOfSubcategory[sid]);
+    }
+    if (isSearch != null) {
+      _searchProducts = _mapOfSubcategory[sid] ?? [];
       notifyListeners();
     }
   }
@@ -70,6 +70,7 @@ class ProductProvider extends ChangeNotifier {
     setLoading(true);
     print('provider search string : $searchString');
     var searchProducts = await _repository.getProductsBySearch(searchString);
+    refreshProductsWithCartItems(searchProducts);
     _searchProducts = searchProducts;
     print('search item : ${_searchProducts.length}');
     setLoading(false);
@@ -91,6 +92,17 @@ class ProductProvider extends ChangeNotifier {
     _searchAutoComplete = searchResult;
     print('set length : ${searchResult.length}');
     notifyListeners();
+  }
+
+  refreshProductsWithCartItems(List<Product> listOfProducts) {
+    listOfProducts.forEach((subProduct) {
+      _cartItems.product.forEach((cartProduct) {
+        if (cartProduct.productId == subProduct.productId)
+          subProduct.quantity = cartProduct.quantity;
+        else
+          subProduct.quantity = 0;
+      });
+    });
   }
 
   setLoading(bool state) {

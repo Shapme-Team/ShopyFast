@@ -17,12 +17,12 @@ class CartProvider extends ChangeNotifier {
   final socketUrl = ApiConstants.BASE_URL;
 
   CartProvider(this._cartReposotory) {
-    _cart = _cartReposotory.getCartData() ?? Cart(product: [], amount: 0.0);
     print('cart is null:  ${_cart == null}');
-    setSocket();
+    _setSocket();
+    _initCart();
   }
 
-  setSocket() {
+  _setSocket() {
     var socketValue = _socket = IO.io(socketUrl, <String, dynamic>{
       'transports': ['websocket'],
       // "autoConnect": false
@@ -37,6 +37,10 @@ class CartProvider extends ChangeNotifier {
   initSocket() {
     if (globalCustomer?.uid != null)
       _socket?.on(globalCustomer.uid, (data) => onOrderStatusChange(data));
+  }
+
+  _initCart() {
+    _cart = _cartReposotory.getCartData() ?? Cart(product: [], amount: 0.0);
   }
 
   onOrderStatusChange(dynamic data) {

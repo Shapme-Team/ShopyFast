@@ -36,6 +36,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   void dispose() {
+    getIt<ProductProvider>().clearSearchProduct();
     _controller.dispose();
     _focusNode.dispose();
     super.dispose();
@@ -66,14 +67,17 @@ class _SearchScreenState extends State<SearchScreen> {
                 var searchProducts = value.getSearchResultProducts;
                 var autoSearch = value.getSearchAutoComplete;
                 var _isLoading = value.getLoadingState;
+                print('search product is: $searchProducts');
                 return Stack(children: [
                   _focusNode.hasPrimaryFocus
                       ? buildAutoCompleteItem(autoSearch)
                       : _isLoading
                           ? CircularLoadingWidget()
-                          : searchProducts.length > 0
-                              ? SearchProducts(searchProducts)
-                              : Center(child: NoProductFoundWidget())
+                          : searchProducts == null
+                              ? SizedBox()
+                              : searchProducts.length > 0
+                                  ? SearchProducts(searchProducts)
+                                  : Center(child: NoProductFoundWidget())
                 ]);
               },
             ),

@@ -32,7 +32,7 @@ class _ProfileHomeState extends State<ProfileHome> {
             elevation: 1,
             title: GestureDetector(
               onTap: () {
-                Provider.of<AuthProvider>(context, listen: false).logout();
+                // Provider.of<AuthProvider>(context, listen: false).logout();
               },
               child: Text('Profile',
                   style: TextStyle(

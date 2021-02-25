@@ -30,27 +30,22 @@ class _HomeScreenState extends State<HomeScreen> {
   final socketUrl = ApiConstants.BASE_URL;
   var cartValue = 10;
   CartProvider _cartProvider;
-  IO.Socket _socket;
 
-  connectToSocketIo() {
-    _socket = IO.io(socketUrl, <String, dynamic>{
-      'transports': ['websocket'],
-      // "autoConnect": false
-    });
+  @override
+  void didUpdateWidget(covariant HomeScreen oldWidget) {
+    print('-------- did update home');
+    super.didUpdateWidget(oldWidget);
+  }
 
-    // _socket.onConnect((data) {
-    //   print('_socket connected !');
-    //   _cartProvider.setSocket = _socket;
-    // });
-    // } else
-    // print('_socket is already connected !');
-    _socket.onConnectError(
-        (data) => print('error while connecting _socket: $data'));
-    _socket.onDisconnect((_) => print('socket disconnect'));
+  @override
+  void didChangeDependencies() {
+    print('-------- did change depen home');
+    super.didChangeDependencies();
   }
 
   @override
   void initState() {
+    print('-------- init home');
     _cartProvider = getIt<CartProvider>();
     Provider.of<ProductProvider>(context, listen: false)
         .initCartItems(_cartProvider.getCartItems);
@@ -90,7 +85,6 @@ class _HomeScreenState extends State<HomeScreen> {
           onPressed: () {
             Navigator.of(context).pushNamed(
               SearchScreen.routeName,
-              // arguments: CategoryDetailScreenArg(CategoriesConstant.GROCERY),
             );
           },
           iconSize: 28,
@@ -102,19 +96,13 @@ class _HomeScreenState extends State<HomeScreen> {
             return Stack(
               children: [
                 IconButton(
-                    color: noOfCartItems > 0
-                        ? Theme.of(context).primaryColor
-                        : Colors.grey,
-                    iconSize: 28,
-                    icon: Icon(Icons.shopping_cart_outlined),
-                    onPressed: () async {
-                      var route = await Navigator.pushNamed(
-                          context, CartScreen.routeName);
-                      if (route != null) {
-                        Provider.of<ScreenRouteProvider>(context, listen: false)
-                            .goToPageIndex(route);
-                      }
-                    }),
+                  color: noOfCartItems > 0
+                      ? Theme.of(context).primaryColor
+                      : Colors.grey,
+                  iconSize: 28,
+                  icon: Icon(Icons.shopping_cart_outlined),
+                  onPressed: () => _onCartIconPress(),
+                ),
                 noOfCartItems > 0
                     ? Positioned(
                         top: 4,
@@ -137,5 +125,15 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ],
     );
+  }
+
+  _onCartIconPress() async {
+    var route = await Navigator.pushNamed(context, CartScreen.routeName);
+    Provider.of<ProductProvider>(context, listen: false)
+        .initCartItems(_cartProvider.getCartItems);
+    if (route != null) {
+      Provider.of<ScreenRouteProvider>(context, listen: false)
+          .goToPageIndex(route);
+    }
   }
 }
