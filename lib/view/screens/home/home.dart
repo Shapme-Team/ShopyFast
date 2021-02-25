@@ -67,8 +67,8 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               CategoriesMain(),
               SizedBox(height: getWidth(30)),
-              PopularProducts(),
-              SizedBox(height: getWidth(30)),
+              // PopularProducts(),
+              // SizedBox(height: getWidth(30)),
             ],
           ),
         ));

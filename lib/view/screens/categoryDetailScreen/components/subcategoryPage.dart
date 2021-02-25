@@ -38,6 +38,7 @@ class _SubcategoryPageState extends State<SubcategoryPage> {
                   var products = value.getProductsOfSub(widget.sid);
                   return products.length > 0
                       ? ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: products.length,
                           itemBuilder: (_, index) {

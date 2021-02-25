@@ -3,7 +3,6 @@ import 'package:ShopyFast/domain/provider/authprovider.dart';
 import 'package:ShopyFast/domain/provider/cartProvider.dart';
 import 'package:ShopyFast/domain/provider/productProvider.dart';
 import 'package:ShopyFast/getit.dart';
-import 'package:ShopyFast/utils/globals.dart';
 import 'package:ShopyFast/view/screens/bottomNavScreens/orders/orders.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -33,11 +32,12 @@ class _CartScreenState extends State<CartScreen> {
         var cartCheck = cart != null && cart.product.length > 0;
         var customerData = getIt<AuthProvider>().getCustomer;
         var order = Order(
-            amount: cart.amount,
-            customer: customerData,
-            deliveryStatus: 'PROCESSING',
-            products: cart.product,
-            customerId: customerData?.customerId);
+          amount: cart.amount,
+          customer: customerData,
+          deliveryStatus: 'PROCESSING',
+          products: cart.product,
+          customerId: customerData?.customerId,
+        );
         return SizedBox(
           child: Scaffold(
             appBar: buildAppBar(context),
@@ -93,11 +93,11 @@ class _CartScreenState extends State<CartScreen> {
             RaisedButton(
               color: Theme.of(context).primaryColor,
               child: Text(
-                'Go to Order Screen',
+                'Go to Home',
                 style: TextStyle(color: Colors.white, fontSize: 18),
               ),
               onPressed: () {
-                Navigator.of(context).pop(OrdersScreen.routeName);
+                Navigator.of(context).pop();
               },
             )
           ],

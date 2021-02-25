@@ -22,12 +22,12 @@ class ProductItemWidget extends StatelessWidget {
               width: 75,
               child: CachedNetworkImage(
                 imageUrl: product.imageUrl,
-                fit: BoxFit.cover,
+                fit: BoxFit.contain,
                 placeholder: (context, url) => SizedBox(
                     height: 75,
                     width: 75,
                     child:
-                        Image.asset('assets/images/categoryItems/apple.jpg')),
+                        Image.asset('assets/images/product_placeholder.jpg')),
               )),
           // SizedBox(
           //     height: 75,

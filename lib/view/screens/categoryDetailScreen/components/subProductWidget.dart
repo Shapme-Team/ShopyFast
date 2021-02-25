@@ -32,7 +32,7 @@ class _SubProductWidgetState extends State<SubProductWidget> {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               bulidProductImage(product),
               RightSide(product: product),
@@ -45,7 +45,7 @@ class _SubProductWidgetState extends State<SubProductWidget> {
   }
 
   Widget bulidProductImage(Product product) {
-    print('IMAGE URL IS :--' + product.imageUrl);
+    // print('IMAGE URL IS :--' + product.imageUrl);
     return Container(
         height: getHeight(125),
         width: getWidth(125),
@@ -54,12 +54,12 @@ class _SubProductWidgetState extends State<SubProductWidget> {
             // product.imageUrl,
             fadeInDuration: Duration(milliseconds: 250),
             imageUrl: product.imageUrl,
-            fit: BoxFit.cover,
+            fit: BoxFit.contain,
             placeholder: (build, url) => SizedBox(
                   height: 125,
                   width: 125,
                   child: Image.asset(
-                    'assets/images/categoryItems/apple.jpg',
+                    'assets/images/product_placeholder.jpg',
                     fit: BoxFit.cover,
                   ),
                 )));
@@ -180,7 +180,7 @@ class RightSide extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(4.0),
+        padding: const EdgeInsets.only(left: 8, bottom: 4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -206,15 +206,18 @@ class RightSide extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 4),
               child: Text(
                 product.productName,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                style: TextStyle(
+                    fontSize: 20, fontWeight: FontWeight.w500, height: 1.2),
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4),
               child: Text(
                 product.description,
-                maxLines: 2,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
+                  fontWeight: FontWeight.w300,
                   fontSize: 16,
                   height: 1.2,
                 ),
