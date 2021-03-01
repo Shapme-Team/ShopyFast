@@ -72,11 +72,14 @@ class _HomeScreenState extends State<HomeScreen> {
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
       elevation: 1,
+      leading: Container(
+          padding: EdgeInsets.only(left: 8, top: 8, bottom: 8),
+          child: Image.asset('assets/images/full_logo.png')),
       title: Text(
         'ShopyFast',
         style: TextStyle(
           color: Theme.of(context).primaryColor,
-          fontSize: 23,
+          fontSize: 22,
           fontWeight: FontWeight.w600,
         ),
       ),

@@ -24,7 +24,7 @@ class CategoriesConstant {
         'grocery#rice_grains#sid': 'Rice & Grains',
         'grocery#salt_sugar#sid': 'Salt & Sugar',
         'grocery#spices#sid': 'Spices',
-        'grocery#sauces_ketchups#sid': 'Sauces & Ketchups'
+        // 'grocery#sauces_ketchups#sid': 'Sauces & Ketchups'
       }
     },
     HOUSEHOLD_ITEMS: {
@@ -35,7 +35,7 @@ class CategoriesConstant {
         'household#disinfectantss#sid': 'Disinfectants',
         'household#air_fresheners#sid': 'Air Fresheners',
         'household#repellents#sid': 'Repellents',
-        'household#dishwashgell#sid': 'Dishwash Gel'
+        'household#dishwash#sid': 'Dishwash'
       }
     },
     PERSONAL_CARE: {
@@ -71,25 +71,25 @@ class CategoriesConstant {
       }
     },
     BREAKFAST_AND_DAIRY: {
-      NAME: 'Braekfast & Dairy',
+      NAME: 'Breakfast & Dairy',
       SUBCATEGORIES: {
         'breakfast_dairy#butter_cheese#sid': 'Butter & Cheese',
         'breakfast_dairy#bread_eggs#sid': 'Bread & Eggs',
         'breakfast_dairy#milk#sid': 'Milk',
         'breakfast_dairy#breakfast_cereals#sid': 'Breakfast Cereals',
         'breakfast_dairy#paneer_curd#sid': 'Paneer & Curd',
-        'breakfast_dairy#tea_cofee#sid': 'Tea & Coffee',
+        // 'breakfast_dairy#tea_cofee#sid': 'Tea & Coffee',
         'breakfast_dairy#eggs#sid': 'Eggs',
       }
     },
     INSTANT_FOOD: {
       NAME: 'Instant Food',
       SUBCATEGORIES: {
-        'instant_food#biscuits_cookies#sid': 'Biscuits & Cookies',
-        'instant_food#chocolates_candies#sid': 'Chocolates & Candies',
+        // 'instant_food#biscuits_cookies#sid': 'Biscuits & Cookies',
+        // 'instant_food#chocolates_candies#sid': 'Chocolates & Candies',
         'instant_food#noodles_pasta#sid': 'Noodles & Pasta',
         'instant_food#pickeles_sauces#sid': 'Pickles & Sauces',
-        'instant_food#jam_spreads#sid': 'Jam & Spreads',
+        'instant_food#jam_spreads#sid': 'Jam & Ketchups',
         'instant_food#sweets#sid': 'Sweets',
       }
     },
@@ -106,7 +106,7 @@ class CategoriesConstant {
       NAME: 'Biscute & Snack',
       SUBCATEGORIES: {
         'biscute_snack#namkeen_chips#sid': 'Namkeen & Chips',
-        'biscute_snack#biscute#sid': 'Buiscuts',
+        'instant_food#biscuits_cookies#sid': 'Biscuits & Cookies',
       }
     }
   };

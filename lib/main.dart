@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'ShopyFast',
+
       theme: theme(),
       home: Wrapper(),
       //initialRoute: Wrapper.routeName,

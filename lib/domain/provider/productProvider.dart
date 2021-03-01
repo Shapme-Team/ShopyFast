@@ -42,15 +42,14 @@ class ProductProvider extends ChangeNotifier {
 
   fetchProductsOfSid(String sid, [bool isSearch]) async {
     List<Product> products;
-    if (_mapOfSubcategory[sid] == null) {
+    if (_mapOfSubcategory[sid] != null && _mapOfSubcategory[sid].isNotEmpty) {
+      refreshProductsWithCartItems(_mapOfSubcategory[sid]);
+    } else {
       if (isSearch != null) setLoading(true); // for searching
       products = await _repository.getProductBySubcategory(sid);
       refreshProductsWithCartItems(products); // load cart items
       _mapOfSubcategory[sid] = products;
       if (isSearch != null) setLoading(false); // for searching
-
-    } else {
-      refreshProductsWithCartItems(_mapOfSubcategory[sid]);
     }
     if (isSearch != null) {
       _searchProducts = _mapOfSubcategory[sid] ?? [];
@@ -99,8 +98,8 @@ class ProductProvider extends ChangeNotifier {
       _cartItems.product.forEach((cartProduct) {
         if (cartProduct.productId == subProduct.productId)
           subProduct.quantity = cartProduct.quantity;
-        else
-          subProduct.quantity = 0;
+        // else
+        //   subProduct.quantity = 0;
       });
     });
   }

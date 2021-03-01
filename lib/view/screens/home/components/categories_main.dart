@@ -58,17 +58,17 @@ class CategoriesMain extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(getWidth(20)),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
             'Popular categories',
             style: TextStyle(
-              fontSize: 20,
-              color: Colors.black87,
+              fontSize: 24,
+              color: Theme.of(context).accentColor,
             ),
           ),
           SizedBox(
-            height: 20,
+            height: 16,
           ),
           GridView.count(
             crossAxisCount: 3,
@@ -105,7 +105,7 @@ class CategoryCard extends StatelessWidget {
             arguments: CategoryDetailScreenArg(categoryId));
       },
       child: Container(
-          padding: EdgeInsets.all(4),
+          margin: EdgeInsets.all(4),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
