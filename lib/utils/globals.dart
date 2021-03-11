@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 enum MenuState { home, categories, orders, profile }
+enum IncrementDecrement { INCREMENT, DECREMENT }
 
 var globalCustomer = FirebaseAuth.instance.currentUser;
 var globalCustomerData = Customer(

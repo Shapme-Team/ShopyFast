@@ -2,13 +2,13 @@ import 'package:ShopyFast/domain/models/Product.dart';
 import 'package:ShopyFast/domain/provider/cartProvider.dart';
 import 'package:ShopyFast/domain/provider/productProvider.dart';
 import 'package:ShopyFast/utils/constants/size_config.dart';
+import 'package:ShopyFast/utils/globals.dart';
+import 'package:ShopyFast/view/components/plusMinusWidget.dart';
 import 'package:ShopyFast/view/screens/categoryDetailScreen/components/productDetailDialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-
-enum IncrementDecrement { INCREMENT, DECREMENT }
 
 class SubProductWidget extends StatefulWidget {
   final Product product;
@@ -30,7 +30,7 @@ class _SubProductWidgetState extends State<SubProductWidget> {
                   width: 1,
                   color: Theme.of(context).accentColor.withOpacity(.2)))),
       // margin: EdgeInsets.only(bottom: 4),
-      // padding: EdgeInsets.all(8),
+      padding: EdgeInsets.all(4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
@@ -90,108 +90,6 @@ class _SubProductWidgetState extends State<SubProductWidget> {
   }
 }
 
-class PlusMinusButton extends StatelessWidget {
-  const PlusMinusButton({
-    Key key,
-    @required this.product,
-  }) : super(key: key);
-
-  final Product product;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          product.quantity > 0
-              ? buildIncrementDecrement(context)
-              : GestureDetector(
-                  onTap: () {
-                    onPlusMinusClick(IncrementDecrement.INCREMENT, context);
-                    print('product quantity: ${product.quantity}');
-                  },
-                  child: Container(
-                    width: 100,
-                    height: 40,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: Colors.redAccent,
-                        borderRadius: BorderRadius.circular(8)),
-                    child: Text('Add',
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600)),
-                  ),
-                )
-        ],
-      ),
-    );
-  }
-
-  Widget buildIncrementDecrement(BuildContext context) {
-    return Container(
-      child: Row(
-        children: [
-          plusMinusButton(IncrementDecrement.DECREMENT, context),
-          Container(
-            height: 40,
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(color: Colors.redAccent),
-            child: Text(product.quantity.toString(),
-                style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600)),
-          ),
-          plusMinusButton(IncrementDecrement.INCREMENT, context),
-        ],
-      ),
-    );
-  }
-
-  onPlusMinusClick(IncrementDecrement idValue, BuildContext context) {
-    if (idValue == IncrementDecrement.INCREMENT) {
-      product.quantity++;
-      Provider.of<CartProvider>(context, listen: false)
-          .addItemToCart(product.copyWith());
-    } else {
-      product.quantity--;
-      Provider.of<CartProvider>(context, listen: false)
-          .removeItemFromCart(product.copyWith());
-    }
-
-    Provider.of<ProductProvider>(context, listen: false)
-        .updateProductQuantity(product);
-  }
-
-  Widget plusMinusButton(IncrementDecrement idValue, BuildContext context) {
-    return GestureDetector(
-      onTap: () => onPlusMinusClick(idValue, context),
-      child: Container(
-        height: 40,
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            border: Border.all(
-              width: 1,
-              color: Colors.redAccent,
-            ),
-            borderRadius: BorderRadius.circular(4)),
-        // width: 30,
-        child: Icon(
-          idValue == IncrementDecrement.INCREMENT ? Icons.add : Icons.remove,
-          color: Colors.redAccent,
-        ),
-      ),
-    );
-  }
-}
-
 class RightSide extends StatelessWidget {
   const RightSide({
     Key key,
@@ -232,24 +130,25 @@ class RightSide extends StatelessWidget {
                     fontSize: 16, fontWeight: FontWeight.w500, height: 1.2),
               ),
             ),
-            PlusMinusButton(product: product)
-
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 4),
-            //   child: Text(
-            //     product.description,
-            //     maxLines: 3,
-            //     overflow: TextOverflow.ellipsis,
-            //     style: TextStyle(
-            //       fontWeight: FontWeight.w300,
-            //       fontSize: 16,
-            //       height: 1.2,
-            //     ),
-            //   ),
-            // ),
+            PlusMinusWidget(product.quantity, onPlusMinusClick),
           ],
         ),
       ),
     );
+  }
+
+  onPlusMinusClick(IncrementDecrement idValue, BuildContext context) {
+    if (idValue == IncrementDecrement.INCREMENT) {
+      product.quantity++;
+      Provider.of<CartProvider>(context, listen: false)
+          .addItemToCart(product.copyWith());
+    } else {
+      product.quantity--;
+      Provider.of<CartProvider>(context, listen: false)
+          .removeItemFromCart(product.copyWith());
+    }
+
+    Provider.of<ProductProvider>(context, listen: false)
+        .updateProductQuantity(product);
   }
 }
