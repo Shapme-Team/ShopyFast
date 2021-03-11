@@ -1,9 +1,8 @@
 import 'package:ShopyFast/domain/provider/screenRouteProvider.dart';
-import 'package:ShopyFast/view/helper/screenWrapper.dart';
+import 'package:ShopyFast/view/screens/home/components/productSnaps.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../../data/core/apiConstant.dart';
 import '../../../domain/provider/cartProvider.dart';
@@ -13,7 +12,6 @@ import '../../../utils/constants/size_config.dart';
 import '../SearchScreen/searchScreen.dart';
 import '../cart/cart_screen.dart';
 import 'components/categories_main.dart';
-import 'components/popular_product.dart';
 
 class HomeScreen extends StatefulWidget {
   final User user;
@@ -26,26 +24,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // final socketUrl = 'https://shopyfast.herokuapp.com/';
   final socketUrl = ApiConstants.BASE_URL;
   var cartValue = 10;
   CartProvider _cartProvider;
 
   @override
-  void didUpdateWidget(covariant HomeScreen oldWidget) {
-    print('-------- did update home');
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void didChangeDependencies() {
-    print('-------- did change depen home');
-    super.didChangeDependencies();
-  }
-
-  @override
   void initState() {
-    print('-------- init home');
     _cartProvider = getIt<CartProvider>();
     Provider.of<ProductProvider>(context, listen: false)
         .initCartItems(_cartProvider.getCartItems);
@@ -56,15 +40,18 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: buildAppBar(context),
+        backgroundColor: Theme.of(context).backgroundColor,
         body: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CategoriesMain(),
-              SizedBox(height: getWidth(30)),
-              // PopularProducts(),
-              // SizedBox(height: getWidth(30)),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CategoriesMain(),
+                SizedBox(height: getWidth(30)),
+                ProductSnaps()
+              ],
+            ),
           ),
         ));
   }

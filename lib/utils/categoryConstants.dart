@@ -30,6 +30,7 @@ class CategoriesConstant {
     HOUSEHOLD_ITEMS: {
       NAME: 'Household Items',
       SUBCATEGORIES: {
+        //special - detergent
         'household#detergents#sid': 'Detergents',
         'household#cleaners#sid': 'Cleaners',
         'household#disinfectantss#sid': 'Disinfectants',
@@ -65,6 +66,7 @@ class CategoriesConstant {
         'beverages#tea#sid': 'Tea',
         'beverages#green_tea#sid': 'Green tea',
         'beverages#coffee#sid': 'Coffee',
+        //special - healthy drinks *
         'beverages#health_drinks#sid': 'Health Drinks',
         'beverages#cold_drinks#sid': 'Cold Drinks',
         'beverages#juices#sid': 'Juices',
@@ -76,10 +78,11 @@ class CategoriesConstant {
         'breakfast_dairy#butter_cheese#sid': 'Butter & Cheese',
         'breakfast_dairy#bread_eggs#sid': 'Bread & Eggs',
         'breakfast_dairy#milk#sid': 'Milk',
+        // special - breakfast & cereals *
         'breakfast_dairy#breakfast_cereals#sid': 'Breakfast Cereals',
         'breakfast_dairy#paneer_curd#sid': 'Paneer & Curd',
         // 'breakfast_dairy#tea_cofee#sid': 'Tea & Coffee',
-        'breakfast_dairy#eggs#sid': 'Eggs',
+        // 'breakfast_dairy#eggs#sid': 'Eggs',
       }
     },
     INSTANT_FOOD: {
@@ -87,6 +90,8 @@ class CategoriesConstant {
       SUBCATEGORIES: {
         // 'instant_food#biscuits_cookies#sid': 'Biscuits & Cookies',
         // 'instant_food#chocolates_candies#sid': 'Chocolates & Candies',
+
+        // special - noodles & pasta *
         'instant_food#noodles_pasta#sid': 'Noodles & Pasta',
         'instant_food#pickeles_sauces#sid': 'Pickles & Sauces',
         'instant_food#jam_spreads#sid': 'Jam & Ketchups',
@@ -96,6 +101,7 @@ class CategoriesConstant {
     CHOCOLATES_AND_ICE_CREAM: {
       NAME: 'Chocolates & Ice Cream',
       SUBCATEGORIES: {
+        // special - bar choco *
         'choco_icecream#bar_choco#sid': 'Bar Chocolates',
         'choco_icecream#tofees_lollipops#sid': 'Tofees & Lollipops',
         'choco_icecream#mint_chewinggum#sid': 'Mints & Chewing Gums',
@@ -106,76 +112,40 @@ class CategoriesConstant {
       NAME: 'Biscute & Snack',
       SUBCATEGORIES: {
         'biscute_snack#namkeen_chips#sid': 'Namkeen & Chips',
-        'instant_food#biscuits_cookies#sid': 'Biscuits & Cookies',
+        'biscute_snack#biscute#sid': 'Buiscuts',
       }
     }
   };
 
-  static const BASIC_LIST = {
-    GROCERY: [
-      'Atta',
-      'Dry Fruits',
-      'Ghee & Vanaspati',
-      'Edible Oils',
-      'Pulses',
-      'Rice & Grains',
-      'Salt & Sugar',
-      'Spices',
-      'Sauces & Ketchups'
-    ],
-    HOUSEHOLD_ITEMS: [
-      'Detergents',
-      'Cleaners',
-      'Disinfectants',
-      'Air Fresheners',
-      'Repellents',
-      'Dishwash Gel'
-    ],
-    PERSONAL_CARE: [
-      'Hair Oil',
-      'Shampoo',
-      'Soap & Body Wash',
-      'Toothpaste',
-      'Hand Wash',
-      'Sanitary Pads',
-      'Body Lotions',
-      'Face Wash',
-      'Fragrance'
-    ],
-    FRUITS_AND_VEGETABLE: ['Vegetables', 'Fruits'],
-    BEVERAGES: [
-      'Tea',
-      'Green tea',
-      'Coffee',
-      'Health Drinks',
-      'Cold Drinks',
-      'Juices',
-    ],
-    BREAKFAST_AND_DAIRY: [
-      'Butter & Cheese',
-      'Break & Eggs',
-      'Milk',
-      'Breakfast Cereals',
-      'Paneer & Curd',
-      'Tea & Coffee',
-      'Eggs'
-    ],
-    INSTANT_FOOD: [
-      'Biscuits & Cookies',
-      'Chocolates & Candies',
-      'Namkeen & Chips',
-      'Noodles & Pasta',
-      'Pickles & Sauces',
-      'Jam & Spreads',
-      'Sweets'
-    ],
-    CHOCOLATES_AND_ICE_CREAM: [
-      'Bar Chocolates',
-      'Tofees & Lollipops',
-      'Mints & Chewing Gums',
-      'Ice Creams'
-    ],
-  };
+  static const SPECIAL_SUBCATEGORIES = [
+    'household#detergents#sid',
+    'breakfast_dairy#breakfast_cereals#sid',
+    'choco_icecream#bar_choco#sid',
+    'beverages#health_drinks#sid',
+    'biscute_snack#namkeen_chips#sid',
+    'instant_food#noodles_pasta#sid',
+  ];
+
+//--------------------- static constant helpers function ----------- X
+
+  static Map<String, String> getSubcategoryList() {
+    Map<String, String> subList = {};
+    CATEGORY_CONSTANTS.entries.forEach((element) {
+      subList.addAll((element.value[SUBCATEGORIES] as Map));
+    });
+    return subList;
+  }
+
+  static String getCategoryIdOfSubcategory(String sid) {
+    var categoryKey;
+    CATEGORY_CONSTANTS.entries.forEach((element) {
+      if ((element.value[SUBCATEGORIES] as Map).containsKey(sid)) {
+        categoryKey = element.key;
+        return;
+      }
+    });
+    return categoryKey;
+  }
 }
 
-// 8 Categories , 50 Sub-Categories
+// 8 Categories , 46 Sub-Categories

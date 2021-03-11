@@ -3,7 +3,6 @@ import 'package:ShopyFast/domain/provider/authprovider.dart';
 import 'package:ShopyFast/domain/provider/cartProvider.dart';
 import 'package:ShopyFast/domain/provider/productProvider.dart';
 import 'package:ShopyFast/getit.dart';
-import 'package:ShopyFast/view/screens/bottomNavScreens/orders/orders.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

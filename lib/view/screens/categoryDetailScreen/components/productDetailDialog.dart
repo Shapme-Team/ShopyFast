@@ -9,6 +9,7 @@ class ProductDetailDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('productdetail build dialog');
     return Container(
       // color: Colors.white,
       padding: EdgeInsets.all(8),

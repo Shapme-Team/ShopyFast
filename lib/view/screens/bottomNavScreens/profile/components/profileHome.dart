@@ -29,23 +29,25 @@ class _ProfileHomeState extends State<ProfileHome> {
     // print('customer address : ${customer.address}');
     return Scaffold(
         appBar: AppBar(
-            elevation: 1,
-            title: GestureDetector(
-              onTap: () {
-                // Provider.of<AuthProvider>(context, listen: false).logout();
-              },
-              child: Text('Profile',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 23,
-                    fontWeight: FontWeight.w600,
-                  )),
-            )),
+          elevation: 1,
+          title: GestureDetector(
+            onTap: () {
+              // Provider.of<AuthProvider>(context, listen: false).logout();
+            },
+            child: Text('Profile',
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontSize: 23,
+                  fontWeight: FontWeight.w600,
+                )),
+          ),
+          // actions: [IconButton(icon: Icon(Icons.feedback), onPressed: null)],
+        ),
         body: FutureBuilder(
             future: _fetchFuture,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting)
-                return CircularProgressIndicator();
+                return Center(child: CircularProgressIndicator());
               else {
                 currentCustomer =
                     Provider.of<AuthProvider>(context).getCustomer;
@@ -75,7 +77,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                                   value: currentCustomer.address,
                                   describeText: 'address'),
 
-                              SizedBox(height: 16.0),
+                              SizedBox(height: 50),
                               // FlatButton(
                               //   child: Text("Sign out", style: theme.textTheme.button),
                               //   onPressed: () async {

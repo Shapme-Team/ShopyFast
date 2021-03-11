@@ -13,6 +13,7 @@ ThemeData theme() {
     textTheme: textTheme(),
     accentColor: kAccentColor,
     errorColor: errorColor,
+    backgroundColor: Colors.grey[50],
     // inputDecorationTheme: inputDecorationTheme(),
     visualDensity: VisualDensity.adaptivePlatformDensity,
   );

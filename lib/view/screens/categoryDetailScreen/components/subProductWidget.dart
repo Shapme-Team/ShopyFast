@@ -6,6 +6,7 @@ import 'package:ShopyFast/view/screens/categoryDetailScreen/components/productDe
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 enum IncrementDecrement { INCREMENT, DECREMENT }
 
@@ -26,7 +27,8 @@ class _SubProductWidgetState extends State<SubProductWidget> {
           // borderRadius: BorderRadius.circular(8),
           border: Border(
               bottom: BorderSide(
-                  width: 1, color: Colors.blueGrey.withOpacity(.5)))),
+                  width: 1,
+                  color: Theme.of(context).accentColor.withOpacity(.2)))),
       // margin: EdgeInsets.only(bottom: 4),
       // padding: EdgeInsets.all(8),
       child: Column(
@@ -51,18 +53,27 @@ class _SubProductWidgetState extends State<SubProductWidget> {
       child: Container(
           height: getHeight(100),
           width: getWidth(100),
-          padding: EdgeInsets.only(left: 8, top: 8),
+          decoration: BoxDecoration(
+              border: Border(
+                  right: BorderSide(
+                      width: 1,
+                      color: Theme.of(context).accentColor.withOpacity(.1)))),
+          padding: EdgeInsets.only(left: 8, top: 8, right: 8),
           child: CachedNetworkImage(
               // product.imageUrl,
-              fadeInDuration: Duration(milliseconds: 250),
+              fadeInDuration: Duration(milliseconds: 100),
               imageUrl: product.imageUrl,
               fit: BoxFit.contain,
-              placeholder: (build, url) => SizedBox(
-                    height: 125,
-                    width: 125,
-                    child: Image.asset(
-                      'assets/images/product_placeholder.jpg',
-                      fit: BoxFit.cover,
+              placeholder: (build, url) => Shimmer.fromColors(
+                    baseColor: Colors.grey[300],
+                    highlightColor: Colors.white,
+                    child: SizedBox(
+                      height: 125,
+                      width: 125,
+                      child: Image.asset(
+                        'assets/images/product_placeholder.jpg',
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ))),
     );

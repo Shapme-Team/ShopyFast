@@ -1,5 +1,7 @@
+import 'package:ShopyFast/main.dart';
 import 'package:ShopyFast/utils/categoryConstants.dart';
 import 'package:ShopyFast/view/screens/categoryDetailScreen/categoryDetailScreen.dart';
+import 'package:ShopyFast/view/screens/home/components/category_type_header.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../utils/constants/size_config.dart';
@@ -9,6 +11,9 @@ class CategoriesMain extends StatelessWidget {
   final nameVar = CategoriesConstant.NAME;
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    final double itemHeight = (size.height) / 3;
+    final double itemWidth = size.width / 3;
     // List<Map<String, dynamic>> categories = [
     //   {"icon": "assets/icons/Flash Icon.svg", "text": "Flash Deal"},
     //   {"icon": "assets/icons/Bill Icon.svg", "text": "Bill"},
@@ -56,26 +61,21 @@ class CategoriesMain extends StatelessWidget {
     ];
 
     return Container(
-      padding: EdgeInsets.all(getWidth(20)),
+      // padding: EdgeInsets.all(getWidth(20)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            'Popular categories',
-            style: TextStyle(
-              fontSize: 24,
-              color: Theme.of(context).accentColor,
-            ),
-          ),
+          CategoryTypeHeader('Popular Categories'),
           SizedBox(
-            height: 16,
+            height: getHeight(8),
           ),
           GridView.count(
             crossAxisCount: 3,
             physics: NeverScrollableScrollPhysics(),
-            childAspectRatio: 10 / 12,
+            childAspectRatio: 1,
             shrinkWrap: true,
-            // mainAxisSpacing: getWidth(8),
+            mainAxisSpacing: getWidth(8),
+            crossAxisSpacing: getWidth(8),
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: List.generate(
@@ -99,75 +99,50 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).pushNamed(CategoryDetailScreen.routeName,
-            arguments: CategoryDetailScreenArg(categoryId));
-      },
-      child: Container(
-          margin: EdgeInsets.all(4),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                imageAsset,
-                width: getWidth(75),
-                // height: getHeight(75),
-                fit: BoxFit.contain,
-              ),
-              Container(
-                // height: getHeight(35),
-                alignment: Alignment.center,
-                padding: EdgeInsets.only(top: 4),
-                child: Text(
-                  CategoriesConstant.CATEGORY_CONSTANTS[categoryId]
-                      [CategoriesConstant.NAME],
-                  style: TextStyle(fontWeight: FontWeight.w600, height: 1.2),
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+    return Stack(
+      children: [
+        Container(
+            color: Colors.white,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  imageAsset,
+                  width: getWidth(70),
+                  height: getHeight(70),
+                  fit: BoxFit.contain,
                 ),
-              )
-            ],
-          )),
+                Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.only(top: getHeight(4)),
+                  child: Text(
+                    CategoriesConstant.CATEGORY_CONSTANTS[categoryId]
+                        [CategoriesConstant.NAME],
+                    style: TextStyle(fontWeight: FontWeight.w500, height: 1.2),
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                )
+              ],
+            )),
+        Positioned.fill(
+            child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            splashColor: Theme.of(context).accentColor.withOpacity(.3),
+            onTap: () async {
+              await MyApp.analytics.logEvent(parameters: {
+                'categoryId': CategoriesConstant.CATEGORY_CONSTANTS[categoryId]
+                    [CategoriesConstant.NAME]
+              }, name: 'CATEGORY_CLICK');
+
+              Navigator.of(context).pushNamed(CategoryDetailScreen.routeName,
+                  arguments: CategoryDetailScreenArg(categoryId));
+            },
+          ),
+        ))
+      ],
     );
   }
 }
-
-// class CategoryCard extends StatelessWidget {
-//   const CategoryCard({
-//     Key key,
-//     @required this.icon,
-//     @required this.text,
-//     @required this.press,
-//   }) : super(key: key);
-
-//   final String icon, text;
-//   final GestureTapCallback press;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return GestureDetector(
-//       onTap: press,
-//       child: SizedBox(
-//         width: getWidth(55),
-//         child: Column(
-//           children: [
-//             Container(
-//               padding: EdgeInsets.all(getWidth(15)),
-//               height: getWidth(55),
-//               width: getWidth(55),
-//               decoration: BoxDecoration(
-//                 color: Color(0xFFFFECDF),
-//                 borderRadius: BorderRadius.circular(10),
-//               ),
-//               child: SvgPicture.asset(icon),
-//             ),
-//             SizedBox(height: 5),
-//             Text(text, textAlign: TextAlign.center)
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
