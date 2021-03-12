@@ -1,11 +1,14 @@
 import 'package:ShopyFast/data/core/apiClient.dart';
+import 'package:ShopyFast/domain/models/Product.dart';
 import 'package:ShopyFast/domain/models/order.dart';
 
 abstract class OrderDataSource {
   Future<List<Order>> getListOfOrders(String customerId);
-  Future<List<Order>> getListOfRunningOrders(String customerId);
   Future<Order> addOrder(Order orderItem);
   Future<bool> deleteOrder(String orderId);
+  Future<Product> getProductById(String id);
+
+  Future<List<Order>> getListOfRunningOrders(String customerId);
 }
 
 class OrderDataSourceApiImple extends OrderDataSource {
@@ -16,6 +19,7 @@ class OrderDataSourceApiImple extends OrderDataSource {
   Future<List<Order>> getListOfOrders(String customerId) async {
     try {
       var response = await _apiClient.get('order/customer/$customerId') as List;
+      // print('order fetch response: $response');
       var orders = response.map((e) => Order.fromMap(e)).toList();
       // print('order response : ${orders.length}');
 
@@ -56,10 +60,23 @@ class OrderDataSourceApiImple extends OrderDataSource {
     try {
       var response = await _apiClient.post('order/new', orderItem.toMap());
       orderItem = Order.fromMap(response);
-      print('order dateItme from data source: ${orderItem.dateTime}');
+      // print('order dateItme from data source: ${orderItem.dateTime}');
       return orderItem;
     } catch (err) {
       print('error while order add DS: $err');
+      return null;
+    }
+  }
+
+  @override
+  Future<Product> getProductById(String id) async {
+    try {
+      var response = await _apiClient.get('product/$id');
+      // print('response : ${Product.fromMap(response).toString()}');
+
+      return Product.fromMap(response);
+    } catch (err) {
+      print('error while getting product : $err');
       return null;
     }
   }

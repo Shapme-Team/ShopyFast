@@ -30,18 +30,23 @@ class _CartScreenState extends State<CartScreen> {
         var cart = Provider.of<CartProvider>(context).getCartItems;
         var cartCheck = cart != null && cart.product.length > 0;
         var customerData = getIt<AuthProvider>().getCustomer;
+
+        Map<String, int> mapOfProductIds = {};
+        cart.product.forEach((e) => mapOfProductIds[e.productId] = e.quantity);
+
         var order = Order(
           amount: cart.amount,
           customer: customerData,
           deliveryStatus: 'PROCESSING',
-          products: cart.product,
+          productsIds: mapOfProductIds,
           customerId: customerData?.customerId,
         );
         return SizedBox(
           child: Scaffold(
             appBar: buildAppBar(context),
             body: cartCheck ? CartProducts(cart.product) : buildNoItemWidget(),
-            bottomNavigationBar: cartCheck ? CheckoutCard(order) : SizedBox(),
+            bottomNavigationBar:
+                cartCheck ? CheckoutCard(order, cart.product) : SizedBox(),
           ),
         );
       },

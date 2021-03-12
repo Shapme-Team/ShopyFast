@@ -23,7 +23,7 @@ class OrderAdapter extends TypeAdapter<Order> {
       amount: fields[2] as double,
       dateTime: fields[3] as DateTime,
       deliveryStatus: fields[4] as String,
-      products: (fields[5] as List)?.cast<Product>(),
+      productsIds: (fields[5] as Map),
     );
   }
 
@@ -42,7 +42,7 @@ class OrderAdapter extends TypeAdapter<Order> {
       ..writeByte(4)
       ..write(obj.deliveryStatus)
       ..writeByte(5)
-      ..write(obj.products)
+      ..write(obj.productsIds)
       ..writeByte(6)
       ..write(obj.customerId);
   }

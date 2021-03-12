@@ -16,7 +16,11 @@ class Wrapper extends StatefulWidget {
 
 class _WrapperState extends State<Wrapper> {
   futureTasks() async {
+    await Firebase.initializeApp();
     await getIt.allReady();
+    print('------------------------------------- ***');
+    print('everything is ok !!');
+    print('------------------------------------- ***');
   }
 
   Widget buildWidget;
@@ -33,14 +37,10 @@ class _WrapperState extends State<Wrapper> {
       buildWidget = FutureBuilder(
         future: futureTasks(),
         builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            print(snapshot.error);
-            return Text('Error: ${snapshot.error}');
-          }
-          if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return SplashScreen();
+          } else
             return ScreenWrapper();
-          }
-          return SplashScreen();
         },
       );
     }

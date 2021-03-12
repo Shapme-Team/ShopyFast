@@ -22,7 +22,7 @@ class Order {
   @HiveField(4)
   String deliveryStatus;
   @HiveField(5)
-  final List<Product> products;
+  final Map<String, int> productsIds;
   @HiveField(6)
   final String customerId;
 
@@ -33,18 +33,18 @@ class Order {
     this.amount = 0.0,
     this.dateTime,
     this.deliveryStatus = '',
-    this.products = const [],
+    this.productsIds = const {},
   });
 
   Map<String, dynamic> toMap() {
     return {
-      '_id': orderId,
+      // '_id': orderId,
       'customerId': customerId,
       'amount': amount,
       'customer': customer?.toMap(),
-      'dateTime': dateTime?.millisecondsSinceEpoch,
+      // 'dateTime': dateTime?.millisecondsSinceEpoch,
       'deliveryStatus': deliveryStatus,
-      'products': products?.map((x) => x?.toMap())?.toList(),
+      'productsIds': productsIds,
     };
   }
 
@@ -58,9 +58,7 @@ class Order {
       customer: Customer.fromMap(map['customer']) ?? Customer(),
       dateTime: DateTime.parse(map['dateTime']),
       deliveryStatus: map['deliveryStatus'] ?? '',
-      products: List<Product>.from(
-          map['products']?.map((x) => Product.fromMap(x) ?? Product()) ??
-              const []),
+      productsIds: Map.from(map['productsIds'] ?? const {}),
     );
   }
 
@@ -70,120 +68,120 @@ class Order {
 
   @override
   String toString() {
-    return 'Order(orderId: $orderId, customer: $customer, amount: $amount, dateTime: $dateTime, deliveryStatus: $deliveryStatus, products: $products, customerId: $customerId)';
+    return 'Order(orderId: $orderId, customer: $customer, amount: $amount, dateTime: $dateTime, deliveryStatus: $deliveryStatus, productsIds: $productsIds, customerId: $customerId)';
   }
 }
 
-List<Order> dummyOrderItem = [
-  Order(
-    customerId: globalCustomer.uid,
-    amount: 200,
-    dateTime: DateTime.now(),
-    deliveryStatus: 'Processing',
-    orderId: '123456',
-    products: [
-      Product(
-          productName: 'Mango',
-          category: 'FnV',
-          description: 'Greate for your health',
-          imageUrl: 'assets/images/glap.png',
-          measureUnit: 'Kg',
-          price: 50.00,
-          productId: 'sldffwefd',
-          quantity: 2,
-          subcategory: 'Fruit',
-          weight: 1),
-    ],
-  ),
-  Order(
-    customerId: globalCustomer.uid,
-    amount: 1030,
-    dateTime: DateTime.now(),
-    deliveryStatus: 'Processing',
-    orderId: '123456',
-    products: [
-      Product(
-          productName: 'Mango',
-          category: 'FnV',
-          description: 'Greate for your health',
-          imageUrl: 'assets/images/glap.png',
-          measureUnit: 'Kg',
-          price: 50.00,
-          productId: 'sldffwefd',
-          quantity: 2,
-          subcategory: 'Fruit',
-          weight: 1),
-    ],
-  ),
-  Order(
-    customerId: globalCustomer.uid,
-    amount: 330,
-    dateTime: DateTime.now(),
-    deliveryStatus: 'Processing',
-    orderId: '123456',
-    products: [
-      Product(
-          productName: 'Mango',
-          category: 'FnV',
-          description: 'Greate for your health',
-          imageUrl: 'assets/images/glap.png',
-          measureUnit: 'Kg',
-          price: 50.00,
-          productId: 'sldffwefd',
-          quantity: 2,
-          subcategory: 'Fruit',
-          weight: 1),
-    ],
-  ),
-  Order(
-    customerId: globalCustomer.uid,
-    amount: 500,
-    dateTime: DateTime.now(),
-    deliveryStatus: 'Processing',
-    orderId: '123456',
-    products: [
-      Product(
-          productName: 'Mango',
-          category: 'FnV',
-          description: 'Greate for your health',
-          imageUrl: 'assets/images/glap.png',
-          measureUnit: 'Kg',
-          price: 50.00,
-          productId: 'sldffwefd',
-          quantity: 2,
-          subcategory: 'Fruit',
-          weight: 1),
-    ],
-  ),
-  Order(
-    customerId: globalCustomer.uid,
-    amount: 430,
-    dateTime: DateTime.now(),
-    deliveryStatus: 'Processing',
-    orderId: '123456',
-    products: [
-      Product(
-          productName: 'Mango',
-          category: 'FnV',
-          description: 'Greate for your health',
-          imageUrl: 'assets/images/glap.png',
-          measureUnit: 'Kg',
-          price: 50.00,
-          productId: 'sldffwefd',
-          quantity: 2,
-          subcategory: 'Fruit',
-          weight: 1),
-      Product(
-          productName: 'Aashirvad Atta',
-          category: 'Grocery',
-          description: 'Greate for your health',
-          imageUrl: 'assets/images/aashirvaad-atta-whole-wheat.jpg',
-          measureUnit: 'Kg',
-          price: 50.00,
-          productId: 'sldfffdwefd',
-          quantity: 2,
-          subcategory: 'Aata',
-          weight: 1),
-    ],
-  ),
-];
+// List<Order> dummyOrderItem = [
+//   Order(
+//     customerId: globalCustomer.uid,
+//     amount: 200,
+//     dateTime: DateTime.now(),
+//     deliveryStatus: 'Processing',
+//     orderId: '123456',
+//     products: [
+//       Product(
+//           productName: 'Mango',
+//           category: 'FnV',
+//           description: 'Greate for your health',
+//           imageUrl: 'assets/images/glap.png',
+//           measureUnit: 'Kg',
+//           price: 50.00,
+//           productId: 'sldffwefd',
+//           quantity: 2,
+//           subcategory: 'Fruit',
+//           weight: 1),
+//     ],
+//   ),
+//   Order(
+//     customerId: globalCustomer.uid,
+//     amount: 1030,
+//     dateTime: DateTime.now(),
+//     deliveryStatus: 'Processing',
+//     orderId: '123456',
+//     products: [
+//       Product(
+//           productName: 'Mango',
+//           category: 'FnV',
+//           description: 'Greate for your health',
+//           imageUrl: 'assets/images/glap.png',
+//           measureUnit: 'Kg',
+//           price: 50.00,
+//           productId: 'sldffwefd',
+//           quantity: 2,
+//           subcategory: 'Fruit',
+//           weight: 1),
+//     ],
+//   ),
+//   Order(
+//     customerId: globalCustomer.uid,
+//     amount: 330,
+//     dateTime: DateTime.now(),
+//     deliveryStatus: 'Processing',
+//     orderId: '123456',
+//     products: [
+//       Product(
+//           productName: 'Mango',
+//           category: 'FnV',
+//           description: 'Greate for your health',
+//           imageUrl: 'assets/images/glap.png',
+//           measureUnit: 'Kg',
+//           price: 50.00,
+//           productId: 'sldffwefd',
+//           quantity: 2,
+//           subcategory: 'Fruit',
+//           weight: 1),
+//     ],
+//   ),
+//   Order(
+//     customerId: globalCustomer.uid,
+//     amount: 500,
+//     dateTime: DateTime.now(),
+//     deliveryStatus: 'Processing',
+//     orderId: '123456',
+//     products: [
+//       Product(
+//           productName: 'Mango',
+//           category: 'FnV',
+//           description: 'Greate for your health',
+//           imageUrl: 'assets/images/glap.png',
+//           measureUnit: 'Kg',
+//           price: 50.00,
+//           productId: 'sldffwefd',
+//           quantity: 2,
+//           subcategory: 'Fruit',
+//           weight: 1),
+//     ],
+//   ),
+//   Order(
+//     customerId: globalCustomer.uid,
+//     amount: 430,
+//     dateTime: DateTime.now(),
+//     deliveryStatus: 'Processing',
+//     orderId: '123456',
+//     products: [
+//       Product(
+//           productName: 'Mango',
+//           category: 'FnV',
+//           description: 'Greate for your health',
+//           imageUrl: 'assets/images/glap.png',
+//           measureUnit: 'Kg',
+//           price: 50.00,
+//           productId: 'sldffwefd',
+//           quantity: 2,
+//           subcategory: 'Fruit',
+//           weight: 1),
+//       Product(
+//           productName: 'Aashirvad Atta',
+//           category: 'Grocery',
+//           description: 'Greate for your health',
+//           imageUrl: 'assets/images/aashirvaad-atta-whole-wheat.jpg',
+//           measureUnit: 'Kg',
+//           price: 50.00,
+//           productId: 'sldfffdwefd',
+//           quantity: 2,
+//           subcategory: 'Aata',
+//           weight: 1),
+//     ],
+//   ),
+// ];

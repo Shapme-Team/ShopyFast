@@ -1,8 +1,9 @@
+import 'package:ShopyFast/domain/models/Product.dart';
 import 'package:ShopyFast/domain/models/order.dart';
 import 'package:ShopyFast/domain/provider/cartProvider.dart';
+import 'package:ShopyFast/domain/provider/orderProvider.dart';
 import 'package:ShopyFast/getit.dart';
 import 'package:ShopyFast/utils/constants/size_config.dart';
-import 'package:ShopyFast/view/components/default_button.dart';
 import 'package:ShopyFast/view/screens/checkout/components/orderProducts.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,8 +29,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Widget build(BuildContext context) {
     CheckoutScreenArg screenArg = ModalRoute.of(context).settings.arguments;
     var order = screenArg.order;
+    var products = screenArg.listOfProducts;
     return ChangeNotifierProvider.value(
-      value: getIt<CartProvider>(),
+      value: getIt<OrderProvider>(),
       builder: (context, child) {
         return SafeArea(
           child: Scaffold(
@@ -43,7 +45,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     buildDeliveryAddress(order.customer.address),
-                    OrderProductsWidget(order.products),
+                    OrderProductsWidget(products),
                     buildDeliveryCharge(order.amount),
                     buildDeliveryTime(),
                     paymentMethod(),
@@ -198,7 +200,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             onPressed: () async {
               setState(() => _isLoading = true);
               var resCheck =
-                  await Provider.of<CartProvider>(context, listen: false)
+                  await Provider.of<OrderProvider>(context, listen: false)
                       .addOrder(order);
               setState(() => _isLoading = false);
               Navigator.of(context).pop(resCheck);
@@ -219,5 +221,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
 class CheckoutScreenArg {
   final Order order;
-  CheckoutScreenArg(this.order);
+  final List<Product> listOfProducts;
+  CheckoutScreenArg(this.order, this.listOfProducts);
 }

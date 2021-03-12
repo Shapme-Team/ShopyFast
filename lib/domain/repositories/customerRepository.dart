@@ -1,7 +1,6 @@
 import 'package:ShopyFast/data/source/customerDataSource.dart';
 import 'package:ShopyFast/data/source/hiveLocalDatabase.dart';
 import 'package:ShopyFast/domain/models/customer.dart';
-import 'package:ShopyFast/utils/globals.dart';
 
 abstract class CustomerRepository {
   Future<Customer> getCustomerData(String uid);
@@ -39,7 +38,6 @@ class CustomerRespositoryImp extends CustomerRepository {
     try {
       var customerData;
       customerData = _hiveLocalDatabase.getCustomerData();
-      print('local customer data: ${customerData.toString()}');
       if (customerData == null && uid != null) {
         customerData = await _customerDataSource.getCustomerData(uid);
         if (customerData != null) {

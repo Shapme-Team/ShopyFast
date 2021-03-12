@@ -1,6 +1,7 @@
 import 'package:ShopyFast/domain/provider/productProvider.dart';
 import 'package:ShopyFast/getit.dart';
 import 'package:ShopyFast/utils/categoryConstants.dart';
+import 'package:ShopyFast/view/components/shimmers/verticalProductShimmer.dart';
 import 'package:ShopyFast/view/screens/categoryDetailScreen/categoryDetailScreen.dart';
 import 'package:ShopyFast/view/screens/home/components/category_type_header.dart';
 import 'package:flutter/material.dart';
@@ -35,72 +36,13 @@ class _ProductSnapsState extends State<ProductSnaps> {
         // future: Future.delayed(Duration(seconds: 500)),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return buildShimmers(context);
+            return VerticalProductShimmer();
           } else
             return buildProductsList(sid);
         });
   }
 
-  Widget buildShimmers(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width / 3,
-      // height: 300,
-      child: Shimmer.fromColors(
-          baseColor: Colors.grey[300],
-          highlightColor: Colors.white,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                ...List.generate(
-                  5,
-                  (index) {
-                    return Container(
-                      width: MediaQuery.of(context).size.width / 3,
-                      margin: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Container(
-                            width: MediaQuery.of(context).size.width / 3,
-                            height: MediaQuery.of(context).size.width / 3,
-                            color: Colors.white,
-                          ),
-                          SizedBox(height: 8),
-                          Container(
-                            height: getHeight(30),
-                            color: Colors.white,
-                          ),
-                          SizedBox(height: getHeight(8)),
-                          Container(
-                            height: getHeight(10),
-                            color: Colors.white,
-                          ),
-                          SizedBox(height: getHeight(8)),
-                          Container(
-                            height: getHeight(10),
-                            color: Colors.white,
-                          ),
-                          SizedBox(height: getHeight(8)),
-                          Container(
-                            height: getHeight(30),
-                            color: Colors.white,
-                          ),
-                          SizedBox(height: getHeight(8)),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-                SizedBox(width: getWidth(20)),
-              ],
-            ),
-          )),
-    );
-  }
-
-  Consumer<ProductProvider> buildProductsList(String sid) {
+  Widget buildProductsList(String sid) {
     return Consumer<ProductProvider>(builder: (context, value, child) {
       var subProducts = value.getProductsOfSub(sid);
       if (subProducts.length > 5) {

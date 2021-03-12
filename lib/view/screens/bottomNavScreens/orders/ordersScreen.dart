@@ -1,3 +1,4 @@
+import 'package:ShopyFast/domain/provider/orderProvider.dart';
 import 'package:ShopyFast/domain/provider/screenRouteProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -85,12 +86,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
         ],
       ),
       body: FutureBuilder(
-        future: getIt<CartProvider>().fetchOrders(),
+        future: getIt<OrderProvider>().fetchOrders(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting)
             return CircularLoadingWidget();
           else {
-            var orders = Provider.of<CartProvider>(context).getListOfOrders;
+            var orders = Provider.of<OrderProvider>(context).getListOfOrders;
             return orders.length > 0
                 ? buildOrderList(reorderOrderItems(orders))
                 : buildNoOrderWidget();

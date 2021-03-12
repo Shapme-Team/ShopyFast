@@ -1,3 +1,4 @@
+import 'package:ShopyFast/domain/models/Product.dart';
 import 'package:ShopyFast/view/screens/bottomNavScreens/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,20 +12,18 @@ import '../../checkout/checkoutScreen.dart';
 
 class CheckoutCard extends StatelessWidget {
   final Order order;
-  CheckoutCard(this.order);
-
-  bool _availableForOrder;
-  // bool addressAvailable;
+  final List<Product> listOfProducts;
+  CheckoutCard(this.order, this.listOfProducts);
 
   @override
   Widget build(BuildContext context) {
-    _availableForOrder = order.customer?.customerId != null &&
+    bool _availableForOrder = order.customer?.customerId != null &&
         order.customer.address != null &&
         order.customer.address.isNotEmpty &&
         order.customer.phoneNumber != null;
     var _checkoutButton = DefaultButton(
       text: 'Order Items',
-      press: () async => onClickCheckout(context),
+      press: () async => onClickCheckout(context, _availableForOrder),
     );
     var goToProfileButton = RaisedButton(
       color: Theme.of(context).accentColor,
@@ -101,11 +100,11 @@ class CheckoutCard extends StatelessWidget {
     Navigator.of(context).pop(ProfileScreen.routeName);
   }
 
-  onClickCheckout(BuildContext context) async {
-    if (_availableForOrder) {
+  onClickCheckout(BuildContext context, bool orderCheck) async {
+    if (orderCheck) {
       var resCheck = await Navigator.of(context).pushNamed(
           CheckoutScreen.routeName,
-          arguments: CheckoutScreenArg(order));
+          arguments: CheckoutScreenArg(order, listOfProducts));
 
       if (resCheck != null && resCheck) {
         Provider.of<CartProvider>(context, listen: false).clearCartItems();

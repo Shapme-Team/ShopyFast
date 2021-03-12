@@ -4,7 +4,7 @@ import 'package:ShopyFast/domain/models/Product.dart';
 abstract class ProductDataSource {
   Future<List<Product>> getProductBySubcategory(String sid);
   Future<List<Product>> getProductBySearch(String search);
-
+  Future<Product> getProductById(String id);
   // Future<Product> getProductById(String id);
 }
 
@@ -37,6 +37,19 @@ class ProductDataSourceImpl extends ProductDataSource {
     } catch (err) {
       print('error while sub fetch : $err');
       return [];
+    }
+  }
+
+  @override
+  Future<Product> getProductById(String id) async {
+    try {
+      var response = await _apiClient.get('product/$id');
+      // print('response : ${Product.fromMap(response).toString()}');
+
+      return Product.fromMap(response);
+    } catch (err) {
+      print('error while getting product : $err');
+      return null;
     }
   }
 }

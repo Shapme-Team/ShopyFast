@@ -1,5 +1,7 @@
+import 'package:ShopyFast/domain/provider/orderProvider.dart';
 import 'package:ShopyFast/domain/provider/screenRouteProvider.dart';
 import 'package:ShopyFast/domain/repositories/customerRepository.dart';
+import 'package:ShopyFast/domain/repositories/orderRepository.dart';
 
 import 'data/source/customerDataSource.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -35,11 +37,12 @@ Future init() async {
 //----------- repository
   getIt.registerSingleton<ProductRepository>(ProductRepository(getIt()));
   getIt.registerSingletonWithDependencies<CartReposotory>(
-      () => CartReposotoryImp(getIt(), getIt()),
+      () => CartReposotoryImp(getIt()),
       dependsOn: [HiveLocalDatabase]);
   getIt.registerSingletonWithDependencies<CustomerRepository>(
       () => CustomerRespositoryImp(getIt(), getIt()),
       dependsOn: [HiveLocalDatabase]);
+  getIt.registerSingleton<OrderRepository>(OrderRepositoryImple(getIt()));
 
 //----------- provider
   getIt.registerSingleton<ProductProvider>(ProductProvider(getIt()));
@@ -50,4 +53,5 @@ Future init() async {
       () => (AuthProvider(getIt())),
       dependsOn: [FirebaseApp, CustomerRepository]);
   getIt.registerSingleton<ScreenRouteProvider>(ScreenRouteProvider());
+  getIt.registerSingleton<OrderProvider>(OrderProvider(getIt()));
 }

@@ -1,5 +1,9 @@
+import 'package:ShopyFast/domain/provider/orderProvider.dart';
+import 'package:ShopyFast/getit.dart';
+import 'package:ShopyFast/view/components/circularLoadingWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../domain/models/Product.dart';
 import '../../../../domain/models/order.dart';
@@ -25,35 +29,48 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   Widget build(BuildContext context) {
     OrderDetailScreenArg arg = ModalRoute.of(context).settings.arguments;
     var order = arg.order;
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 1,
-          title: Text(DateFormat('dd MMM yyyy').format(order.dateTime)),
-          actions: [
-            Center(widthFactor: 1.4, child: Text(order.deliveryStatus))
-          ],
-        ),
-        body: Column(
-          // mainAxisSize: MainAxisSize.max,
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                  child: Container(
-                // color: Colors.grey,
-                margin: EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // addressWidget(),
-                    productsWidget(order.products),
-                    totalWidget(order.amount),
-                  ],
-                ),
-              )),
-            ),
-            // statusButtons()
-          ],
+    return ChangeNotifierProvider.value(
+      value: getIt<OrderProvider>(),
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            elevation: 1,
+            title: Text(DateFormat('dd MMM yyyy').format(order.dateTime)),
+            actions: [
+              Center(widthFactor: 1.4, child: Text(order.deliveryStatus))
+            ],
+          ),
+          body: FutureBuilder(
+              future: getIt<OrderProvider>().getProductOfOrder(order),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting)
+                  return CircularLoadingWidget();
+                else
+                  return Consumer<OrderProvider>(
+                    builder: (context, value, _) => Column(
+                      // mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Expanded(
+                          child: SingleChildScrollView(
+                              child: Container(
+                            // color: Colors.grey,
+                            margin: EdgeInsets.all(12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                // addressWidget(),
+                                productsWidget(
+                                    value.getProductsOfOrder(order.orderId)),
+                                totalWidget(order.amount),
+                              ],
+                            ),
+                          )),
+                        ),
+                        // statusButtons()
+                      ],
+                    ),
+                  );
+              }),
         ),
       ),
     );

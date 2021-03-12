@@ -14,4 +14,9 @@ class ProductRepository {
     var products = await _productDataSource.getProductBySearch(search);
     return products;
   }
+
+  Future<Product> getProductById(String id) async {
+    var product = await _productDataSource.getProductById(id);
+    return product;
+  }
 }

@@ -120,10 +120,10 @@ class CategoriesConstant {
   static const SPECIAL_SUBCATEGORIES = [
     'household#detergents#sid',
     'breakfast_dairy#breakfast_cereals#sid',
+    'instant_food#noodles_pasta#sid',
     'choco_icecream#bar_choco#sid',
     'beverages#health_drinks#sid',
     'biscute_snack#namkeen_chips#sid',
-    'instant_food#noodles_pasta#sid',
   ];
 
 //--------------------- static constant helpers function ----------- X

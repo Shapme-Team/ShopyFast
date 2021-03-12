@@ -92,22 +92,24 @@ class _ProductSnapCardState extends State<ProductSnapCard> {
             ),
           ),
           SizedBox(height: 8),
-          Text.rich(
-            TextSpan(
-              text: '₹',
-              style: TextStyle(
-                  fontSize: 22,
-                  color: Theme.of(context).accentColor,
-                  fontWeight: FontWeight.w600),
-              children: [
-                TextSpan(
-                  text: ' ${widget.product.price}',
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: Theme.of(context).accentColor,
-                      fontWeight: FontWeight.w600),
-                ),
-              ],
+          Expanded(
+            child: Text.rich(
+              TextSpan(
+                text: '₹',
+                style: TextStyle(
+                    fontSize: 22,
+                    color: Theme.of(context).accentColor,
+                    fontWeight: FontWeight.w600),
+                children: [
+                  TextSpan(
+                    text: ' ${widget.product.price}',
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Theme.of(context).accentColor,
+                        fontWeight: FontWeight.w600),
+                  ),
+                ],
+              ),
             ),
           ),
           SizedBox(height: 8),

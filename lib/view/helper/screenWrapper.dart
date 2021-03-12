@@ -1,5 +1,6 @@
 import 'package:ShopyFast/domain/provider/authprovider.dart';
 import 'package:ShopyFast/domain/provider/cartProvider.dart';
+import 'package:ShopyFast/domain/provider/orderProvider.dart';
 import 'package:ShopyFast/domain/provider/productProvider.dart';
 import 'package:ShopyFast/domain/provider/screenRouteProvider.dart';
 import 'package:ShopyFast/getit.dart';
@@ -55,6 +56,7 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
         ChangeNotifierProvider.value(value: getIt<AuthProvider>()),
         ChangeNotifierProvider.value(value: getIt<CartProvider>()),
         ChangeNotifierProvider.value(value: getIt<ScreenRouteProvider>()),
+        ChangeNotifierProvider.value(value: getIt<OrderProvider>()),
       ],
       child: SafeArea(
         child: Consumer<ScreenRouteProvider>(builder: (context, value, child) {

@@ -1,4 +1,6 @@
+import 'package:ShopyFast/domain/provider/orderProvider.dart';
 import 'package:ShopyFast/domain/provider/screenRouteProvider.dart';
+import 'package:ShopyFast/view/screens/home/components/ordersSnap.dart';
 import 'package:ShopyFast/view/screens/home/components/productSnaps.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -31,8 +33,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     _cartProvider = getIt<CartProvider>();
-    Provider.of<ProductProvider>(context, listen: false)
-        .initCartItems(_cartProvider.getCartItems);
+    Provider.of<ProductProvider>(context, listen: false).initCartItems =
+        _cartProvider.getCartItems;
+    getIt<OrderProvider>().setSocket();
     super.initState();
   }
 
@@ -49,7 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 CategoriesMain(),
                 SizedBox(height: getWidth(30)),
-                ProductSnaps()
+                ProductSnaps(),
+                // OrderSnapWidget()
               ],
             ),
           ),
@@ -119,8 +123,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   _onCartIconPress() async {
     var route = await Navigator.pushNamed(context, CartScreen.routeName);
-    Provider.of<ProductProvider>(context, listen: false)
-        .initCartItems(_cartProvider.getCartItems);
+    setState(() {});
+    Provider.of<ProductProvider>(context, listen: false).initCartItems =
+        _cartProvider.getCartItems;
     if (route != null) {
       Provider.of<ScreenRouteProvider>(context, listen: false)
           .goToPageIndex(route);

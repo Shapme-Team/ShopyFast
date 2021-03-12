@@ -6,16 +6,19 @@ import 'package:flutter/cupertino.dart';
 
 class ProductProvider extends ChangeNotifier {
   final ProductRepository _repository;
+
   Cart _cartItems;
   List<Product> _searchProducts;
   List<MapEntry<String, String>> _searchAutoComplete = [];
   bool _isLoading = false;
+  List<Product> _listOfOrderProducts = [];
 
   Map<String, List<Product>> _mapOfSubcategory = {};
 
   ProductProvider(this._repository);
 
   bool get getLoadingState => _isLoading;
+  List<Product> get getListOfOrderProduct => _listOfOrderProducts;
 
   List<Product> get getSearchResultProducts => _searchProducts;
   clearSearchProduct() {
@@ -28,16 +31,14 @@ class ProductProvider extends ChangeNotifier {
 
   List<Product> getProductsOfSub(String sid) {
     if (_mapOfSubcategory[sid] != null) {
+      // refreshProductsWithCartItems(_mapOfSubcategory[sid]);
       return _mapOfSubcategory[sid];
     } else
       return [];
   }
 
-  initCartItems(Cart cart) {
-    if (_cartItems == null) {
-      _cartItems = cart;
-      print('cart items in product provider: $_cartItems');
-    }
+  set initCartItems(Cart cart) {
+    _cartItems = cart;
   }
 
   fetchProductsOfSid(String sid, [bool isSearch]) async {
@@ -67,11 +68,9 @@ class ProductProvider extends ChangeNotifier {
 
   getProductBySearch(String searchString) async {
     setLoading(true);
-    print('provider search string : $searchString');
     var searchProducts = await _repository.getProductsBySearch(searchString);
     refreshProductsWithCartItems(searchProducts);
     _searchProducts = searchProducts;
-    print('search item : ${_searchProducts.length}');
     setLoading(false);
   }
 
@@ -89,11 +88,13 @@ class ProductProvider extends ChangeNotifier {
       });
     });
     _searchAutoComplete = searchResult;
-    print('set length : ${searchResult.length}');
     notifyListeners();
   }
 
   refreshProductsWithCartItems(List<Product> listOfProducts) {
+    listOfProducts.forEach((element) {
+      element.quantity = 0;
+    });
     listOfProducts.forEach((subProduct) {
       _cartItems.product.forEach((cartProduct) {
         if (cartProduct.productId == subProduct.productId)

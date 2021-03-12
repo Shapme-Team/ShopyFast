@@ -1,4 +1,6 @@
 import 'package:ShopyFast/data/core/apiConstant.dart';
+import 'package:ShopyFast/domain/provider/productProvider.dart';
+import 'package:ShopyFast/getit.dart';
 import 'package:ShopyFast/utils/globals.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:socket_io_client/socket_io_client.dart';
@@ -115,35 +117,44 @@ class CartProvider extends ChangeNotifier {
 
 //---------------------- order ----------------------
 
-  fetchOrders() async {
-    var conditionCheck = _listOfOrders != null && _listOfOrders.length > 0;
+  // fetchOrders() async {
+  //   var conditionCheck = _listOfOrders != null && _listOfOrders.length > 0;
 
-    if (!conditionCheck) {
-      var orders = await _cartReposotory.getListOfOrders();
-      // print('order response : ${orders.length}');
-      if (orders == null) {
-        _listOfOrders = [];
-      } else
-        _listOfOrders = orders;
-      notifyListeners();
-    } else {
-      print('order data already exist: ${_listOfOrders.length}');
-    }
-  }
+  //   if (!conditionCheck) {
+  //     var orders = await _cartReposotory.getListOfOrders();
+  //     // print('order response : ${orders.length}');
+  //     if (orders == null) {
+  //       _listOfOrders = [];
+  //     } else
+  //       _listOfOrders = orders;
 
-  Future<bool> addOrder(Order order) async {
-    var orderRes = await _cartReposotory.addOrder(order);
-    if (orderRes != null) {
-      _listOfOrders.add(orderRes);
-      notifyListeners();
-      return true;
-    }
-    return false;
-  }
+  //     List<String> listOfProductIds = [];
+  //     _listOfOrders.forEach((element) {
+  //       element.products
+  //           .forEach((element) => listOfProductIds.add(element.productId));
+  //     });
 
-  deleteOrder(Order order) {
-    _cartReposotory.deleteOrder(order);
-    _listOfOrders.removeWhere((element) => element.orderId == order.orderId);
-    notifyListeners();
-  }
+  //     getIt<ProductProvider>().fetchListOfProductsByListOfIds(listOfProductIds);
+
+  //     notifyListeners();
+  //   } else {
+  //     print('order data already exist: ${_listOfOrders.length}');
+  //   }
+  // }
+
+  // Future<bool> addOrder(Order order) async {
+  //   var orderRes = await _cartReposotory.addOrder(order);
+  //   if (orderRes != null) {
+  //     _listOfOrders.add(orderRes);
+  //     notifyListeners();
+  //     return true;
+  //   }
+  //   return false;
+  // }
+
+  // deleteOrder(Order order) {
+  //   _cartReposotory.deleteOrder(order);
+  //   _listOfOrders.removeWhere((element) => element.orderId == order.orderId);
+  //   notifyListeners();
+  // }
 }
