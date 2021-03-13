@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 CategoriesMain(),
                 SizedBox(height: getWidth(30)),
-                ProductSnaps(),
+                ProductSnaps2(),
                 // OrderSnapWidget()
               ],
             ),

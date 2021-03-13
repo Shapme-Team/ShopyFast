@@ -14,10 +14,11 @@ class ApiClient {
         await _client.get('${ApiConstants.BASE_URL}$path', headers: {
       'Content-Type': 'application/json',
     }).timeout(Duration(seconds: 20));
+    // print('get requested: $response');
 
     if (response.statusCode == 200) {
       final responseBody = jsonDecode(response.body);
-      print('response status : ${response.statusCode}');
+      // print('response status : ${response.statusCode}');
       return responseBody;
     } else {
       throw Exception(response.reasonPhrase);

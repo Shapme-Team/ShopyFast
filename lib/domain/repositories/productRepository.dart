@@ -5,8 +5,9 @@ class ProductRepository {
   final ProductDataSource _productDataSource;
   ProductRepository(this._productDataSource);
 
-  Future<List<Product>> getProductBySubcategory(String sid) async {
-    var products = await _productDataSource.getProductBySubcategory(sid);
+  Future<List<Product>> getProductBySubcategory(String sid,
+      {int limit = 0}) async {
+    var products = await _productDataSource.getProductBySubcategory(sid, limit);
     return products;
   }
 

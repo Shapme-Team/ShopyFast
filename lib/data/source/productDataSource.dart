@@ -2,7 +2,7 @@ import 'package:ShopyFast/data/core/apiClient.dart';
 import 'package:ShopyFast/domain/models/Product.dart';
 
 abstract class ProductDataSource {
-  Future<List<Product>> getProductBySubcategory(String sid);
+  Future<List<Product>> getProductBySubcategory(String sid, int limit);
   Future<List<Product>> getProductBySearch(String search);
   Future<Product> getProductById(String id);
   // Future<Product> getProductById(String id);
@@ -18,10 +18,14 @@ class ProductDataSourceImpl extends ProductDataSource {
   // }
 
   @override
-  Future<List<Product>> getProductBySubcategory(String sid) async {
+  Future<List<Product>> getProductBySubcategory(String sid, int limit) async {
     sid = sid.replaceAll('#', '%23');
     try {
-      var response = await _apiClient.get('product/subcategory/$sid') as List;
+      var url = 'product/subcategory/$sid';
+      if (limit > 0) {
+        url = 'product/subcategory/$sid?limit=$limit';
+      }
+      var response = await _apiClient.get(url) as List;
       return response.map((e) => Product.fromMap(e)).toList();
     } catch (err) {
       print('error while sub fetch : $err');

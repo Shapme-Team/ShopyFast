@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:ShopyFast/data/core/apiClient.dart';
 import 'package:ShopyFast/data/source/productDataSource.dart';
+import 'package:ShopyFast/domain/provider/productProvider.dart';
+import 'package:ShopyFast/domain/repositories/productRepository.dart';
+import 'package:ShopyFast/utils/categoryConstants.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 
@@ -13,17 +16,22 @@ import 'package:http/http.dart';
 
 main() {
   test(
-    " get product by subcategory ",
+    " get product by subcategory from stream ",
     () async {
 //arrange
+      bool check = false;
       var apiClient = ApiClient(Client());
       var dataSource = ProductDataSourceImpl(apiClient);
-      final products =
-          await dataSource.getProductBySubcategory('biscute_snack#biscute#sid');
+      var productProvider = ProductProvider(ProductRepository(dataSource));
+      final productsStream = productProvider
+          .getProductSnapStream(CategoriesConstant.SPECIAL_SUBCATEGORIES);
 //assert
-      final productLength = products?.length;
+      productsStream.listen((event) {
+        check = event.length > 0;
+        print('check : $check');
+      });
 //test
-      expect(true, productLength > 0);
+      expect(true, check);
     },
   );
 }

@@ -43,7 +43,9 @@ class ProductProvider extends ChangeNotifier {
 
   fetchProductsOfSid(String sid, [bool isSearch]) async {
     List<Product> products;
-    if (_mapOfSubcategory[sid] != null && _mapOfSubcategory[sid].isNotEmpty) {
+    if (_mapOfSubcategory[sid] != null &&
+        _mapOfSubcategory[sid].isNotEmpty &&
+        _mapOfSubcategory[sid].length > 5) {
       refreshProductsWithCartItems(_mapOfSubcategory[sid]);
     } else {
       if (isSearch != null) setLoading(true); // for searching
@@ -55,6 +57,22 @@ class ProductProvider extends ChangeNotifier {
     if (isSearch != null) {
       _searchProducts = _mapOfSubcategory[sid] ?? [];
       notifyListeners();
+    }
+  }
+
+  getProductSnapFromSubcategories(List<String> subcategoriesString) async {
+    try {
+      for (var sid in subcategoriesString) {
+        if (_mapOfSubcategory[sid]?.isEmpty ?? true) {
+          var productValue =
+              await _repository.getProductBySubcategory(sid, limit: 5);
+          refreshProductsWithCartItems(productValue); // load cart items
+          _mapOfSubcategory[sid] = productValue;
+          notifyListeners();
+        }
+      }
+    } catch (err) {
+      print('error on stream fetch --------- ');
     }
   }
 

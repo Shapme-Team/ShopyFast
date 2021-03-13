@@ -1,3 +1,4 @@
+import 'package:ShopyFast/domain/models/Product.dart';
 import 'package:ShopyFast/domain/provider/productProvider.dart';
 import 'package:ShopyFast/getit.dart';
 import 'package:ShopyFast/utils/categoryConstants.dart';
@@ -6,85 +7,83 @@ import 'package:ShopyFast/view/screens/categoryDetailScreen/categoryDetailScreen
 import 'package:ShopyFast/view/screens/home/components/category_type_header.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
-import 'productSnapcard.dart';
-import '../../../../domain/models/Product.dart';
 
 import '../../../../utils/constants/size_config.dart';
+import 'productSnapcard.dart';
 
-class ProductSnaps extends StatefulWidget {
+class ProductSnaps2 extends StatefulWidget {
   @override
-  _ProductSnapsState createState() => _ProductSnapsState();
+  _ProductSnaps2State createState() => _ProductSnaps2State();
 }
 
-class _ProductSnapsState extends State<ProductSnaps> {
+class _ProductSnaps2State extends State<ProductSnaps2> {
+  @override
+  void initState() {
+    getIt<ProductProvider>().getProductSnapFromSubcategories(
+        CategoriesConstant.SPECIAL_SUBCATEGORIES);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
+    return Container(
+        child: ListView(
       physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
       children: [
-        ...CategoriesConstant.SPECIAL_SUBCATEGORIES
-            .map((sid) => buildSnapFutureBuilder(sid))
+        ...CategoriesConstant.SPECIAL_SUBCATEGORIES.map((sid) =>
+            Consumer<ProductProvider>(builder: (context, value, child) {
+              var subProducts = value.getProductsOfSub(sid);
+              bool isProductsEmpty = subProducts.isEmpty;
+
+              if (!isProductsEmpty && subProducts.length > 5) {
+                subProducts = subProducts.getRange(0, 5).toList();
+              }
+              return isProductsEmpty
+                  ? VerticalProductShimmer()
+                  : buildProductsSnapItems(sid, subProducts);
+            })),
       ],
-    );
+    ));
   }
 
-  Widget buildSnapFutureBuilder(String sid) {
-    return FutureBuilder(
-        future: getIt<ProductProvider>().fetchProductsOfSid(sid),
-        // future: Future.delayed(Duration(seconds: 500)),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return VerticalProductShimmer();
-          } else
-            return buildProductsList(sid);
-        });
-  }
-
-  Widget buildProductsList(String sid) {
-    return Consumer<ProductProvider>(builder: (context, value, child) {
-      var subProducts = value.getProductsOfSub(sid);
-      if (subProducts.length > 5) {
-        subProducts = subProducts.getRange(0, 5).toList();
-      }
-      return Padding(
-        padding: const EdgeInsets.only(bottom: 16),
-        child: Column(
-          children: [
-            CategoryTypeHeader(CategoriesConstant.getSubcategoryList()[sid]),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: IntrinsicHeight(
-                child: Row(
-                  children: [
-                    ...List.generate(
-                      subProducts.length,
-                      (index) {
-                        return ProductSnapCard(subProducts[index]);
-                      },
-                    ),
-                    moreProductsWidget(sid),
-                    SizedBox(width: getWidth(20)),
-                  ],
-                ),
+  Padding buildProductsSnapItems(String sid, List<Product> subProducts) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Column(
+        children: [
+          CategoryTypeHeader(CategoriesConstant.getSubcategoryList()[sid]),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: IntrinsicHeight(
+              child: Row(
+                children: [
+                  ...List.generate(
+                    subProducts.length,
+                    (index) {
+                      return ProductSnapCard(subProducts[index]);
+                    },
+                  ),
+                  moreProductsWidget(sid),
+                  SizedBox(width: getWidth(20)),
+                ],
               ),
-            )
-          ],
-        ),
-      );
-    });
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   moreProductsWidget(String sid) => Container(
         width: MediaQuery.of(context).size.width / 3,
-        child: RaisedButton(
+        child: ElevatedButton(
           onPressed: () {
             Navigator.of(context).pushNamed(CategoryDetailScreen.routeName,
                 arguments: CategoryDetailScreenArg(
                     CategoriesConstant.getCategoryIdOfSubcategory(sid), sid));
           },
-          color: Theme.of(context).accentColor,
+          // color: Theme.of(context).accentColor,
           child: Text('See all',
               style: TextStyle(
                 fontSize: 16,
