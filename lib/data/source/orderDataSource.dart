@@ -21,6 +21,13 @@ class OrderDataSourceApiImple extends OrderDataSource {
       var response = await _apiClient.get('order/customer/$customerId') as List;
       // print('order fetch response: $response');
       var orders = response.map((e) => Order.fromMap(e)).toList();
+      orders.forEach((element) {
+        element.dateTime = element.dateTime.toLocal();
+      });
+
+      var dateTime = orders[0].dateTime.toLocal();
+      print('order date: ${orders[0].dateTime} ');
+      print('order date local: $dateTime ');
       // print('order response : ${orders.length}');
 
       return orders;
@@ -60,6 +67,7 @@ class OrderDataSourceApiImple extends OrderDataSource {
     try {
       var response = await _apiClient.post('order/new', orderItem.toMap());
       orderItem = Order.fromMap(response);
+      orderItem.dateTime = orderItem.dateTime.toLocal();
       // print('order dateItme from data source: ${orderItem.dateTime}');
       return orderItem;
     } catch (err) {

@@ -1,9 +1,11 @@
+import 'package:ShopyFast/domain/provider/screenRouteProvider.dart';
 import 'package:ShopyFast/main.dart';
 import 'package:ShopyFast/utils/categoryConstants.dart';
 import 'package:ShopyFast/view/screens/categoryDetailScreen/categoryDetailScreen.dart';
 import 'package:ShopyFast/view/screens/home/components/category_type_header.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../getit.dart';
 import '../../../../utils/constants/size_config.dart';
 
 class CategoriesMain extends StatelessWidget {
@@ -11,9 +13,9 @@ class CategoriesMain extends StatelessWidget {
   final nameVar = CategoriesConstant.NAME;
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    final double itemHeight = (size.height) / 3;
-    final double itemWidth = size.width / 3;
+    // var size = MediaQuery.of(context).size;
+    // final double itemHeight = (size.height) / 3;
+    // final double itemWidth = size.width / 3;
     // List<Map<String, dynamic>> categories = [
     //   {"icon": "assets/icons/Flash Icon.svg", "text": "Flash Deal"},
     //   {"icon": "assets/icons/Bill Icon.svg", "text": "Bill"},
@@ -76,8 +78,6 @@ class CategoriesMain extends StatelessWidget {
             shrinkWrap: true,
             mainAxisSpacing: getWidth(8),
             crossAxisSpacing: getWidth(8),
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            // crossAxisAlignment: CrossAxisAlignment.start,
             children: List.generate(
               categories.length,
               (index) => CategoryCard(
@@ -137,8 +137,12 @@ class CategoryCard extends StatelessWidget {
                     [CategoriesConstant.NAME]
               }, name: 'CATEGORY_CLICK');
 
-              Navigator.of(context).pushNamed(CategoryDetailScreen.routeName,
+              var routeName = await Navigator.of(context).pushNamed(
+                  CategoryDetailScreen.routeName,
                   arguments: CategoryDetailScreenArg(categoryId));
+              if (routeName != null) {
+                getIt<ScreenRouteProvider>().goToPageIndex(routeName);
+              }
             },
           ),
         ))

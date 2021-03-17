@@ -1,5 +1,6 @@
 import 'package:ShopyFast/domain/provider/orderProvider.dart';
 import 'package:ShopyFast/domain/provider/screenRouteProvider.dart';
+import 'package:ShopyFast/view/helper/AppBarWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,69 +23,73 @@ class _OrdersScreenState extends State<OrdersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 1,
-        title: Text(
-          'Orders',
-          style: TextStyle(
-            color: Theme.of(context).primaryColor,
-            fontSize: 23,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        // leading: Icon(Icons.menu),
-        actions: [
-          IconButton(
-              icon: Icon(
-                Icons.search,
-                size: 28,
-                color: Colors.grey,
-              ),
-              onPressed: () =>
-                  Navigator.pushNamed(context, SearchScreen.routeName)),
-          Consumer<CartProvider>(
-            builder: (context, value, child) {
-              var noOfCartItems = value.getNoOfItemsInCart;
-              return Stack(
-                children: [
-                  IconButton(
-                      color: noOfCartItems > 0
-                          ? Theme.of(context).primaryColor
-                          : Colors.grey,
-                      iconSize: 28,
-                      icon: Icon(Icons.shopping_cart_outlined),
-                      onPressed: () async {
-                        var route = await Navigator.pushNamed(
-                            context, CartScreen.routeName);
-                        if (route != null) {
-                          Provider.of<ScreenRouteProvider>(context,
-                                  listen: false)
-                              .goToPageIndex(route);
-                        }
-                      }),
-                  noOfCartItems > 0
-                      ? Positioned(
-                          top: 4,
-                          right: 4,
-                          child: Container(
-                              padding:
-                                  EdgeInsets.all(noOfCartItems > 9 ? 2 : 4),
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).primaryColor,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Text(
-                                noOfCartItems.toString(),
-                                style: TextStyle(color: Colors.white),
-                              )),
-                        )
-                      : SizedBox(),
-                ],
-              );
-            },
-          ),
-        ],
+      appBar: AppBarWidget(
+        routeName: OrdersScreen.routeName,
+        context: context,
       ),
+      // appBar: AppBar(
+      //   elevation: 1,
+      //   title: Text(
+      //     'Orders',
+      //     style: TextStyle(
+      //       color: Theme.of(context).primaryColor,
+      //       fontSize: 23,
+      //       fontWeight: FontWeight.w600,
+      //     ),
+      //   ),
+      //   // leading: Icon(Icons.menu),
+      //   actions: [
+      //     IconButton(
+      //         icon: Icon(
+      //           Icons.search,
+      //           size: 28,
+      //           color: Colors.grey,
+      //         ),
+      //         onPressed: () =>
+      //             Navigator.pushNamed(context, SearchScreen.routeName)),
+      //     Consumer<CartProvider>(
+      //       builder: (context, value, child) {
+      //         var noOfCartItems = value.getNoOfItemsInCart;
+      //         return Stack(
+      //           children: [
+      //             IconButton(
+      //                 color: noOfCartItems > 0
+      //                     ? Theme.of(context).primaryColor
+      //                     : Colors.grey,
+      //                 iconSize: 28,
+      //                 icon: Icon(Icons.shopping_cart_outlined),
+      //                 onPressed: () async {
+      //                   var route = await Navigator.pushNamed(
+      //                       context, CartScreen.routeName);
+      //                   if (route != null) {
+      //                     Provider.of<ScreenRouteProvider>(context,
+      //                             listen: false)
+      //                         .goToPageIndex(route);
+      //                   }
+      //                 }),
+      //             noOfCartItems > 0
+      //                 ? Positioned(
+      //                     top: 4,
+      //                     right: 4,
+      //                     child: Container(
+      //                         padding:
+      //                             EdgeInsets.all(noOfCartItems > 9 ? 2 : 4),
+      //                         decoration: BoxDecoration(
+      //                           color: Theme.of(context).primaryColor,
+      //                           shape: BoxShape.circle,
+      //                         ),
+      //                         child: Text(
+      //                           noOfCartItems.toString(),
+      //                           style: TextStyle(color: Colors.white),
+      //                         )),
+      //                   )
+      //                 : SizedBox(),
+      //           ],
+      //         );
+      //       },
+      //     ),
+      //   ],
+      // ),
       body: FutureBuilder(
         future: getIt<OrderProvider>().fetchOrders(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {

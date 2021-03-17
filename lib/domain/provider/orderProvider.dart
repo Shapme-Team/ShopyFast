@@ -27,34 +27,34 @@ class OrderProvider extends ChangeNotifier {
 
   List<Product> get getListOfAllSortProduct => _listOfAllSortProducts;
 
-  setSocket() {
-    var socketValue = _socket = IO.io(socketUrl, <String, dynamic>{
-      'transports': ['websocket'],
-      // "autoConnect": false
-    });
-    _socket.onConnect((data) {
-      print('_socket connected !');
-      _socket = socketValue;
-      initSocket();
-    });
-  }
+  // setSocket() {
+  //   var socketValue = _socket = IO.io(socketUrl, <String, dynamic>{
+  //     'transports': ['websocket'],
+  //     // "autoConnect": false
+  //   });
+  //   _socket.onConnect((data) {
+  //     print('_socket connected !');
+  //     _socket = socketValue;
+  //     initSocket();
+  //   });
+  // }
 
-  initSocket() {
-    if (globalCustomer?.uid != null)
-      _socket?.on(globalCustomer.uid, (data) => onOrderStatusChange(data));
-  }
+  // initSocket() {
+  //   if (globalCustomer?.uid != null)
+  //     _socket?.on(globalCustomer.uid, (data) => onOrderStatusChange(data));
+  // }
 
-  onOrderStatusChange(dynamic data) {
-    var orderId = data['orderId'];
-    var status = data['status'];
+  // onOrderStatusChange(dynamic data) {
+  //   var orderId = data['orderId'];
+  //   var status = data['status'];
 
-    _listOfOrders
-        .firstWhere((element) => element.orderId == orderId, orElse: () => null)
-        ?.deliveryStatus = status;
+  //   _listOfOrders
+  //       .firstWhere((element) => element.orderId == orderId, orElse: () => null)
+  //       ?.deliveryStatus = status;
 
-    notifyListeners();
-    print('status change of orderId: $orderId with status: $status');
-  }
+  //   notifyListeners();
+  //   print('status change of orderId: $orderId with status: $status');
+  // }
 
   List<Order> get getListOfOrders => _listOfOrders;
 
@@ -77,7 +77,7 @@ class OrderProvider extends ChangeNotifier {
         await getAllSortOrderedProducts();
       }
     } else {
-      print('order data already exist: ${_listOfOrders.length}');
+      // print('order data already exist: ${_listOfOrders.length}');
     }
   }
 

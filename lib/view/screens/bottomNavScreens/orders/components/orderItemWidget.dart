@@ -1,8 +1,9 @@
+import 'package:ShopyFast/utils/constants/otherConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../domain/models/order.dart';
-import '../../../../../utils/constants/constants.dart';
+import '../../../../../utils/constants/themeConstants.dart';
 import '../orderDetailScreen.dart';
 
 class OrderItemWidget extends StatelessWidget {

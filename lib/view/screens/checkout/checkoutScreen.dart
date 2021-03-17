@@ -1,10 +1,11 @@
 import 'package:ShopyFast/domain/models/Product.dart';
 import 'package:ShopyFast/domain/models/order.dart';
-import 'package:ShopyFast/domain/provider/cartProvider.dart';
 import 'package:ShopyFast/domain/provider/orderProvider.dart';
 import 'package:ShopyFast/getit.dart';
 import 'package:ShopyFast/utils/constants/size_config.dart';
 import 'package:ShopyFast/view/screens/checkout/components/orderProducts.dart';
+import 'package:ShopyFast/view/screens/checkout/components/orderedDialogWidget.dart';
+import 'package:ShopyFast/view/screens/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,6 +26,27 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   );
   bool _isLoading = false;
 
+  orderDialog(BuildContext context) async {
+    return await showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: OrderedDialogWidgte(),
+        );
+      },
+    );
+  }
+
+  showErrorSnackBar() {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Theme.of(context).errorColor,
+        content: Text(
+          'Some problem while placing your order, Try again !',
+          style: TextStyle(color: Colors.white),
+        )));
+  }
+
   @override
   Widget build(BuildContext context) {
     CheckoutScreenArg screenArg = ModalRoute.of(context).settings.arguments;
@@ -33,28 +55,26 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     return ChangeNotifierProvider.value(
       value: getIt<OrderProvider>(),
       builder: (context, child) {
-        return SafeArea(
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text('checkout'),
-            ),
-            body: SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    buildDeliveryAddress(order.customer.address),
-                    OrderProductsWidget(products),
-                    buildDeliveryCharge(order.amount),
-                    buildDeliveryTime(),
-                    paymentMethod(),
-                  ],
-                ),
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('checkout'),
+          ),
+          body: SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  buildDeliveryAddress(order.customer.address),
+                  OrderProductsWidget(products),
+                  buildDeliveryCharge(order.amount),
+                  buildDeliveryTime(),
+                  paymentMethod(),
+                ],
               ),
             ),
-            bottomNavigationBar: buildOrderBottomCard(context, order),
           ),
+          bottomNavigationBar: buildOrderBottomCard(context, order),
         );
       },
     );
@@ -147,7 +167,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           Row(
             children: [
               Text(
-                '30 - 40 min  ',
+                '40 - 50 min  ',
                 style: f16,
               ),
               Container(
@@ -189,21 +209,36 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             topRight: Radius.circular(30),
           ),
         ),
-        child: SafeArea(
-            child: SizedBox(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 8),
           width: double.infinity,
-          height: getHeight(56),
-          child: FlatButton(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            color: Theme.of(context).primaryColor,
+          height: getHeight(48),
+          child: ElevatedButton(
+            style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all(Theme.of(context).primaryColor)),
+            // shape:
+            //     RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            // color: Theme.of(context).primaryColor,
             onPressed: () async {
+              // var dialogResponse = await orderDialog(context);
+
+              // // Navigator.of(context).pop(dialogResponse ?? HomeScreen.routeName);
+              // Navigator.of(context).pop(dialogResponse);
+              // return;
+              // var resCheck = false;
               setState(() => _isLoading = true);
+              // var resCheck = true;
               var resCheck =
                   await Provider.of<OrderProvider>(context, listen: false)
                       .addOrder(order);
               setState(() => _isLoading = false);
-              Navigator.of(context).pop(resCheck);
+              if (resCheck) {
+                var dialogResponse = await orderDialog(context);
+                Navigator.of(context)
+                    .pop(dialogResponse ?? HomeScreen.routeName);
+              } else
+                showErrorSnackBar();
             },
             child: !_isLoading
                 ? Text(
@@ -215,7 +250,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   )
                 : CircularProgressIndicator(),
           ),
-        )),
+        ),
       );
 }
 

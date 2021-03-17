@@ -15,31 +15,31 @@ class CartProvider extends ChangeNotifier {
   Cart _cart;
   List<Order> _listOfOrders = [];
   CartReposotory _cartReposotory;
-  Socket _socket;
-  final socketUrl = ApiConstants.BASE_URL;
+  // Socket _socket;
+  // final socketUrl = ApiConstants.BASE_URL;
 
   CartProvider(this._cartReposotory) {
     print('cart is null:  ${_cart == null}');
-    _setSocket();
+    // _setSocket();
     _initCart();
   }
 
-  _setSocket() {
-    var socketValue = _socket = IO.io(socketUrl, <String, dynamic>{
-      'transports': ['websocket'],
-      // "autoConnect": false
-    });
-    _socket.onConnect((data) {
-      print('_socket connected !');
-      _socket = socketValue;
-      initSocket();
-    });
-  }
+  // _setSocket() {
+  //   var socketValue = _socket = IO.io(socketUrl, <String, dynamic>{
+  //     'transports': ['websocket'],
+  //     // "autoConnect": false
+  //   });
+  //   _socket.onConnect((data) {
+  //     print('_socket connected !');
+  //     _socket = socketValue;
+  //     initSocket();
+  //   });
+  // }
 
-  initSocket() {
-    if (globalCustomer?.uid != null)
-      _socket?.on(globalCustomer.uid, (data) => onOrderStatusChange(data));
-  }
+  // initSocket() {
+  //   if (globalCustomer?.uid != null)
+  //     _socket?.on(globalCustomer.uid, (data) => onOrderStatusChange(data));
+  // }
 
   _initCart() {
     _cart = _cartReposotory.getCartData() ?? Cart(product: [], amount: 0.0);
@@ -57,7 +57,7 @@ class CartProvider extends ChangeNotifier {
     print('status change of orderId: $orderId with status: $status');
   }
 
-  Cart get getCartItems => _cart;
+  Cart get getCart => _cart;
   List<Order> get getListOfOrders => _listOfOrders;
   int get getNoOfItemsInCart => _cart?.product?.length ?? 0;
 
@@ -77,7 +77,7 @@ class CartProvider extends ChangeNotifier {
 
   directRemoveFromCart(Product product) {
     _cart.product
-        ?.removeWhere((element) => element.productId == product.productId);
+        .removeWhere((element) => element.productId == product.productId);
     _cart.amount -= product.price * product.quantity;
     _cart.amount = double.parse(_cart.amount.toStringAsFixed(2));
     _cartReposotory.addToCart(_cart);

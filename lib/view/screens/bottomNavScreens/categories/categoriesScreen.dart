@@ -1,7 +1,9 @@
-import 'package:ShopyFast/view/screens/SearchScreen/searchScreen.dart';
-import 'package:ShopyFast/view/screens/cart/cart_screen.dart';
+import 'package:ShopyFast/domain/provider/screenRouteProvider.dart';
+import 'package:ShopyFast/view/helper/AppBarWidget.dart';
 import 'package:ShopyFast/view/screens/categoryDetailScreen/categoryDetailScreen.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../getit.dart';
 import '../../../../utils/categoryConstants.dart';
 
 class CategoriesScreen extends StatefulWidget {
@@ -16,34 +18,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          elevation: 1,
-          title: Text(
-            'Categories',
-            style: TextStyle(
-              color: Theme.of(context).primaryColor,
-              fontSize: 23,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(
-                  SearchScreen.routeName,
-                  // arguments: CategoryDetailScreenArg(CategoriesConstant.GROCERY),
-                );
-              },
-              iconSize: 28,
-              icon: Icon(Icons.search, color: Colors.grey),
-            ),
-            // IconButton(
-            //   color: Colors.grey,
-            //   icon: Icon(Icons.shopping_cart_outlined),
-            //   onPressed: () =>
-            //       Navigator.pushNamed(context, CartScreen.routeName),
-            // ),
-          ],
+        appBar: AppBarWidget(
+          context: context,
+          routeName: CategoriesScreen.routeName,
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -93,9 +70,15 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     //
     return subMapEntry.map((e) {
       return GestureDetector(
-        onTap: () => Navigator.of(context).pushNamed(
-            CategoryDetailScreen.routeName,
-            arguments: CategoryDetailScreenArg(category, e.key)),
+        onTap: () async {
+          var route = await Navigator.of(context).pushNamed(
+              CategoryDetailScreen.routeName,
+              arguments: CategoryDetailScreenArg(category, e.key));
+          if (route != null) {
+            print('route is not null in categoryscreen: $route');
+            getIt<ScreenRouteProvider>().goToPageIndex(route);
+          }
+        },
         child: ListTile(
           title: Text(
             e.value,

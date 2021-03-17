@@ -1,4 +1,4 @@
-import 'package:ShopyFast/view/screens/bottomNavScreens/categories/categories.dart';
+import 'package:ShopyFast/view/screens/bottomNavScreens/categories/categoriesScreen.dart';
 import 'package:ShopyFast/view/screens/bottomNavScreens/orders/orders.dart';
 import 'package:ShopyFast/view/screens/bottomNavScreens/profile/profile_screen.dart';
 import 'package:ShopyFast/view/screens/home/home.dart';

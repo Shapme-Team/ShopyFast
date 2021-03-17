@@ -21,12 +21,13 @@ class CheckoutCard extends StatelessWidget {
         order.customer.address != null &&
         order.customer.address.isNotEmpty &&
         order.customer.phoneNumber != null;
+
     var _checkoutButton = DefaultButton(
-      text: 'Order Items',
-      press: () async => onClickCheckout(context, _availableForOrder),
+      text: 'Checkout',
+      press: () async => onClickCheckout(context),
     );
-    var goToProfileButton = RaisedButton(
-      color: Theme.of(context).accentColor,
+    var goToProfileButton = ElevatedButton(
+      // color: Theme.of(context).accentColor,
       child: Text(
         'Complete you profile',
         style: TextStyle(color: Colors.white, fontSize: 18),
@@ -100,30 +101,21 @@ class CheckoutCard extends StatelessWidget {
     Navigator.of(context).pop(ProfileScreen.routeName);
   }
 
-  onClickCheckout(BuildContext context, bool orderCheck) async {
-    if (orderCheck) {
-      var resCheck = await Navigator.of(context).pushNamed(
-          CheckoutScreen.routeName,
-          arguments: CheckoutScreenArg(order, listOfProducts));
+  onClickCheckout(BuildContext context) async {
+    var pushResponse = await Navigator.of(context).pushNamed(
+        CheckoutScreen.routeName,
+        arguments: CheckoutScreenArg(order, listOfProducts));
 
-      if (resCheck != null && resCheck) {
-        Provider.of<CartProvider>(context, listen: false).clearCartItems();
-        Scaffold.of(context).showSnackBar(SnackBar(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          // backgroundColor: Theme.of(context).primaryColor,
-          content: Text(
-            'Order Placed Successfully !!',
-            style: TextStyle(fontSize: 18),
-          ),
-        ));
-      }
-    } else
-      Scaffold.of(context).showSnackBar(SnackBar(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          backgroundColor: Theme.of(context).errorColor,
-          content: Text(
-            'Error while placing your order',
-            style: TextStyle(fontSize: 18, color: Colors.white),
-          )));
+    if (pushResponse != null) {
+      Provider.of<CartProvider>(context, listen: false).clearCartItems();
+      Navigator.pop(context, pushResponse);
+    }
+    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    //     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+    //     backgroundColor: Theme.of(context).errorColor,
+    //     content: Text(
+    //       'Error while placing your order',
+    //       style: TextStyle(fontSize: 18, color: Colors.white),
+    //     )));
   }
 }

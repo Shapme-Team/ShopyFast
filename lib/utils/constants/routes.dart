@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:ShopyFast/view/screens/bottomNavScreens/profile/components/editProfileScreen.dart';
 
 import '../../view/helper/wrapper.dart';
-import '../../view/screens/bottomNavScreens/categories/categories.dart';
+import '../../view/screens/bottomNavScreens/categories/categoriesScreen.dart';
 import '../../view/screens/bottomNavScreens/orders/ordersScreen.dart';
 import '../../view/screens/bottomNavScreens/profile/profile_screen.dart';
 import '../../view/screens/cart/cart_screen.dart';

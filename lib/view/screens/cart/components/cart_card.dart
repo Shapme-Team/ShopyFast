@@ -1,4 +1,4 @@
-import 'package:ShopyFast/utils/constants/constants.dart';
+import 'package:ShopyFast/utils/constants/themeConstants.dart';
 import 'package:flutter/material.dart';
 
 class CartCard extends StatelessWidget {

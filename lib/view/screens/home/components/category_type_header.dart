@@ -6,15 +6,16 @@ class CategoryTypeHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      // color: Colors.white,
       padding: EdgeInsets.all(8),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
             name,
             style: TextStyle(
-              fontSize: 20,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
               color: Theme.of(context).accentColor,
             ),
           )

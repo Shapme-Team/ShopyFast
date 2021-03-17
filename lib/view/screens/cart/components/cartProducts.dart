@@ -1,11 +1,12 @@
 import 'package:ShopyFast/domain/provider/cartProvider.dart';
+import 'package:ShopyFast/domain/provider/productProvider.dart';
 import 'package:ShopyFast/view/screens/categoryDetailScreen/components/subProductWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../domain/models/Product.dart';
-import '../../../../utils/constants/constants.dart';
+import '../../../../utils/constants/themeConstants.dart';
 import '../../../../utils/constants/size_config.dart';
 
 class CartProducts extends StatefulWidget {
@@ -29,8 +30,13 @@ class _CartProductsState extends State<CartProducts> {
             key: Key(products[index].productId.toString()),
             direction: DismissDirection.endToStart,
             onDismissed: (direction) {
+              var copyProduct = products[index].copyWith();
+              copyProduct.quantity = 0;
+              Provider.of<ProductProvider>(context, listen: false)
+                  .updateProductQuantity(copyProduct);
+
               Provider.of<CartProvider>(context, listen: false)
-                  .directRemoveFromCart(products[index]);
+                  .directRemoveFromCart(products[index].copyWith());
             },
             background: Container(
               padding: EdgeInsets.symmetric(horizontal: 20),

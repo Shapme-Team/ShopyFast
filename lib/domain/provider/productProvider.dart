@@ -31,7 +31,7 @@ class ProductProvider extends ChangeNotifier {
 
   List<Product> getProductsOfSub(String sid) {
     if (_mapOfSubcategory[sid] != null) {
-      // refreshProductsWithCartItems(_mapOfSubcategory[sid]);
+      refreshProductsWithCartItems(_mapOfSubcategory[sid]);
       return _mapOfSubcategory[sid];
     } else
       return [];
@@ -69,6 +69,8 @@ class ProductProvider extends ChangeNotifier {
           refreshProductsWithCartItems(productValue); // load cart items
           _mapOfSubcategory[sid] = productValue;
           notifyListeners();
+        } else {
+          refreshProductsWithCartItems(_mapOfSubcategory[sid]);
         }
       }
     } catch (err) {

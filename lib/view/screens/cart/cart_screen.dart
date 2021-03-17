@@ -3,6 +3,7 @@ import 'package:ShopyFast/domain/provider/authprovider.dart';
 import 'package:ShopyFast/domain/provider/cartProvider.dart';
 import 'package:ShopyFast/domain/provider/productProvider.dart';
 import 'package:ShopyFast/getit.dart';
+import 'package:ShopyFast/view/screens/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -27,7 +28,7 @@ class _CartScreenState extends State<CartScreen> {
         ChangeNotifierProvider.value(value: getIt<ProductProvider>())
       ],
       builder: (context, child) {
-        var cart = Provider.of<CartProvider>(context).getCartItems;
+        var cart = Provider.of<CartProvider>(context).getCart;
         var cartCheck = cart != null && cart.product.length > 0;
         var customerData = getIt<AuthProvider>().getCustomer;
 
@@ -82,22 +83,21 @@ class _CartScreenState extends State<CartScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              Icons.gps_not_fixed_rounded,
+              Icons.cleaning_services,
               size: 32,
-              color: Theme.of(context).primaryColor,
+              color: Theme.of(context).accentColor,
             ),
             Padding(
               padding: EdgeInsets.all(8),
               child: Text(
                 'no item in cart',
                 style: TextStyle(
-                    fontSize: 18, color: Theme.of(context).primaryColor),
+                    fontSize: 18, color: Theme.of(context).accentColor),
               ),
             ),
-            RaisedButton(
-              color: Theme.of(context).primaryColor,
+            ElevatedButton(
               child: Text(
-                'Go to Home',
+                'continue shoping',
                 style: TextStyle(color: Colors.white, fontSize: 18),
               ),
               onPressed: () {

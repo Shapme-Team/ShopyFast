@@ -1,10 +1,13 @@
-import 'package:ShopyFast/domain/models/customer.dart';
-import 'package:ShopyFast/domain/provider/authprovider.dart';
-import 'package:ShopyFast/view/screens/bottomNavScreens/profile/components/profile_pic.dart';
-import 'package:ShopyFast/view/screens/bottomNavScreens/profile/components/editProfileScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../../domain/models/customer.dart';
+import '../../../../../domain/provider/authprovider.dart';
+import '../../../../helper/AppBarWidget.dart';
+import '../profile_screen.dart';
+import 'editProfileScreen.dart';
+import 'profile_pic.dart';
 
 class ProfileHome extends StatefulWidget {
   @override
@@ -28,21 +31,25 @@ class _ProfileHomeState extends State<ProfileHome> {
         .photoURL;
     // print('customer address : ${customer.address}');
     return Scaffold(
-        appBar: AppBar(
-          elevation: 1,
-          title: GestureDetector(
-            onTap: () {
-              // Provider.of<AuthProvider>(context, listen: false).logout();
-            },
-            child: Text('Profile',
-                style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                  fontSize: 23,
-                  fontWeight: FontWeight.w600,
-                )),
-          ),
-          // actions: [IconButton(icon: Icon(Icons.feedback), onPressed: null)],
+        appBar: AppBarWidget(
+          context: context,
+          routeName: ProfileScreen.routeName,
         ),
+        // appBar: AppBar(
+        //   elevation: 1,
+        //   title: GestureDetector(
+        //     onTap: () {
+        //       // Provider.of<AuthProvider>(context, listen: false).logout();
+        //     },
+        //     child: Text('Profile',
+        //         style: TextStyle(
+        //           color: Theme.of(context).primaryColor,
+        //           fontSize: 23,
+        //           fontWeight: FontWeight.w600,
+        //         )),
+        //   ),
+        //   // actions: [IconButton(icon: Icon(Icons.feedback), onPressed: null)],
+        // ),
         body: FutureBuilder(
             future: _fetchFuture,
             builder: (BuildContext context, AsyncSnapshot snapshot) {

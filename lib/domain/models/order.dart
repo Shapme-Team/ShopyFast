@@ -18,7 +18,7 @@ class Order {
   @HiveField(2)
   final num amount;
   @HiveField(3)
-  final DateTime dateTime;
+  DateTime dateTime;
   @HiveField(4)
   String deliveryStatus;
   @HiveField(5)

@@ -4,12 +4,15 @@ import 'package:ShopyFast/domain/provider/orderProvider.dart';
 import 'package:ShopyFast/domain/provider/productProvider.dart';
 import 'package:ShopyFast/domain/provider/screenRouteProvider.dart';
 import 'package:ShopyFast/getit.dart';
+import 'package:ShopyFast/utils/constants/size_config.dart';
+import 'package:ShopyFast/view/components/cartIconWidget.dart';
+import 'package:ShopyFast/view/screens/SearchScreen/searchScreen.dart';
 import 'package:ShopyFast/view/screens/categoryDetailScreen/categoryDetailScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../components/coustom_bottom_nav_bar.dart';
-import '../screens/bottomNavScreens/categories/categories.dart';
+import '../screens/bottomNavScreens/categories/categoriesScreen.dart';
 import '../screens/home/home.dart';
 import '../screens/bottomNavScreens/orders/ordersScreen.dart';
 import '../screens/bottomNavScreens/profile/profile_screen.dart';
@@ -21,13 +24,9 @@ class ScreenWrapper extends StatefulWidget {
 
 class _ScreenWrapperState extends State<ScreenWrapper> {
   // int _currentIndex = 0;
-  ProductProvider _productProvider;
 
-  @override
-  void initState() {
-    _productProvider = getIt<ProductProvider>();
-    print('init state of ScreenWrapper');
-    super.initState();
+  reloadFunction() {
+    setState(() {});
   }
 
   List<Widget> _listOfNavScreen = [
@@ -41,6 +40,21 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
   //   if (_currentIndex != index) setState(() => _currentIndex = index);
   // }
 
+  String _appBarTitleFunction(int index) {
+    switch (index) {
+      case 0:
+        return 'ShopyFast';
+      case 1:
+        return 'Categories';
+      case 2:
+        return 'Orders';
+      case 3:
+        return 'Profile';
+      default:
+        return 'Shopyfast';
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -48,10 +62,11 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
 
   @override
   Widget build(BuildContext context) {
+    // print('build of screen wrapper ');
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(
-          value: _productProvider,
+          value: getIt<ProductProvider>(),
         ),
         ChangeNotifierProvider.value(value: getIt<AuthProvider>()),
         ChangeNotifierProvider.value(value: getIt<CartProvider>()),
@@ -61,6 +76,8 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
       child: SafeArea(
         child: Consumer<ScreenRouteProvider>(builder: (context, value, child) {
           var _currentIndex = value.getCurrentPageIndex;
+          // print('current page: $_currentIndex ');
+
           return Scaffold(
             body: WillPopScope(
               onWillPop: () async {
@@ -71,7 +88,9 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
                 return Future.value(true);
                 // return true;
               },
-              child: _listOfNavScreen[_currentIndex],
+              child: StatefulBuilder(builder: (context, setState2) {
+                return _listOfNavScreen[_currentIndex];
+              }),
             ),
             bottomNavigationBar: CustomBottomNavBar((index) {
               value.setCurrentIndex(index);

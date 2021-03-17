@@ -31,7 +31,7 @@ class _ProductSnapCardState extends State<ProductSnapCard> {
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
-              blurRadius: 4, color: Colors.grey[400], offset: Offset(1, 2)),
+              blurRadius: 4, color: Colors.grey[400], offset: Offset(1, 1)),
         ],
       ),
       margin: EdgeInsets.all(8),

@@ -11,12 +11,12 @@ import 'package:provider/provider.dart';
 import '../../../../utils/constants/size_config.dart';
 import 'productSnapcard.dart';
 
-class ProductSnaps2 extends StatefulWidget {
+class ProductSnaps extends StatefulWidget {
   @override
-  _ProductSnaps2State createState() => _ProductSnaps2State();
+  _ProductSnapsState createState() => _ProductSnapsState();
 }
 
-class _ProductSnaps2State extends State<ProductSnaps2> {
+class _ProductSnapsState extends State<ProductSnaps> {
   @override
   void initState() {
     getIt<ProductProvider>().getProductSnapFromSubcategories(
@@ -26,6 +26,7 @@ class _ProductSnaps2State extends State<ProductSnaps2> {
 
   @override
   Widget build(BuildContext context) {
+    print('product snap build');
     return Container(
         child: ListView(
       physics: NeverScrollableScrollPhysics(),
@@ -47,9 +48,10 @@ class _ProductSnaps2State extends State<ProductSnaps2> {
     ));
   }
 
-  Padding buildProductsSnapItems(String sid, List<Product> subProducts) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+  Widget buildProductsSnapItems(String sid, List<Product> subProducts) {
+    return Container(
+      // padding: const EdgeInsets.only(bottom: 16),
+      color: Colors.white,
       child: Column(
         children: [
           CategoryTypeHeader(CategoriesConstant.getSubcategoryList()[sid]),
@@ -69,7 +71,11 @@ class _ProductSnaps2State extends State<ProductSnaps2> {
                 ],
               ),
             ),
-          )
+          ),
+          SizedBox(height: 8),
+          Divider(
+              // height: 3,
+              )
         ],
       ),
     );

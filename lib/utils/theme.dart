@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'constants/constants.dart';
+import 'constants/themeConstants.dart';
 
 ThemeData theme() {
   return ThemeData(
@@ -10,9 +10,16 @@ ThemeData theme() {
     primaryColor: kPrimaryColor,
     primaryColorLight: kPrimaryLightColor,
     hintColor: kSecondaryColor,
+    buttonColor: kPrimaryColor,
+
+    elevatedButtonTheme: kElevatedButtonThemeData,
+    textButtonTheme: kTextButtonThemeData,
+    outlinedButtonTheme: kOutlinedButtonThemeData,
+
     textTheme: textTheme(),
     accentColor: kAccentColor,
     errorColor: errorColor,
+    // buttonTheme: ButtonThemeData(buttonColor: kAccentColor),
     backgroundColor: Colors.grey[50],
     // inputDecorationTheme: inputDecorationTheme(),
     visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -39,8 +46,8 @@ InputDecorationTheme inputDecorationTheme() {
 
 TextTheme textTheme() {
   return TextTheme(
-    bodyText1: TextStyle(color: kTextColor),
-    bodyText2: TextStyle(color: kTextColor),
+    bodyText1: TextStyle(color: kAccentColor, fontSize: 16),
+    bodyText2: TextStyle(color: kAccentColor, fontSize: 14),
   );
 }
 

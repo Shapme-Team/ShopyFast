@@ -16,25 +16,46 @@ class PlusMinusWidget extends StatelessWidget {
             onTap: () {
               onClick(IncrementDecrement.INCREMENT, context);
             },
-            child: Container(
-              width: getWidth(100),
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  color: Colors.redAccent,
-                  borderRadius: BorderRadius.circular(8)),
-              child: Text('Add',
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600)),
-            ),
+            child: addButton(context),
           );
+  }
+
+  // Widget addButton() => Container(
+  //       width: getWidth(100),
+  //       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+  //       alignment: Alignment.center,
+  //       decoration: BoxDecoration(
+  //           color: Colors.redAccent, borderRadius: BorderRadius.circular(8)),
+  //       child: Text('Add',
+  //           style: TextStyle(
+  //               fontSize: 16,
+  //               color: Colors.white,
+  //               fontWeight: FontWeight.w600)),
+  //     );
+  Widget addButton(BuildContext context) {
+    var colorValue = Theme.of(context).primaryColor;
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 2, horizontal: 24),
+      decoration: BoxDecoration(
+          border: Border.all(width: 2, color: colorValue),
+          borderRadius: BorderRadius.circular(18)),
+      // child: Icon(Icons.add, color: colorValue),
+      child: Text(
+        'Add',
+        style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 16),
+      ),
+    );
   }
 
   Widget buildIncrementDecrement(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(maxWidth: 120),
+      constraints: BoxConstraints(maxWidth: getWidth(100)),
+      // decoration: BoxDecoration(
+      //     border: Border.all(
+      //       width: 1,
+      //       color: Colors.redAccent,
+      //     ),
+      //     borderRadius: BorderRadius.circular(20)),
       child: Row(
         // mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
@@ -45,11 +66,11 @@ class PlusMinusWidget extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.all(4),
               alignment: Alignment.center,
-              decoration: BoxDecoration(color: Colors.redAccent),
+              // decoration: BoxDecoration(color: Colors.redAccent),
               child: Text(quantity.toString(),
                   style: TextStyle(
                       fontSize: 18,
-                      color: Colors.white,
+                      // color: Colors.white,
                       fontWeight: FontWeight.w600)),
             ),
           ),
@@ -65,24 +86,14 @@ class PlusMinusWidget extends StatelessWidget {
       onTap: () => onClick(idValue, context),
       child: Container(
         // height: 30,
-        padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+        padding: EdgeInsets.all(4),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          border: Border.all(
-            width: 1,
-            color: Colors.redAccent,
-          ),
-          borderRadius: BorderRadius.only(
-            topLeft: !isIncrement ? Radius.circular(8) : Radius.zero,
-            topRight: isIncrement ? Radius.circular(8) : Radius.zero,
-            bottomLeft: !isIncrement ? Radius.circular(8) : Radius.zero,
-            bottomRight: isIncrement ? Radius.circular(8) : Radius.zero,
-          ),
-        ),
-        // width: 30,
+            color: Theme.of(context).primaryColor.withOpacity(.2),
+            borderRadius: BorderRadius.circular(4)),
         child: Icon(
           isIncrement ? Icons.add : Icons.remove,
-          color: Colors.redAccent,
+          color: Theme.of(context).primaryColor,
         ),
       ),
     );
